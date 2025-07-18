@@ -2189,15 +2189,15 @@ Lighting.GeographicLatitude = 41
 })
 
 local Button = Tab:CreateButton({
-   Name = "CHECK ANTI-CHEAT STATUS✔️🚫",
+   Name = "CHECK ANTI-CHEAT STATUS🔎🚫",
    Callback = function()
    -- The function that takes place when the button is pressed
--- Real Anti-Cheat Status Checker GUI
+-- Real Anti-Cheat Status GUI with Notifications & Dragging
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
 
--- UI SETUP
+-- UI Setup
 local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
 gui.Name = "AntiCheatStatusGUI"
 gui.ResetOnSpawn = false
@@ -2207,11 +2207,13 @@ frame.Size = UDim2.new(0, 300, 0, 150)
 frame.Position = UDim2.new(0.3, 0, 0.3, 0)
 frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 frame.BorderSizePixel = 4
+frame.Active = true
+frame.Draggable = true -- ✅ Make movable
 
 local corner = Instance.new("UICorner", frame)
 corner.CornerRadius = UDim.new(0, 10)
 
--- Border RGB Animation
+-- RGB Border Effect
 task.spawn(function()
 	while frame do
 		for h = 0, 1, 0.01 do
@@ -2248,40 +2250,50 @@ close.TextScaled = true
 Instance.new("UICorner", close).CornerRadius = UDim.new(0, 6)
 close.MouseButton1Click:Connect(function() gui:Destroy() end)
 
+-- Notification function
+local function notify(text)
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Anti-Cheat Alert";
+		Text = text;
+		Duration = 5;
+	})
+end
+
 -- Detection Logic
 local score = 0
 
--- 1. Humanoid speed modification check
-local originalWalk = humanoid.WalkSpeed
-humanoid.WalkSpeed = originalWalk + 10
+-- 1. WalkSpeed Block
+local origWalk = humanoid.WalkSpeed
+humanoid.WalkSpeed = origWalk + 10
 task.wait(0.5)
-if humanoid.WalkSpeed == originalWalk then
-	score += 1 -- blocked
-end
-humanoid.WalkSpeed = originalWalk
-
--- 2. JumpPower block check (R6/R15)
-local originalJump = humanoid.JumpPower
-humanoid.JumpPower = originalJump + 20
-task.wait(0.5)
-if humanoid.JumpPower == originalJump then
+if humanoid.WalkSpeed == origWalk then
 	score += 1
 end
-humanoid.JumpPower = originalJump
+humanoid.WalkSpeed = origWalk
 
--- 3. Teleport block detection
-local originalPos = character.HumanoidRootPart.Position
+-- 2. JumpPower Block
+local origJump = humanoid.JumpPower
+humanoid.JumpPower = origJump + 20
+task.wait(0.5)
+if humanoid.JumpPower == origJump then
+	score += 1
+end
+humanoid.JumpPower = origJump
+
+-- 3. Teleport Detection
+local root = character:WaitForChild("HumanoidRootPart")
+local originalPos = root.Position
 local testPos = originalPos + Vector3.new(0, 100, 0)
 character:MoveTo(testPos)
 task.wait(0.8)
-if (character.HumanoidRootPart.Position - testPos).Magnitude > 5 then
+if (root.Position - testPos).Magnitude > 5 then
 	score += 1
 end
 
--- 4. Remote spam test (try calling fake remote)
-local success, result = pcall(function()
-	local test = Instance.new("RemoteEvent")
-	test:FireServer()
+-- 4. Remote Spam Detection
+local success, err = pcall(function()
+	local remote = Instance.new("RemoteEvent")
+	remote:FireServer()
 end)
 if not success then
 	score += 1
@@ -2297,7 +2309,7 @@ elseif score >= 4 then
 	status = "EXTREME"
 end
 
--- Apply status
+-- Apply GUI Colors and Notifications
 statusText.Text = status
 if status == "LOW" then
 	frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
@@ -2305,8 +2317,10 @@ elseif status == "MEDIUM" then
 	frame.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
 elseif status == "HIGH" then
 	frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+	notify("⚠️ CAUTION: HIGHEST ANTI-CHEAT")
 elseif status == "EXTREME" then
 	frame.BackgroundColor3 = Color3.fromRGB(128, 0, 128)
+	notify("❗ BAN RISK DETECTED")
 end
    end,
 })
@@ -2500,5 +2514,142 @@ do
 		hideFlyGui()
 	end)
 end
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "SERVER INFO🛜ℹ️",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- LocalScript inside StarterGui > ScreenGui
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+local GROUP_ID = 12345678  -- Replace if using group-based admin detection
+local ADMIN_RANK = 200     -- Minimum rank to be considered admin
+
+local serverBorn = os.time()
+local ownerName = "Unknown"
+local adminNames = {}
+
+-- Owner Detection
+if game.CreatorType == Enum.CreatorType.User then
+	pcall(function()
+		ownerName = Players:GetNameFromUserIdAsync(game.CreatorId)
+	end)
+elseif game.CreatorType == Enum.CreatorType.Group then
+	ownerName = "Group ID: " .. game.CreatorId
+end
+
+-- UI Setup
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.Name = "ServerInfoGUI"
+gui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 400, 0, 280)
+frame.Position = UDim2.new(0, 30, 0, 100)
+frame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+frame.BorderSizePixel = 4
+
+-- RGB Border Animation
+local hue = 0
+RunService.RenderStepped:Connect(function()
+	hue = (hue + 0.0015) % 1
+	frame.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+end)
+
+-- Celestial Background Effect
+local bg = Instance.new("UIGradient", frame)
+bg.Rotation = 90
+bg.Color = ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(5, 10, 25)),
+	ColorSequenceKeypoint.new(0.5, Color3.fromRGB(10, 10, 40)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(5, 0, 15))
+})
+
+-- Optional Star Glow
+local glow = Instance.new("UIStroke", frame)
+glow.Thickness = 1
+glow.Color = Color3.fromRGB(200, 200, 255)
+glow.Transparency = 0.7
+
+-- Title
+local title = Instance.new("TextLabel", frame)
+title.Text = "🌌 SERVER INFO"
+title.Size = UDim2.new(1, 0, 0, 30)
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.GothamBold
+title.TextSize = 22
+title.TextColor3 = Color3.new(1, 1, 1)
+
+-- Info Label
+local infoLabel = Instance.new("TextLabel", frame)
+infoLabel.Position = UDim2.new(0, 0, 0, 30)
+infoLabel.Size = UDim2.new(1, 0, 1, -30)
+infoLabel.BackgroundTransparency = 1
+infoLabel.Font = Enum.Font.Code
+infoLabel.TextSize = 15
+infoLabel.TextColor3 = Color3.fromRGB(230, 230, 230)
+infoLabel.TextXAlignment = Enum.TextXAlignment.Left
+infoLabel.TextYAlignment = Enum.TextYAlignment.Top
+infoLabel.TextWrapped = true
+infoLabel.Text = ""
+
+-- Admin Detection
+local function getAdmins()
+	adminNames = {}
+	for _, plr in pairs(Players:GetPlayers()) do
+		if plr:IsInGroup(GROUP_ID) and plr:GetRankInGroup(GROUP_ID) >= ADMIN_RANK then
+			table.insert(adminNames, plr.Name)
+		end
+	end
+	if #adminNames == 0 then
+		table.insert(adminNames, "NONE")
+	end
+end
+
+-- Live Info Updater
+local function updateServerInfo()
+	while true do
+		getAdmins()
+
+		local now = os.time()
+		local uptime = now - serverBorn
+		local hours = math.floor(uptime / 3600)
+		local minutes = math.floor((uptime % 3600) / 60)
+		local seconds = uptime % 60
+		local timeStr = string.format("%02d:%02d:%02d", hours, minutes, seconds)
+
+		local playersOnline = Players:GetPlayers()
+		local playerList = {}
+		for _, plr in pairs(playersOnline) do
+			table.insert(playerList, plr.Name)
+		end
+
+		infoLabel.Text = string.format([[
+👑 Owner: %s
+🛡️ Admins: %s
+📅 Server Born: %s
+⏳ Server Age: %dh %dm %ds
+🕒 Server Time: %s
+👥 Players (%d): %s
+]],
+			ownerName,
+			table.concat(adminNames, ", "),
+			os.date("%B %d, %Y", serverBorn),
+			hours, minutes, seconds,
+			timeStr,
+			#playersOnline,
+			table.concat(playerList, ", ")
+		)
+
+		wait(1)
+	end
+end
+
+task.spawn(updateServerInfo)
    end,
 })
