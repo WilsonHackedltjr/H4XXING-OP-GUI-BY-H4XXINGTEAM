@@ -1977,136 +1977,56 @@ end
 })
 
 local Button = Tab:CreateButton({
-   Name = "Kill All🔪👥",
+   Name = "H4XXINGTEAM1️⃣⭕️1️⃣⭕️1️⃣👤",
    Callback = function()
    -- The function that takes place when the button is pressed
+-- Target user ID
+local userId = 8317715190
+
 -- Services
 local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
 local StarterGui = game:GetService("StarterGui")
-local LocalPlayer = Players.LocalPlayer
 
--- GUI Setup
-local screenGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
-screenGui.Name = "VisualKillGui"
-screenGui.ResetOnSpawn = false
+local lp = Players.LocalPlayer
 
-local mainFrame = Instance.new("Frame", screenGui)
-mainFrame.Size = UDim2.new(0, 300, 0, 200)
-mainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
-mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-mainFrame.BorderSizePixel = 4
+-- Function to apply appearance
+local function applyAppearance()
+    local success, description = pcall(function()
+        return Players:GetHumanoidDescriptionFromUserId(userId)
+    end)
 
--- RGB Border
-task.spawn(function()
-	local hue = 0
-	while true do
-		hue = (hue + 0.01) % 1
-		mainFrame.BorderColor3 = Color3.fromHSV(hue, 1, 1)
-		task.wait(0.02)
-	end
-end)
+    if success and description then
+        local character = lp.Character or lp.CharacterAdded:Wait()
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
 
--- Kill Button
-local killBtn = Instance.new("TextButton", mainFrame)
-killBtn.Size = UDim2.new(0, 260, 0, 50)
-killBtn.Position = UDim2.new(0, 20, 0, 60)
-killBtn.Text = "Kill All"
-killBtn.TextSize = 22
-killBtn.Font = Enum.Font.SourceSansBold
-killBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-killBtn.TextColor3 = Color3.new(1, 1, 1)
-killBtn.BorderSizePixel = 0
-killBtn.AutoButtonColor = false
+        if humanoid then
+            -- Force R15 or R6 based on original
+            local rigType = description.RigType == Enum.HumanoidRigType.R15 and "R15" or "R6"
+            
+            humanoid:ApplyDescription(description)
 
--- RGB Button
-task.spawn(function()
-	local hue = 0
-	while true do
-		hue = (hue + 0.01) % 1
-		killBtn.BackgroundColor3 = Color3.fromHSV(hue, 1, 1)
-		task.wait(0.02)
-	end
-end)
-
--- Close Button
-local closeBtn = Instance.new("TextButton", mainFrame)
-closeBtn.Size = UDim2.new(0, 30, 0, 30)
-closeBtn.Position = UDim2.new(1, -35, 0, 5)
-closeBtn.Text = "X"
-closeBtn.TextSize = 20
-closeBtn.Font = Enum.Font.SourceSansBold
-closeBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-closeBtn.TextColor3 = Color3.new(1, 0, 0)
-
--- Toggle visibility
-closeBtn.MouseButton1Click:Connect(function()
-	mainFrame.Visible = not mainFrame.Visible
-end)
-
--- Visual Kill Function
-local function fakeKill(player)
-	if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Humanoid") then
-		local char = player.Character
-		local humanoid = char:FindFirstChild("Humanoid")
-		if humanoid and humanoid.Health > 0 then
-			humanoid:ChangeState(Enum.HumanoidStateType.Physics)
-
-			local motorBackup = {}
-			for _, part in ipairs(char:GetDescendants()) do
-				if part:IsA("Motor6D") then
-					table.insert(motorBackup, {part = part, parent = part.Parent})
-					part:Destroy()
-				end
-			end
-
-			if char:FindFirstChild("Head") then
-				char.Head.Anchored = true
-				if char.Head:FindFirstChild("face") then
-					char.Head.face:Destroy()
-				end
-			end
-
-			local root = char:FindFirstChild("HumanoidRootPart")
-			local position = root and root.Position or nil
-
-			task.delay(15, function()
-				if player.Character and player.Character:FindFirstChild("Humanoid") and position then
-					-- Respawn the visual body to normal
-					local newChar = player.Character
-					for _, backup in ipairs(motorBackup) do
-						if backup.part and backup.parent and newChar:FindFirstChild(backup.parent.Name) then
-							backup.part.Parent = newChar:FindFirstChild(backup.parent.Name)
-						end
-					end
-
-					if newChar:FindFirstChild("Head") then
-						newChar.Head.Anchored = false
-					end
-
-					if newChar:FindFirstChild("HumanoidRootPart") then
-						newChar:MoveTo(position)
-					end
-				end
-			end)
-		end
-	end
+            -- Notify
+            StarterGui:SetCore("SendNotification", {
+                Title = "✅ Avatar Loaded";
+                Text = "You now look like user " .. userId .. " (" .. rigType .. ")";
+                Duration = 5;
+            })
+        end
+    else
+        warn("❌ Failed to get appearance for user ID:", userId)
+        StarterGui:SetCore("SendNotification", {
+            Title = "Error";
+            Text = "Could not load appearance.";
+            Duration = 5;
+        })
+    end
 end
 
--- Kill All Button Function
-killBtn.MouseButton1Click:Connect(function()
-	for _, plr in pairs(Players:GetPlayers()) do
-		fakeKill(plr)
-	end
-
-	-- Notification
-	pcall(function()
-		StarterGui:SetCore("SendNotification", {
-			Title = "Success!";
-			Text = "KILL ALL PEOPLE SUCCESSFULLY";
-			Duration = 4;
-		})
-	end)
-end)
+-- Wait until character is loaded
+if lp.Character then
+    applyAppearance()
+else
+    lp.CharacterAdded:Connect(applyAppearance)
+end
    end,
 })
