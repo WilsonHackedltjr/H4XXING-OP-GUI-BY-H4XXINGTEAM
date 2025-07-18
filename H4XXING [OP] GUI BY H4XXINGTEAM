@@ -1977,106 +1977,179 @@ end
 })
 
 local Button = Tab:CreateButton({
-   Name = "HACK SURROUNDING1️⃣⭕️1️⃣⭕️1️⃣⭕️",
+   Name = "HACK SURROUNDING OFF/ON1️⃣⭕️1️⃣⭕️",
    Callback = function()
    -- The function that takes place when the button is pressed
--- SETTINGS
-local cubeSize = 58            -- Size of the cube (keep it)
-local spacing = 10             -- Increased spacing (less parts = less lag)
-local lifetime = 2             -- How long each number stays
-local refreshDelay = 0.15      -- Delay between spawns (slightly slower)
+-- Full Matrix Toggle GUI (Draggable + Close + Minimize + Animated BG)
 
--- SERVICES
 local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
-local Debris = game:GetService("Debris")
-
 local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local hrp = character:WaitForChild("HumanoidRootPart")
+local PlayerGui = player:WaitForChild("PlayerGui")
 
--- CLEAN OLD MATRIX
-if workspace:FindFirstChild("MatrixCube") then
-	workspace.MatrixCube:Destroy()
-end
-local cubeFolder = Instance.new("Folder", workspace)
-cubeFolder.Name = "MatrixCube"
+-- Make GUI
+local gui = Instance.new("ScreenGui", PlayerGui)
+gui.Name = "MatrixController"
+gui.ResetOnSpawn = false
 
--- FUNCTION: Spawn 1 or 0
-local function spawnBit(isOne, pos)
-	local part = Instance.new("Part")
-	part.Size = Vector3.new(1.5, 1.5, 1.5)
-	part.Anchored = true
-	part.CanCollide = false
-	part.Position = pos
-	part.Material = Enum.Material.Neon
-	part.Color = isOne and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-	part.Transparency = 0
-	part.Parent = cubeFolder
+-- MAIN FRAME
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 240, 0, 130)
+frame.Position = UDim2.new(0, 100, 0, 100)
+frame.BackgroundTransparency = 0.1
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
+frame.BorderSizePixel = 2
+frame.Active = true
+frame.Draggable = true
 
-	local gui = Instance.new("BillboardGui", part)
-	gui.Size = UDim2.new(3, 0, 3, 0)
-	gui.AlwaysOnTop = true
+-- BACKGROUND LABEL (for animated "1010" text)
+local bg = Instance.new("TextLabel", frame)
+bg.Size = UDim2.new(1, 0, 1, 0)
+bg.Position = UDim2.new(0, 0, 0, 0)
+bg.BackgroundTransparency = 1
+bg.TextColor3 = Color3.fromRGB(0, 255, 0)
+bg.TextScaled = true
+bg.Font = Enum.Font.Code
+bg.TextXAlignment = Enum.TextXAlignment.Center
+bg.TextYAlignment = Enum.TextYAlignment.Top
+bg.Text = "1010101010101010\n0101010101010101\n1010101010101010\n0101010101010101\n1010101010101010\n0101010101010101"
 
-	local label = Instance.new("TextLabel", gui)
-	label.Size = UDim2.new(1, 0, 1, 0)
-	label.BackgroundTransparency = 1
-	label.Text = isOne and "1" or "0"
-	label.TextColor3 = part.Color
-	label.TextScaled = true
-	label.Font = Enum.Font.Code
+-- TOGGLE BUTTON
+local toggleButton = Instance.new("TextButton", frame)
+toggleButton.Size = UDim2.new(1, -20, 0, 40)
+toggleButton.Position = UDim2.new(0, 10, 0, 10)
+toggleButton.Text = "TOGGLE MATRIX"
+toggleButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+toggleButton.TextColor3 = Color3.fromRGB(0, 255, 0)
+toggleButton.Font = Enum.Font.SourceSansBold
+toggleButton.TextScaled = true
 
-	-- Animate float up/down
-	local move = isOne and Vector3.new(0, 6, 0) or Vector3.new(0, -6, 0)
-	local tween = TweenService:Create(part, TweenInfo.new(lifetime), {
-		Position = part.Position + move,
-		Transparency = 1
-	})
-	tween:Play()
+-- CLOSE BUTTON
+local closeButton = Instance.new("TextButton", frame)
+closeButton.Size = UDim2.new(0, 20, 0, 20)
+closeButton.Position = UDim2.new(1, -25, 0, 5)
+closeButton.Text = "X"
+closeButton.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
+closeButton.TextColor3 = Color3.new(1, 0, 0)
+closeButton.Font = Enum.Font.Code
+closeButton.TextScaled = true
 
-	Debris:AddItem(part, lifetime)
-end
+-- MINIMIZE BUTTON
+local minimizeButton = Instance.new("TextButton", frame)
+minimizeButton.Size = UDim2.new(0, 20, 0, 20)
+minimizeButton.Position = UDim2.new(1, -50, 0, 5)
+minimizeButton.Text = "-"
+minimizeButton.BackgroundColor3 = Color3.fromRGB(0, 50, 0)
+minimizeButton.TextColor3 = Color3.new(0, 1, 0)
+minimizeButton.Font = Enum.Font.Code
+minimizeButton.TextScaled = true
 
--- LOOP: Spawn cube of 1s and 0s around player
+-- ANIMATE BACKGROUND
 task.spawn(function()
-	while true do
-		local center = hrp.Position
-		local half = cubeSize / 2
+	while gui.Parent do
+		bg.Text = bg.Text:sub(2) .. (math.random() > 0.5 and "1" or "0")
+		task.wait(0.05)
+	end
+end)
 
-		-- Spawn fewer bits using skip-step trick
-		for x = -half, half, spacing do
-			for y = -half, half, spacing do
-				for z = -half, half, spacing do
-					-- Slight randomness to save performance
-					if math.random() < 0.3 then
-						local pos = center + Vector3.new(x, y, z)
-						spawnBit(math.random() > 0.5, pos)
-					end
+-- MATRIX EFFECT
+local function createMatrix()
+	local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+	if not hrp then return end
+
+	local folder = workspace:FindFirstChild("MatrixCube") or Instance.new("Folder", workspace)
+	folder.Name = "MatrixCube"
+
+	local center = hrp.Position
+	local size = 58
+	local spacing = 10
+
+	for x = -size/2, size/2, spacing do
+		for y = -size/2, size/2, spacing do
+			for z = -size/2, size/2, spacing do
+				if math.random() < 0.3 then
+					local bit = Instance.new("Part")
+					bit.Size = Vector3.new(1.5, 1.5, 1.5)
+					bit.Anchored = true
+					bit.CanCollide = false
+					bit.Material = Enum.Material.Neon
+					bit.Position = center + Vector3.new(x, y, z)
+					bit.Color = math.random() > 0.5 and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+
+					local gui = Instance.new("BillboardGui", bit)
+					gui.Size = UDim2.new(3, 0, 3, 0)
+					gui.AlwaysOnTop = true
+
+					local label = Instance.new("TextLabel", gui)
+					label.Size = UDim2.new(1, 0, 1, 0)
+					label.BackgroundTransparency = 1
+					label.Text = (bit.Color == Color3.fromRGB(0, 255, 0)) and "1" or "0"
+					label.TextColor3 = bit.Color
+					label.TextScaled = true
+					label.Font = Enum.Font.Code
+
+					bit.Parent = folder
+
+					TweenService:Create(bit, TweenInfo.new(2), {
+						Position = bit.Position + Vector3.new(0, bit.Color == Color3.fromRGB(0, 255, 0) and 6 or -6, 0),
+						Transparency = 1
+					}):Play()
+
+					game.Debris:AddItem(bit, 2)
 				end
 			end
 		end
+	end
+end
 
-		wait(refreshDelay)
+-- LOOPING
+local loopActive = false
+local function startLoop()
+	loopActive = true
+	task.spawn(function()
+		while loopActive do
+			createMatrix()
+			task.wait(0.15)
+		end
+	end)
+end
+
+local function stopLoop()
+	loopActive = false
+	local folder = workspace:FindFirstChild("MatrixCube")
+	if folder then folder:Destroy() end
+end
+
+-- TOGGLE BUTTON
+toggleButton.MouseButton1Click:Connect(function()
+	if loopActive then
+		stopLoop()
+		toggleButton.Text = "TOGGLE MATRIX (OFF)"
+		toggleButton.TextColor3 = Color3.fromRGB(255, 0, 0)
+	else
+		startLoop()
+		toggleButton.Text = "TOGGLE MATRIX (ON)"
+		toggleButton.TextColor3 = Color3.fromRGB(0, 255, 0)
 	end
 end)
-   end,
-})
 
-local Button = Tab:CreateButton({
-   Name = "UNDO HACK SURROUNDING1️⃣⭕️1️⃣⭕️1️⃣⭕️",
-   Callback = function()
-   -- The function that takes place when the button is pressed
--- Undo the Matrix Cube
+-- CLOSE BUTTON
+closeButton.MouseButton1Click:Connect(function()
+	stopLoop()
+	gui:Destroy()
+end)
 
--- Stop the matrix loop (if it’s running)
-_G.MatrixRunning = false
-
--- Clean up the cube parts
-local existing = workspace:FindFirstChild("MatrixCube")
-if existing then
-	existing:Destroy()
-end
+-- MINIMIZE BUTTON
+local minimized = false
+minimizeButton.MouseButton1Click:Connect(function()
+	minimized = not minimized
+	for _, child in pairs(frame:GetChildren()) do
+		if child:IsA("TextButton") and child ~= minimizeButton and child ~= closeButton then
+			child.Visible = not minimized
+		end
+	end
+	frame.Size = minimized and UDim2.new(0, 240, 0, 40) or UDim2.new(0, 240, 0, 130)
+end)
    end,
 })
 
@@ -2112,37 +2185,6 @@ Lighting.TimeOfDay = "00:00:00"
 Lighting.ClockTime = 0
 Lighting.GeographicLatitude = 41
 
-local Button = Tab:CreateButton({
-   Name = "UNDO BLACK SKYBOX🏙⬛️",
-   Callback = function()
-   -- The function that takes place when the button is pressed
--- Works in a LocalScript or Script
-local Lighting = game:GetService("Lighting")
-
--- Remove any existing Sky
-for _, obj in pairs(Lighting:GetChildren()) do
-	if obj:IsA("Sky") then
-		obj:Destroy()
-	end
-end
-
--- Create the default Roblox skybox again
-local defaultSky = Instance.new("Sky")
-defaultSky.Name = "DefaultSky"
-defaultSky.SkyboxBk = "rbxassetid://159454299"
-defaultSky.SkyboxDn = "rbxassetid://159454296"
-defaultSky.SkyboxFt = "rbxassetid://159454293"
-defaultSky.SkyboxLf = "rbxassetid://159454286"
-defaultSky.SkyboxRt = "rbxassetid://159454300"
-defaultSky.SkyboxUp = "rbxassetid://159454288"
-defaultSky.MoonTextureId = "rbxassetid://644432059"
-defaultSky.SunTextureId = "rbxassetid://644432102"
-defaultSky.StarCount = 3000
-defaultSky.Parent = Lighting
-
--- Restore normal time settings (optional)
-Lighting.ClockTime = 14 -- Daytime
-Lighting.TimeOfDay = "14:00:00"
-Lighting.Brightness = 2
    end,
 })
+
