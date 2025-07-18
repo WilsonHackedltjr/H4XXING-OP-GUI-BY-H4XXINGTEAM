@@ -2062,3 +2062,416 @@ task.spawn(function()
 end)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "UNDO HACK SURROUNDING1️⃣⭕️1️⃣⭕️1️⃣⭕️",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- Undo the Matrix Cube
+
+-- Stop the matrix loop (if it’s running)
+_G.MatrixRunning = false
+
+-- Clean up the cube parts
+local existing = workspace:FindFirstChild("MatrixCube")
+if existing then
+	existing:Destroy()
+end
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "BLACK SKYBOX🏙⬛️",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- Works in a LocalScript (StarterPlayerScripts) or Script (ServerScriptService)
+local Lighting = game:GetService("Lighting")
+
+-- Clear existing Sky objects
+for _, obj in pairs(Lighting:GetChildren()) do
+	if obj:IsA("Sky") then
+		obj:Destroy()
+	end
+end
+
+-- Create a new black Skybox
+local sky = Instance.new("Sky")
+sky.SkyboxBk = "rbxassetid://0"
+sky.SkyboxDn = "rbxassetid://0"
+sky.SkyboxFt = "rbxassetid://0"
+sky.SkyboxLf = "rbxassetid://0"
+sky.SkyboxRt = "rbxassetid://0"
+sky.SkyboxUp = "rbxassetid://0"
+sky.MoonTextureId = ""
+sky.SunTextureId = ""
+sky.StarCount = 0
+sky.Parent = Lighting
+
+-- OPTIONAL: Hide the sun and set time to night
+Lighting.TimeOfDay = "00:00:00"
+Lighting.ClockTime = 0
+Lighting.GeographicLatitude = 41
+
+local Button = Tab:CreateButton({
+   Name = "UNDO BLACK SKYBOX🏙⬛️",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- Works in a LocalScript or Script
+local Lighting = game:GetService("Lighting")
+
+-- Remove any existing Sky
+for _, obj in pairs(Lighting:GetChildren()) do
+	if obj:IsA("Sky") then
+		obj:Destroy()
+	end
+end
+
+-- Create the default Roblox skybox again
+local defaultSky = Instance.new("Sky")
+defaultSky.Name = "DefaultSky"
+defaultSky.SkyboxBk = "rbxassetid://159454299"
+defaultSky.SkyboxDn = "rbxassetid://159454296"
+defaultSky.SkyboxFt = "rbxassetid://159454293"
+defaultSky.SkyboxLf = "rbxassetid://159454286"
+defaultSky.SkyboxRt = "rbxassetid://159454300"
+defaultSky.SkyboxUp = "rbxassetid://159454288"
+defaultSky.MoonTextureId = "rbxassetid://644432059"
+defaultSky.SunTextureId = "rbxassetid://644432102"
+defaultSky.StarCount = 3000
+defaultSky.Parent = Lighting
+
+-- Restore normal time settings (optional)
+Lighting.ClockTime = 14 -- Daytime
+Lighting.TimeOfDay = "14:00:00"
+Lighting.Brightness = 2
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "H4X TOOLS1️⃣⭕️1️⃣⭕️🧰",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- H4X TOOL SCRIPT by ChatGPT
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+-- Utility function to create a Tool
+local function createTool(name)
+	local tool = Instance.new("Tool")
+	tool.Name = name
+	tool.RequiresHandle = false
+	tool.CanBeDropped = false
+	tool.Parent = player:WaitForChild("Backpack")
+	return tool
+end
+
+--========================
+-- 1. H4X TP TOOL
+--========================
+do
+	local tool = createTool("H4X TP")
+
+	tool.Equipped:Connect(function()
+		local mouse = player:GetMouse()
+		local conn
+
+		conn = mouse.Button1Down:Connect(function()
+			local targetPos = mouse.Hit and mouse.Hit.p
+			if targetPos then
+				local char = player.Character
+				if char and char:FindFirstChild("HumanoidRootPart") then
+					char:MoveTo(targetPos + Vector3.new(0, 5, 0))
+				end
+			end
+		end)
+
+		tool.Unequipped:Connect(function()
+			if conn then conn:Disconnect() end
+		end)
+	end)
+end
+
+--========================
+-- 2. H4X INVISIBLE TOOL
+--========================
+do
+	local tool = createTool("H4X INVISIBLE")
+	local invisible = false
+
+	local function setVisible(state)
+		local char = player.Character
+		if char then
+			for _, part in pairs(char:GetDescendants()) do
+				if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
+					part.Transparency = state and 1 or 0
+				elseif part:IsA("Decal") then
+					part.Transparency = state and 1 or 0
+				end
+			end
+		end
+	end
+
+	tool.Equipped:Connect(function()
+		local mouse = player:GetMouse()
+		local conn
+
+		conn = mouse.Button1Down:Connect(function()
+			invisible = not invisible
+			setVisible(invisible)
+		end)
+
+		tool.Unequipped:Connect(function()
+			if conn then conn:Disconnect() end
+		end)
+	end)
+end
+
+--========================
+-- 3. H4X FLY TOOL (with GUI)
+--========================
+do
+	local tool = createTool("H4X FLY")
+	local flying = false
+	local bv, bg, conn, gui
+	local verticalSpeed = 0
+
+	-- Create RGB Button
+	local function createButton(name, position, callback)
+		local btn = Instance.new("TextButton")
+		btn.Name = name
+		btn.Text = name
+		btn.Size = UDim2.new(0, 100, 0, 40)
+		btn.Position = position
+		btn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+		btn.TextColor3 = Color3.new(1, 1, 1)
+		btn.Font = Enum.Font.GothamBold
+		btn.TextScaled = true
+		btn.BorderSizePixel = 2
+		btn.Parent = gui
+
+		-- Animate RGB
+		task.spawn(function()
+			local hue = 0
+			while btn.Parent do
+				btn.BackgroundColor3 = Color3.fromHSV(hue, 1, 1)
+				hue = (hue + 0.01) % 1
+				task.wait(0.05)
+			end
+		end)
+
+		btn.MouseButton1Click:Connect(callback)
+	end
+
+	local function startFlying()
+		local char = player.Character
+		local hrp = char and char:FindFirstChild("HumanoidRootPart")
+		local humanoid = char and char:FindFirstChildWhichIsA("Humanoid")
+		if not hrp or not humanoid then return end
+
+		bv = Instance.new("BodyVelocity")
+		bv.MaxForce = Vector3.new(1e9, 1e9, 1e9)
+		bv.Velocity = Vector3.zero
+		bv.P = 1250
+		bv.Parent = hrp
+
+		bg = Instance.new("BodyGyro")
+		bg.MaxTorque = Vector3.new(1e9, 1e9, 1e9)
+		bg.P = 1e5
+		bg.CFrame = hrp.CFrame
+		bg.Parent = hrp
+
+		conn = RunService.RenderStepped:Connect(function()
+			if not flying then return end
+			local moveDir = humanoid.MoveDirection
+			local flyVec = moveDir + Vector3.new(0, verticalSpeed, 0)
+			bv.Velocity = flyVec * 70
+			if flyVec.Magnitude > 0 then
+				bg.CFrame = CFrame.new(Vector3.zero, flyVec.Unit)
+			end
+		end)
+
+		flying = true
+	end
+
+	local function stopFlying()
+		flying = false
+		verticalSpeed = 0
+		if conn then conn:Disconnect() end
+		if bv then bv:Destroy() end
+		if bg then bg:Destroy() end
+	end
+
+	local function showFlyGui()
+		gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+		gui.Name = "FlyButtons"
+
+		createButton("Fly Up", UDim2.new(0.9, -50, 0.4, -60), function()
+			verticalSpeed = 1
+		end)
+
+		createButton("Fly Down", UDim2.new(0.9, -50, 0.4, 10), function()
+			verticalSpeed = -1
+		end)
+
+		createButton("FLY", UDim2.new(0.9, -50, 0.4, -110), function()
+			startFlying()
+		end)
+
+		createButton("UNFLY", UDim2.new(0.9, -50, 0.4, 60), function()
+			stopFlying()
+		end)
+	end
+
+	local function hideFlyGui()
+		if gui then gui:Destroy() end
+	end
+
+	tool.Equipped:Connect(function()
+		showFlyGui()
+	end)
+
+	tool.Unequipped:Connect(function()
+		stopFlying()
+		hideFlyGui()
+	end)
+end
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "CHECK ANTI-CHEAT✔️🚫",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- Real Anti-Cheat Status GUI with Notifications & Dragging
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- UI Setup
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.Name = "AntiCheatStatusGUI"
+gui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 300, 0, 150)
+frame.Position = UDim2.new(0.3, 0, 0.3, 0)
+frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+frame.BorderSizePixel = 4
+frame.Active = true
+frame.Draggable = true -- ✅ Make movable
+
+local corner = Instance.new("UICorner", frame)
+corner.CornerRadius = UDim.new(0, 10)
+
+-- RGB Border Effect
+task.spawn(function()
+	while frame do
+		for h = 0, 1, 0.01 do
+			frame.BorderColor3 = Color3.fromHSV(h, 1, 1)
+			task.wait(0.02)
+		end
+	end
+end)
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, 0, 0.4, 0)
+title.Text = "Anti-Cheat Status:"
+title.TextScaled = true
+title.Font = Enum.Font.GothamBold
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.new(1,1,1)
+
+local statusText = Instance.new("TextLabel", frame)
+statusText.Position = UDim2.new(0, 0, 0.4, 0)
+statusText.Size = UDim2.new(1, 0, 0.3, 0)
+statusText.TextScaled = true
+statusText.Font = Enum.Font.GothamBlack
+statusText.BackgroundTransparency = 1
+statusText.TextColor3 = Color3.new(1, 1, 1)
+
+local close = Instance.new("TextButton", frame)
+close.Size = UDim2.new(0, 30, 0, 30)
+close.Position = UDim2.new(1, -35, 0, 5)
+close.Text = "X"
+close.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
+close.TextColor3 = Color3.new(1, 0, 0)
+close.Font = Enum.Font.GothamBold
+close.TextScaled = true
+Instance.new("UICorner", close).CornerRadius = UDim.new(0, 6)
+close.MouseButton1Click:Connect(function() gui:Destroy() end)
+
+-- Notification function
+local function notify(text)
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Anti-Cheat Alert";
+		Text = text;
+		Duration = 5;
+	})
+end
+
+-- Detection Logic
+local score = 0
+
+-- 1. WalkSpeed Block
+local origWalk = humanoid.WalkSpeed
+humanoid.WalkSpeed = origWalk + 10
+task.wait(0.5)
+if humanoid.WalkSpeed == origWalk then
+	score += 1
+end
+humanoid.WalkSpeed = origWalk
+
+-- 2. JumpPower Block
+local origJump = humanoid.JumpPower
+humanoid.JumpPower = origJump + 20
+task.wait(0.5)
+if humanoid.JumpPower == origJump then
+	score += 1
+end
+humanoid.JumpPower = origJump
+
+-- 3. Teleport Detection
+local root = character:WaitForChild("HumanoidRootPart")
+local originalPos = root.Position
+local testPos = originalPos + Vector3.new(0, 100, 0)
+character:MoveTo(testPos)
+task.wait(0.8)
+if (root.Position - testPos).Magnitude > 5 then
+	score += 1
+end
+
+-- 4. Remote Spam Detection
+local success, err = pcall(function()
+	local remote = Instance.new("RemoteEvent")
+	remote:FireServer()
+end)
+if not success then
+	score += 1
+end
+
+-- Determine status
+local status = "LOW"
+if score == 1 then
+	status = "MEDIUM"
+elseif score == 2 or score == 3 then
+	status = "HIGH"
+elseif score >= 4 then
+	status = "EXTREME"
+end
+
+-- Apply GUI Colors and Notifications
+statusText.Text = status
+if status == "LOW" then
+	frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+elseif status == "MEDIUM" then
+	frame.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+elseif status == "HIGH" then
+	frame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+	notify("⚠️ CAUTION: HIGHEST ANTI-CHEAT")
+elseif status == "EXTREME" then
+	frame.BackgroundColor3 = Color3.fromRGB(128, 0, 128)
+	notify("❗ BAN RISK DETECTED")
+end
+   end,
+})
