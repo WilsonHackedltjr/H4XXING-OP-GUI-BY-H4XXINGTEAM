@@ -1977,64 +1977,136 @@ end
 })
 
 local Button = Tab:CreateButton({
-   Name = "GOOFY V1(R6)👤",
+   Name = "Kill All🔪👥",
    Callback = function()
    -- The function that takes place when the button is pressed
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local runService = game:GetService("RunService")
+-- Services
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local StarterGui = game:GetService("StarterGui")
+local LocalPlayer = Players.LocalPlayer
 
--- Wait for all required body parts
-local torso = character:WaitForChild("Torso")
-local leftArm = character:WaitForChild("Left Arm")
-local rightArm = character:WaitForChild("Right Arm")
-local rootPart = character:WaitForChild("HumanoidRootPart")
+-- GUI Setup
+local screenGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
+screenGui.Name = "VisualKillGui"
+screenGui.ResetOnSpawn = false
 
--- Stop animations
-local humanoid = character:WaitForChild("Humanoid")
-humanoid:LoadAnimation(Instance.new("Animation")) -- Stop all animations
+local mainFrame = Instance.new("Frame", screenGui)
+mainFrame.Size = UDim2.new(0, 300, 0, 200)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+mainFrame.BorderSizePixel = 4
 
--- Anchor everything to control pose
-torso.Anchored = true
-leftArm.Anchored = true
-rightArm.Anchored = true
-rootPart.Anchored = true
-
--- T-pose arm positions
-leftArm.CFrame = torso.CFrame * CFrame.new(-1.5, 0.5, 0)
-rightArm.CFrame = torso.CFrame * CFrame.new(1.5, 0.5, 0)
-
--- Spin both arms continuously
-local leftAngle = 0
-local rightAngle = 0
-
-runService.RenderStepped:Connect(function(dt)
-	leftAngle = leftAngle + dt * 10
-	rightAngle = rightAngle + dt * 10
-
-	leftArm.CFrame = torso.CFrame * CFrame.new(-1.5, 0.5, 0) * CFrame.Angles(0, 0, leftAngle)
-	rightArm.CFrame = torso.CFrame * CFrame.new(1.5, 0.5, 0) * CFrame.Angles(0, 0, rightAngle)
+-- RGB Border
+task.spawn(function()
+	local hue = 0
+	while true do
+		hue = (hue + 0.01) % 1
+		mainFrame.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+		task.wait(0.02)
+	end
 end)
-   end,
-})
 
-local Button = Tab:CreateButton({
-   Name = "UNDO GOOFY V1(R6)👤",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
+-- Kill Button
+local killBtn = Instance.new("TextButton", mainFrame)
+killBtn.Size = UDim2.new(0, 260, 0, 50)
+killBtn.Position = UDim2.new(0, 20, 0, 60)
+killBtn.Text = "Kill All"
+killBtn.TextSize = 22
+killBtn.Font = Enum.Font.SourceSansBold
+killBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+killBtn.TextColor3 = Color3.new(1, 1, 1)
+killBtn.BorderSizePixel = 0
+killBtn.AutoButtonColor = false
 
--- Unanchor all body parts
-for _, partName in pairs({"Torso", "Left Arm", "Right Arm", "HumanoidRootPart"}) do
-	local part = character:FindFirstChild(partName)
-	if part then
-		part.Anchored = false
+-- RGB Button
+task.spawn(function()
+	local hue = 0
+	while true do
+		hue = (hue + 0.01) % 1
+		killBtn.BackgroundColor3 = Color3.fromHSV(hue, 1, 1)
+		task.wait(0.02)
+	end
+end)
+
+-- Close Button
+local closeBtn = Instance.new("TextButton", mainFrame)
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0, 5)
+closeBtn.Text = "X"
+closeBtn.TextSize = 20
+closeBtn.Font = Enum.Font.SourceSansBold
+closeBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+closeBtn.TextColor3 = Color3.new(1, 0, 0)
+
+-- Toggle visibility
+closeBtn.MouseButton1Click:Connect(function()
+	mainFrame.Visible = not mainFrame.Visible
+end)
+
+-- Visual Kill Function
+local function fakeKill(player)
+	if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Humanoid") then
+		local char = player.Character
+		local humanoid = char:FindFirstChild("Humanoid")
+		if humanoid and humanoid.Health > 0 then
+			humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+
+			local motorBackup = {}
+			for _, part in ipairs(char:GetDescendants()) do
+				if part:IsA("Motor6D") then
+					table.insert(motorBackup, {part = part, parent = part.Parent})
+					part:Destroy()
+				end
+			end
+
+			if char:FindFirstChild("Head") then
+				char.Head.Anchored = true
+				if char.Head:FindFirstChild("face") then
+					char.Head.face:Destroy()
+				end
+			end
+
+			local root = char:FindFirstChild("HumanoidRootPart")
+			local position = root and root.Position or nil
+
+			task.delay(15, function()
+				if player.Character and player.Character:FindFirstChild("Humanoid") and position then
+					-- Respawn the visual body to normal
+					local newChar = player.Character
+					for _, backup in ipairs(motorBackup) do
+						if backup.part and backup.parent and newChar:FindFirstChild(backup.parent.Name) then
+							backup.part.Parent = newChar:FindFirstChild(backup.parent.Name)
+						end
+					end
+
+					if newChar:FindFirstChild("Head") then
+						newChar.Head.Anchored = false
+					end
+
+					if newChar:FindFirstChild("HumanoidRootPart") then
+						newChar:MoveTo(position)
+					end
+				end
+			end)
+		end
 	end
 end
 
--- Optional: Play idle animation again (automatically handled by Roblox after unanchor)
-humanoid:LoadAnimation(Instance.new("Animation")) -- Triggers default animations to resume
+-- Kill All Button Function
+killBtn.MouseButton1Click:Connect(function()
+	for _, plr in pairs(Players:GetPlayers()) do
+		fakeKill(plr)
+	end
+
+	-- Notification
+	pcall(function()
+		StarterGui:SetCore("SendNotification", {
+			Title = "Success!";
+			Text = "KILL ALL PEOPLE SUCCESSFULLY";
+			Duration = 4;
+		})
+	end)
+end)
    end,
 })
