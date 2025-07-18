@@ -2525,16 +2525,19 @@ local Button = Tab:CreateButton({
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local GameSettings = game:GetService("GameSettings")
 local player = Players.LocalPlayer
 
-local GROUP_ID = 12345678  -- Replace if using group-based admin detection
-local ADMIN_RANK = 200     -- Minimum rank to be considered admin
+local GROUP_ID = 12345678
+local ADMIN_RANK = 200
 
 local serverBorn = os.time()
 local ownerName = "Unknown"
 local adminNames = {}
+local communityName = "NONE"
+local isMinimized = false
 
--- Owner Detection
+-- Get owner
 if game.CreatorType == Enum.CreatorType.User then
 	pcall(function()
 		ownerName = Players:GetNameFromUserIdAsync(game.CreatorId)
@@ -2543,34 +2546,42 @@ elseif game.CreatorType == Enum.CreatorType.Group then
 	ownerName = "Group ID: " .. game.CreatorId
 end
 
--- UI Setup
+-- Get community name
+pcall(function()
+	if GameSettings.CommunityAlias and GameSettings.CommunityAlias ~= "" then
+		communityName = GameSettings.CommunityAlias
+	end
+end)
+
+-- GUI setup
 local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
 gui.Name = "ServerInfoGUI"
 gui.ResetOnSpawn = false
 
 local frame = Instance.new("Frame", gui)
-frame.Size = UDim2.new(0, 400, 0, 280)
+frame.Size = UDim2.new(0, 400, 0, 300)
 frame.Position = UDim2.new(0, 30, 0, 100)
 frame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 frame.BorderSizePixel = 4
+frame.Active = true
+frame.Draggable = true
 
--- RGB Border Animation
+-- RGB border animation
 local hue = 0
 RunService.RenderStepped:Connect(function()
 	hue = (hue + 0.0015) % 1
 	frame.BorderColor3 = Color3.fromHSV(hue, 1, 1)
 end)
 
--- Celestial Background Effect
-local bg = Instance.new("UIGradient", frame)
-bg.Rotation = 90
-bg.Color = ColorSequence.new({
+-- Celestial gradient background
+local gradient = Instance.new("UIGradient", frame)
+gradient.Rotation = 90
+gradient.Color = ColorSequence.new({
 	ColorSequenceKeypoint.new(0, Color3.fromRGB(5, 10, 25)),
 	ColorSequenceKeypoint.new(0.5, Color3.fromRGB(10, 10, 40)),
 	ColorSequenceKeypoint.new(1, Color3.fromRGB(5, 0, 15))
 })
 
--- Optional Star Glow
 local glow = Instance.new("UIStroke", frame)
 glow.Thickness = 1
 glow.Color = Color3.fromRGB(200, 200, 255)
@@ -2579,11 +2590,39 @@ glow.Transparency = 0.7
 -- Title
 local title = Instance.new("TextLabel", frame)
 title.Text = "🌌 SERVER INFO"
-title.Size = UDim2.new(1, 0, 0, 30)
+title.Size = UDim2.new(1, -70, 0, 30)
+title.Position = UDim2.new(0, 5, 0, 0)
 title.BackgroundTransparency = 1
 title.Font = Enum.Font.GothamBold
 title.TextSize = 22
 title.TextColor3 = Color3.new(1, 1, 1)
+title.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Close Button
+local closeButton = Instance.new("TextButton", frame)
+closeButton.Text = "✖"
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -35, 0, 0)
+closeButton.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
+closeButton.TextColor3 = Color3.new(1, 1, 1)
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 18
+closeButton.AutoButtonColor = true
+
+closeButton.MouseButton1Click:Connect(function()
+	frame.Visible = false
+end)
+
+-- Minimize Button
+local minimizeButton = Instance.new("TextButton", frame)
+minimizeButton.Text = "🔽"
+minimizeButton.Size = UDim2.new(0, 30, 0, 30)
+minimizeButton.Position = UDim2.new(1, -70, 0, 0)
+minimizeButton.BackgroundColor3 = Color3.fromRGB(0, 30, 30)
+minimizeButton.TextColor3 = Color3.new(1, 1, 1)
+minimizeButton.Font = Enum.Font.GothamBold
+minimizeButton.TextSize = 18
+minimizeButton.AutoButtonColor = true
 
 -- Info Label
 local infoLabel = Instance.new("TextLabel", frame)
@@ -2598,7 +2637,21 @@ infoLabel.TextYAlignment = Enum.TextYAlignment.Top
 infoLabel.TextWrapped = true
 infoLabel.Text = ""
 
--- Admin Detection
+-- Minimize toggle logic
+minimizeButton.MouseButton1Click:Connect(function()
+	isMinimized = not isMinimized
+	if isMinimized then
+		infoLabel.Visible = false
+		frame.Size = UDim2.new(0, 400, 0, 30)
+		minimizeButton.Text = "🔼"
+	else
+		infoLabel.Visible = true
+		frame.Size = UDim2.new(0, 400, 0, 300)
+		minimizeButton.Text = "🔽"
+	end
+end)
+
+-- Admin detection
 local function getAdmins()
 	adminNames = {}
 	for _, plr in pairs(Players:GetPlayers()) do
@@ -2611,11 +2664,10 @@ local function getAdmins()
 	end
 end
 
--- Live Info Updater
+-- Live info updater
 local function updateServerInfo()
 	while true do
 		getAdmins()
-
 		local now = os.time()
 		local uptime = now - serverBorn
 		local hours = math.floor(uptime / 3600)
@@ -2636,6 +2688,7 @@ local function updateServerInfo()
 ⏳ Server Age: %dh %dm %ds
 🕒 Server Time: %s
 👥 Players (%d): %s
+🧑‍🤝‍🧑 Community: %s
 ]],
 			ownerName,
 			table.concat(adminNames, ", "),
@@ -2643,7 +2696,8 @@ local function updateServerInfo()
 			hours, minutes, seconds,
 			timeStr,
 			#playersOnline,
-			table.concat(playerList, ", ")
+			table.concat(playerList, ", "),
+			communityName
 		)
 
 		wait(1)
