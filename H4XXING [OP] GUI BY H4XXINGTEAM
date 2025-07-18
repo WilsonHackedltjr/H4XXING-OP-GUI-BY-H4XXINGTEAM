@@ -1977,56 +1977,88 @@ end
 })
 
 local Button = Tab:CreateButton({
-   Name = "H4XXINGTEAM1️⃣⭕️1️⃣⭕️1️⃣👤",
+   Name = "HACK SURROUNDING1️⃣⭕️1️⃣⭕️1️⃣⭕️",
    Callback = function()
    -- The function that takes place when the button is pressed
--- Target user ID
-local userId = 8317715190
+-- SETTINGS
+local cubeSize = 58            -- Size of the cube (keep it)
+local spacing = 10             -- Increased spacing (less parts = less lag)
+local lifetime = 2             -- How long each number stays
+local refreshDelay = 0.15      -- Delay between spawns (slightly slower)
 
--- Services
+-- SERVICES
 local Players = game:GetService("Players")
-local StarterGui = game:GetService("StarterGui")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local Debris = game:GetService("Debris")
 
-local lp = Players.LocalPlayer
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local hrp = character:WaitForChild("HumanoidRootPart")
 
--- Function to apply appearance
-local function applyAppearance()
-    local success, description = pcall(function()
-        return Players:GetHumanoidDescriptionFromUserId(userId)
-    end)
+-- CLEAN OLD MATRIX
+if workspace:FindFirstChild("MatrixCube") then
+	workspace.MatrixCube:Destroy()
+end
+local cubeFolder = Instance.new("Folder", workspace)
+cubeFolder.Name = "MatrixCube"
 
-    if success and description then
-        local character = lp.Character or lp.CharacterAdded:Wait()
-        local humanoid = character:FindFirstChildOfClass("Humanoid")
+-- FUNCTION: Spawn 1 or 0
+local function spawnBit(isOne, pos)
+	local part = Instance.new("Part")
+	part.Size = Vector3.new(1.5, 1.5, 1.5)
+	part.Anchored = true
+	part.CanCollide = false
+	part.Position = pos
+	part.Material = Enum.Material.Neon
+	part.Color = isOne and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+	part.Transparency = 0
+	part.Parent = cubeFolder
 
-        if humanoid then
-            -- Force R15 or R6 based on original
-            local rigType = description.RigType == Enum.HumanoidRigType.R15 and "R15" or "R6"
-            
-            humanoid:ApplyDescription(description)
+	local gui = Instance.new("BillboardGui", part)
+	gui.Size = UDim2.new(3, 0, 3, 0)
+	gui.AlwaysOnTop = true
 
-            -- Notify
-            StarterGui:SetCore("SendNotification", {
-                Title = "✅ Avatar Loaded";
-                Text = "You now look like user " .. userId .. " (" .. rigType .. ")";
-                Duration = 5;
-            })
-        end
-    else
-        warn("❌ Failed to get appearance for user ID:", userId)
-        StarterGui:SetCore("SendNotification", {
-            Title = "Error";
-            Text = "Could not load appearance.";
-            Duration = 5;
-        })
-    end
+	local label = Instance.new("TextLabel", gui)
+	label.Size = UDim2.new(1, 0, 1, 0)
+	label.BackgroundTransparency = 1
+	label.Text = isOne and "1" or "0"
+	label.TextColor3 = part.Color
+	label.TextScaled = true
+	label.Font = Enum.Font.Code
+
+	-- Animate float up/down
+	local move = isOne and Vector3.new(0, 6, 0) or Vector3.new(0, -6, 0)
+	local tween = TweenService:Create(part, TweenInfo.new(lifetime), {
+		Position = part.Position + move,
+		Transparency = 1
+	})
+	tween:Play()
+
+	Debris:AddItem(part, lifetime)
 end
 
--- Wait until character is loaded
-if lp.Character then
-    applyAppearance()
-else
-    lp.CharacterAdded:Connect(applyAppearance)
-end
+-- LOOP: Spawn cube of 1s and 0s around player
+task.spawn(function()
+	while true do
+		local center = hrp.Position
+		local half = cubeSize / 2
+
+		-- Spawn fewer bits using skip-step trick
+		for x = -half, half, spacing do
+			for y = -half, half, spacing do
+				for z = -half, half, spacing do
+					-- Slight randomness to save performance
+					if math.random() < 0.3 then
+						local pos = center + Vector3.new(x, y, z)
+						spawnBit(math.random() > 0.5, pos)
+					end
+				end
+			end
+		end
+
+		wait(refreshDelay)
+	end
+end)
    end,
 })
