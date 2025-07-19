@@ -3123,3 +3123,177 @@ saveBtn.MouseButton1Click:Connect(function()
 end)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "TWEEN PLAYER🏃‍♂️🎯👤",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+-- Create GUI
+local gui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
+gui.Name = "TweenGUI"
+gui.ResetOnSpawn = false
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- Main Frame
+local borderFrame = Instance.new("Frame", gui)
+borderFrame.Size = UDim2.new(0, 320, 0, 200)
+borderFrame.Position = UDim2.new(0.5, -160, 0.5, -100)
+borderFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+borderFrame.BorderSizePixel = 0
+borderFrame.Active = true
+borderFrame.Draggable = true
+
+-- RGB border
+local function updateRGB()
+	local t = tick()
+	return Color3.fromHSV((t % 5) / 5, 1, 1)
+end
+
+RunService.RenderStepped:Connect(function()
+	borderFrame.BorderColor3 = updateRGB()
+	borderFrame.BorderSizePixel = 4
+end)
+
+-- Static Nova Background
+local background = Instance.new("ImageLabel", borderFrame)
+background.Size = UDim2.new(1, 0, 1, 0)
+background.Position = UDim2.new(0, 0, 0, 0)
+background.BackgroundTransparency = 1
+background.Image = "rbxassetid://6071575925"
+background.ImageTransparency = 0.2
+background.ScaleType = Enum.ScaleType.Tile
+background.TileSize = UDim2.new(2, 0, 2, 0)
+
+-- TextBox
+local textbox = Instance.new("TextBox", borderFrame)
+textbox.PlaceholderText = "Enter Player Username or Display Name"
+textbox.Size = UDim2.new(1, -20, 0, 35)
+textbox.Position = UDim2.new(0, 10, 0, 10)
+textbox.Text = ""
+textbox.TextScaled = true
+textbox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+textbox.TextColor3 = Color3.new(1, 1, 1)
+textbox.BorderSizePixel = 0
+
+-- Tween Button
+local button = Instance.new("TextButton", borderFrame)
+button.Text = "Tween to Player"
+button.Size = UDim2.new(1, -20, 0, 35)
+button.Position = UDim2.new(0, 10, 0, 55)
+button.BackgroundColor3 = Color3.fromRGB(128, 0, 255)
+button.TextScaled = true
+button.TextColor3 = Color3.new(1, 1, 1)
+button.BorderSizePixel = 0
+
+-- Profile Image
+local avatar = Instance.new("ImageLabel", borderFrame)
+avatar.Size = UDim2.new(0, 60, 0, 60)
+avatar.Position = UDim2.new(0, 10, 0, 100)
+avatar.BackgroundTransparency = 1
+avatar.Image = ""
+
+-- Name Label
+local nameLabel = Instance.new("TextLabel", borderFrame)
+nameLabel.Size = UDim2.new(1, -80, 0, 60)
+nameLabel.Position = UDim2.new(0, 80, 0, 100)
+nameLabel.Text = "No Target"
+nameLabel.TextScaled = true
+nameLabel.TextColor3 = Color3.new(1, 1, 1)
+nameLabel.BackgroundTransparency = 1
+
+-- Close Button
+local closeBtn = Instance.new("TextButton", borderFrame)
+closeBtn.Size = UDim2.new(0, 25, 0, 25)
+closeBtn.Position = UDim2.new(1, -30, 0, 5)
+closeBtn.Text = "❌"
+closeBtn.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+closeBtn.TextColor3 = Color3.new(1, 1, 1)
+closeBtn.TextScaled = true
+
+-- Minimize Button
+local minBtn = Instance.new("TextButton", borderFrame)
+minBtn.Size = UDim2.new(0, 25, 0, 25)
+minBtn.Position = UDim2.new(1, -60, 0, 5)
+minBtn.Text = "🔽"
+minBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+minBtn.TextColor3 = Color3.new(1, 1, 1)
+minBtn.TextScaled = true
+
+-- Minimize Logic
+local isMinimized = false
+minBtn.MouseButton1Click:Connect(function()
+	isMinimized = not isMinimized
+	if isMinimized then
+		for _, child in ipairs(borderFrame:GetChildren()) do
+			if child ~= minBtn and child ~= closeBtn and child:IsA("GuiObject") then
+				child.Visible = false
+			end
+		end
+		borderFrame.Size = UDim2.new(0, 320, 0, 35)
+		minBtn.Text = "🔼"
+	else
+		for _, child in ipairs(borderFrame:GetChildren()) do
+			if child:IsA("GuiObject") then
+				child.Visible = true
+			end
+		end
+		borderFrame.Size = UDim2.new(0, 320, 0, 200)
+		minBtn.Text = "🔽"
+	end
+end)
+
+-- Close Logic
+closeBtn.MouseButton1Click:Connect(function()
+	gui:Destroy()
+end)
+
+-- Find Player Function
+local function findPlayer(name)
+	for _, player in pairs(Players:GetPlayers()) do
+		if player.Name:lower() == name:lower() or player.DisplayName:lower() == name:lower() then
+			return player
+		end
+	end
+	return nil
+end
+
+-- Tween Logic (speed = 155)
+button.MouseButton1Click:Connect(function()
+	local targetName = textbox.Text
+	local targetPlayer = findPlayer(targetName)
+
+	if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+		-- Update Profile
+		local userId = targetPlayer.UserId
+		avatar.Image = "https://www.roblox.com/headshot-thumbnail/image?userId="..userId.."&width=420&height=420&format=png"
+		nameLabel.Text = targetPlayer.DisplayName .. " (@" .. targetPlayer.Name .. ")"
+
+		-- Tween
+		local myChar = LocalPlayer.Character
+		if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
+
+		local targetPos = targetPlayer.Character.HumanoidRootPart.Position
+		local distance = (myChar.HumanoidRootPart.Position - targetPos).Magnitude
+		local speed = 155
+
+		local tweenInfo = TweenInfo.new(
+			distance / speed,
+			Enum.EasingStyle.Linear,
+			Enum.EasingDirection.Out
+		)
+
+		local goal = {CFrame = CFrame.new(targetPos + Vector3.new(0, 3, 0))}
+		local tween = TweenService:Create(myChar.HumanoidRootPart, tweenInfo, goal)
+		tween:Play()
+	else
+		nameLabel.Text = "Target not found!"
+		avatar.Image = ""
+	end
+end)
+   end,
+})
