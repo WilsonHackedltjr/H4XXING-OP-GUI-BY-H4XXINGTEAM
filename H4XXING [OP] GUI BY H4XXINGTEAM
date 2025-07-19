@@ -3297,11 +3297,3 @@ button.MouseButton1Click:Connect(function()
 end)
    end,
 })
-
-local Button = Tab:CreateButton({
-   Name = "BYPASS ANTI-CHEAT SYSTEM⛔️🚫💻",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Next1x/Nextix./main/UniversalACBypass"))()
-   end,
-})
