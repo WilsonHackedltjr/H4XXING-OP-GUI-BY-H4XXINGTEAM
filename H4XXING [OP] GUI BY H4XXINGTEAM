@@ -2707,3 +2707,151 @@ end
 task.spawn(updateServerInfo)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "LEGACY HACKER SWORD🗡1️⃣⭕️1️⃣⭕️",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Debris = game:GetService("Debris")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local backpack = player:WaitForChild("Backpack")
+
+-- Sword tool creation
+local tool = Instance.new("Tool")
+tool.Name = "HACKER SWORD"
+tool.RequiresHandle = true
+tool.CanBeDropped = false
+
+-- Handle (sword part)
+local handle = Instance.new("Part")
+handle.Name = "Handle"
+handle.Size = Vector3.new(0.4, 4, 0.4)
+handle.Color = Color3.new(0, 0, 0)
+handle.Material = Enum.Material.Metal
+handle.Anchored = false
+handle.CanCollide = false
+handle.Massless = true
+handle.TopSurface = Enum.SurfaceType.Smooth
+handle.BottomSurface = Enum.SurfaceType.Smooth
+handle.Parent = tool
+tool.GripForward = Vector3.new(0, 0, -1)
+tool.GripPos = Vector3.new(0, -1, 0)
+tool.GripUp = Vector3.new(0, 1, 0)
+tool.Parent = backpack
+
+-- Matrix effect
+local function createMatrixBit(position, color, digit, direction)
+	local part = Instance.new("Part")
+	part.Size = Vector3.new(0.5, 0.5, 0.5)
+	part.Anchored = true
+	part.CanCollide = false
+	part.Transparency = 1
+	part.Position = position
+	part.Material = Enum.Material.Neon
+	part.Color = color
+	part.Parent = workspace
+
+	local gui = Instance.new("BillboardGui", part)
+	gui.Size = UDim2.new(1.5, 0, 1.5, 0)
+	gui.AlwaysOnTop = true
+
+	local label = Instance.new("TextLabel", gui)
+	label.Size = UDim2.new(1, 0, 1, 0)
+	label.BackgroundTransparency = 1
+	label.Text = digit
+	label.TextColor3 = color
+	label.TextScaled = true
+	label.Font = Enum.Font.Code
+
+	-- Animate bit
+	local targetPos = part.Position + Vector3.new(0, direction * 2, 0)
+	TweenService:Create(part, TweenInfo.new(1), {
+		Position = targetPos,
+		Transparency = 1
+	}):Play()
+
+	Debris:AddItem(part, 1)
+end
+
+-- Damage function (visual only)
+local function showDamage(target)
+	local hum = target:FindFirstChild("Humanoid")
+	if hum and not target:FindFirstChild("DamageTag") then
+		local tag = Instance.new("BoolValue", target)
+		tag.Name = "DamageTag"
+		Debris:AddItem(tag, 1)
+
+		-- Fake damage number
+		local head = target:FindFirstChild("Head")
+		if head then
+			local gui = Instance.new("BillboardGui", head)
+			gui.Size = UDim2.new(3,0,3,0)
+			gui.AlwaysOnTop = true
+
+			local txt = Instance.new("TextLabel", gui)
+			txt.Size = UDim2.new(1, 0, 1, 0)
+			txt.BackgroundTransparency = 1
+			txt.Text = "-1000"
+			txt.TextColor3 = Color3.fromRGB(255, 0, 0)
+			txt.TextScaled = true
+			txt.Font = Enum.Font.SourceSansBold
+
+			TweenService:Create(gui, TweenInfo.new(1), {
+				Size = UDim2.new(4,0,4,0),
+				StudsOffset = Vector3.new(0,3,0)
+			}):Play()
+
+			Debris:AddItem(gui, 1)
+		end
+	end
+end
+
+-- Swing animation
+local swinging = false
+tool.Activated:Connect(function()
+	if swinging then return end
+	swinging = true
+
+	-- Matrix FX on handle
+	for i = 1, 10 do
+		local digit = math.random() > 0.5 and "1" or "0"
+		local color = digit == "1" and Color3.fromRGB(0,255,0) or Color3.fromRGB(255,0,0)
+		local dir = digit == "1" and 1 or -1
+		createMatrixBit(handle.Position + Vector3.new(math.random(-1,1), math.random(-1,1), math.random(-1,1)), color, digit, dir)
+	end
+
+	-- Swing animation
+	local rightArm = character:FindFirstChild("RightUpperArm") or character:FindFirstChild("Right Arm")
+	if rightArm then
+		local attachment = rightArm:FindFirstChildWhichIsA("Motor6D")
+		if attachment then
+			local orig = attachment.C1
+			local tween = TweenService:Create(attachment, TweenInfo.new(0.2, Enum.EasingStyle.Sine), {
+				C1 = orig * CFrame.Angles(math.rad(-90), 0, 0)
+			})
+			tween:Play()
+			tween.Completed:Wait()
+			TweenService:Create(attachment, TweenInfo.new(0.2), { C1 = orig }):Play()
+		end
+	end
+
+	-- Visual hit detection
+	for _, other in ipairs(workspace:GetChildren()) do
+		if other:IsA("Model") and other ~= character and other:FindFirstChild("HumanoidRootPart") then
+			local dist = (character.HumanoidRootPart.Position - other.HumanoidRootPart.Position).Magnitude
+			if dist < 7 then
+				showDamage(other)
+			end
+		end
+	end
+
+	task.wait(0.6)
+	swinging = false
+end)
+   end,
+})
