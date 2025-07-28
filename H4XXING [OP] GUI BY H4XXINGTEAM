@@ -3739,3 +3739,187 @@ closeBtn.MouseButton1Click:Connect(function()
 end)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "PLAYER TRACER GUI〰️👤",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- Services
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+
+-- Variables
+local TracerEnabled = false
+local TracerParts = {}
+
+-- GUI Setup
+local ScreenGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
+ScreenGui.Name = "TracerGUI"
+ScreenGui.ResetOnSpawn = false
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Parent = ScreenGui
+MainFrame.Size = UDim2.new(0, 300, 0, 180)
+MainFrame.Position = UDim2.new(0.05, 0, 0.2, 0)
+MainFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+MainFrame.BorderSizePixel = 3
+MainFrame.Draggable = true
+MainFrame.Active = true
+
+-- Smooth RGB border and background
+task.spawn(function()
+	while true do
+		local t = tick() * 2
+		local r = 0.5 + 0.5 * math.sin(t)
+		local g = 0.5 + 0.5 * math.sin(t + 2)
+		local b = 0.5 + 0.5 * math.sin(t + 4)
+		MainFrame.BorderColor3 = Color3.new(r, g, b)
+		MainFrame.BackgroundColor3 = Color3.new(1 - r/2, 1 - g/2, 1 - b/2)
+		task.wait(0.03)
+	end
+end)
+
+-- Title
+local Title = Instance.new("TextLabel", MainFrame)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.BackgroundTransparency = 1
+Title.Text = "Tracer GUI"
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 18
+Title.TextColor3 = Color3.new(1, 1, 1)
+
+-- Minimize Button
+local MinimizeButton = Instance.new("TextButton", MainFrame)
+MinimizeButton.Size = UDim2.new(0, 30, 0, 30)
+MinimizeButton.Position = UDim2.new(1, -60, 0, 0)
+MinimizeButton.Text = "_"
+MinimizeButton.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+MinimizeButton.TextColor3 = Color3.new(1, 1, 1)
+MinimizeButton.Font = Enum.Font.GothamBold
+MinimizeButton.TextSize = 18
+
+-- Close Button
+local CloseButton = Instance.new("TextButton", MainFrame)
+CloseButton.Size = UDim2.new(0, 30, 0, 30)
+CloseButton.Position = UDim2.new(1, -30, 0, 0)
+CloseButton.Text = "X"
+CloseButton.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+CloseButton.TextColor3 = Color3.new(1, 1, 1)
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.TextSize = 18
+
+-- Toggle Button
+local Toggle = Instance.new("TextButton", MainFrame)
+Toggle.Size = UDim2.new(0, 260, 0, 50)
+Toggle.Position = UDim2.new(0, 20, 0, 60)
+Toggle.Text = "TRACER: OFF"
+Toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+Toggle.TextColor3 = Color3.new(1, 1, 1)
+Toggle.Font = Enum.Font.GothamBold
+Toggle.TextSize = 22
+
+-- Minimize Logic
+local minimized = false
+MinimizeButton.MouseButton1Click:Connect(function()
+	minimized = not minimized
+	for _, obj in pairs(MainFrame:GetChildren()) do
+		if obj:IsA("TextButton") or obj:IsA("TextLabel") then
+			if obj ~= MinimizeButton and obj ~= CloseButton then
+				obj.Visible = not minimized
+			end
+		end
+	end
+	MainFrame.Size = minimized and UDim2.new(0, 300, 0, 30) or UDim2.new(0, 300, 0, 180)
+end)
+
+-- Close Button
+CloseButton.MouseButton1Click:Connect(function()
+	ScreenGui:Destroy()
+	for _, info in pairs(TracerParts) do
+		if info.Beam then info.Beam:Destroy() end
+		if info.Attachment then info.Attachment:Destroy() end
+		if info.Billboard then info.Billboard:Destroy() end
+	end
+end)
+
+-- Toggle Button
+Toggle.MouseButton1Click:Connect(function()
+	TracerEnabled = not TracerEnabled
+	Toggle.Text = TracerEnabled and "TRACER: ON" or "TRACER: OFF"
+	Toggle.BackgroundColor3 = TracerEnabled and Color3.fromRGB(30, 130, 30) or Color3.fromRGB(50, 50, 50)
+
+	if not TracerEnabled then
+		for _, info in pairs(TracerParts) do
+			if info.Beam then info.Beam:Destroy() end
+			if info.Attachment then info.Attachment:Destroy() end
+			if info.Billboard then info.Billboard:Destroy() end
+		end
+		TracerParts = {}
+	end
+end)
+
+-- Tracer Logic
+RunService.RenderStepped:Connect(function()
+	if not TracerEnabled then return end
+
+	-- Remove old beams
+	for _, info in pairs(TracerParts) do
+		if info.Beam then info.Beam:Destroy() end
+		if info.Attachment then info.Attachment:Destroy() end
+		if info.Billboard then info.Billboard:Destroy() end
+	end
+	TracerParts = {}
+
+	-- Make sure LocalPlayer has a HumanoidRootPart
+	if not LocalPlayer.Character or not LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then return end
+	local localHRP = LocalPlayer.Character.HumanoidRootPart
+
+	local myAttachment = Instance.new("Attachment", localHRP)
+
+	for _, plr in pairs(Players:GetPlayers()) do
+		if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+			local targetHRP = plr.Character.HumanoidRootPart
+
+			local targetAttachment = Instance.new("Attachment", targetHRP)
+
+			-- Create beam
+			local beam = Instance.new("Beam")
+			beam.Attachment0 = myAttachment
+			beam.Attachment1 = targetAttachment
+			beam.Width0 = 0.1
+			beam.Width1 = 0.1
+			beam.FaceCamera = true
+			beam.LightEmission = 1
+			beam.Transparency = NumberSequence.new(0)
+			local t = tick() * 2
+			local r = 0.5 + 0.5 * math.sin(t)
+			local g = 0.5 + 0.5 * math.sin(t + 2)
+			local b = 0.5 + 0.5 * math.sin(t + 4)
+			beam.Color = ColorSequence.new(Color3.new(r, g, b))
+			beam.Parent = localHRP
+
+			-- Billboard for username
+			local billboard = Instance.new("BillboardGui", targetHRP)
+			billboard.Size = UDim2.new(0, 100, 0, 20)
+			billboard.StudsOffset = Vector3.new(0, 3, 0)
+			billboard.AlwaysOnTop = true
+			local text = Instance.new("TextLabel", billboard)
+			text.Size = UDim2.new(1, 0, 1, 0)
+			text.BackgroundTransparency = 1
+			text.Text = plr.DisplayName
+			text.TextColor3 = Color3.new(1, 1, 1)
+			text.Font = Enum.Font.GothamBold
+			text.TextScaled = true
+
+			table.insert(TracerParts, {
+				Beam = beam,
+				Attachment = targetAttachment,
+				Billboard = billboard
+			})
+		end
+	end
+end)
+   end,
+})
