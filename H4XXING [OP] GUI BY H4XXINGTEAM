@@ -3571,3 +3571,171 @@ playBtn.MouseButton1Click:Connect(function()
 end)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "Live Coordinate Viewer🔴",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Name = "CoordinateGUI"
+gui.Parent = player:WaitForChild("PlayerGui")
+gui.ResetOnSpawn = false
+
+-- Main frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 320, 0, 180)
+frame.Position = UDim2.new(0.3, 0, 0.3, 0)
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+frame.BorderSizePixel = 3
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+-- RGB border animation
+task.spawn(function()
+	local hue = 0
+	while frame.Parent do
+		frame.BorderColor3 = Color3.fromHSV(hue, 1, 1)
+		hue = (hue + 0.01) % 1
+		task.wait(0.03)
+	end
+end)
+
+-- Math background animation
+task.spawn(function()
+	while frame.Parent do
+		local r = math.abs(math.sin(tick())) * 255
+		local g = math.abs(math.sin(tick() + 2)) * 255
+		local b = math.abs(math.sin(tick() + 4)) * 255
+		frame.BackgroundColor3 = Color3.fromRGB(r, g, b)
+		task.wait(0.03)
+	end
+end)
+
+-- TopBar for controls
+local topBar = Instance.new("Frame", frame)
+topBar.Size = UDim2.new(1, 0, 0, 30)
+topBar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+topBar.BorderSizePixel = 0
+
+local title = Instance.new("TextLabel", topBar)
+title.Size = UDim2.new(1, -60, 1, 0)
+title.Position = UDim2.new(0, 10, 0, 0)
+title.Text = "Coordinate Viewer"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamSemibold
+title.TextSize = 14
+title.BackgroundTransparency = 1
+title.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Close Button
+local closeBtn = Instance.new("TextButton", topBar)
+closeBtn.Size = UDim2.new(0, 30, 1, 0)
+closeBtn.Position = UDim2.new(1, -30, 0, 0)
+closeBtn.Text = "❌"
+closeBtn.TextColor3 = Color3.new(1, 1, 1)
+closeBtn.Font = Enum.Font.Gotham
+closeBtn.TextSize = 16
+closeBtn.BackgroundColor3 = Color3.fromRGB(80, 0, 0)
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 6)
+
+-- Minimize Button
+local minBtn = Instance.new("TextButton", topBar)
+minBtn.Size = UDim2.new(0, 30, 1, 0)
+minBtn.Position = UDim2.new(1, -60, 0, 0)
+minBtn.Text = "🔽"
+minBtn.TextColor3 = Color3.new(1, 1, 1)
+minBtn.Font = Enum.Font.Gotham
+minBtn.TextSize = 16
+minBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Instance.new("UICorner", minBtn).CornerRadius = UDim.new(0, 6)
+
+-- Coordinate Viewer Box
+local coordBox = Instance.new("TextBox", frame)
+coordBox.Size = UDim2.new(1, -20, 0, 80)
+coordBox.Position = UDim2.new(0, 10, 0, 40)
+coordBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+coordBox.TextColor3 = Color3.new(1, 1, 1)
+coordBox.TextSize = 16
+coordBox.Font = Enum.Font.Gotham
+coordBox.TextWrapped = true
+coordBox.TextEditable = false
+coordBox.ClearTextOnFocus = false
+coordBox.Text = "Coordinates: Loading..."
+Instance.new("UICorner", coordBox).CornerRadius = UDim.new(0, 6)
+
+-- Copy Button (Smooth style)
+local copyBtn = Instance.new("TextButton", frame)
+copyBtn.Size = UDim2.new(0.5, -15, 0, 35)
+copyBtn.Position = UDim2.new(0, 10, 1, -45)
+copyBtn.Text = "📋 Copy"
+copyBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+copyBtn.TextColor3 = Color3.new(1, 1, 1)
+copyBtn.TextSize = 17
+copyBtn.Font = Enum.Font.Gotham
+copyBtn.BackgroundTransparency = 0.1
+copyBtn.AutoButtonColor = false
+Instance.new("UICorner", copyBtn).CornerRadius = UDim.new(0, 8)
+
+local gradient = Instance.new("UIGradient", copyBtn)
+gradient.Color = ColorSequence.new{
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 255, 100)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 200, 255))
+}
+gradient.Rotation = 45
+
+-- Hover effect
+copyBtn.MouseEnter:Connect(function()
+	copyBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+end)
+copyBtn.MouseLeave:Connect(function()
+	copyBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+end)
+
+-- Coordinate update
+task.spawn(function()
+	while frame.Parent do
+		local char = player.Character or player.CharacterAdded:Wait()
+		local hrp = char:FindFirstChild("HumanoidRootPart")
+		if hrp then
+			local pos = hrp.Position
+			coordBox.Text = string.format("Coordinates:\nX: %.1f\nY: %.1f\nZ: %.1f", pos.X, pos.Y, pos.Z)
+		end
+		task.wait(0.2)
+	end
+end)
+
+-- Copy button logic
+copyBtn.MouseButton1Click:Connect(function()
+	local raw = coordBox.Text:gsub("Coordinates:\n", ""):gsub("\n", ", ")
+	pcall(function() setclipboard(raw) end)
+	copyBtn.Text = "✅ Copied!"
+	task.delay(1, function()
+		copyBtn.Text = "📋 Copy"
+	end)
+end)
+
+-- Minimize / Restore toggle
+local minimized = false
+minBtn.MouseButton1Click:Connect(function()
+	minimized = not minimized
+	if minimized then
+		coordBox.Visible = false
+		copyBtn.Visible = false
+		frame.Size = UDim2.new(0, 320, 0, 40)
+		minBtn.Text = "🔼"
+	else
+		coordBox.Visible = true
+		copyBtn.Visible = true
+		frame.Size = UDim2.new(0, 320, 0, 180)
+		minBtn.Text = "🔽"
+	end
+end)
+
+-- Close button
+closeBtn.MouseButton1Click:Connect(function()
+	gui:Destroy()
+end)
+   end,
+})
