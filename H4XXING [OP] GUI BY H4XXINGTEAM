@@ -3573,7 +3573,7 @@ end)
 })
 
 local Button = Tab:CreateButton({
-   Name = "Live Coordinate Viewer🔴",
+   Name = "Live Coordinate Viewer🔴👀",
    Callback = function()
    -- The function that takes place when the button is pressed
 local player = game.Players.LocalPlayer
@@ -3919,6 +3919,139 @@ RunService.RenderStepped:Connect(function()
 				Billboard = billboard
 			})
 		end
+	end
+end)
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "COORDINATE TELEPORTER➕️➖️👤",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- GUI Setup
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+local teleportGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+teleportGui.Name = "TeleportGUI"
+teleportGui.ResetOnSpawn = false
+
+-- Main Frame
+local main = Instance.new("Frame", teleportGui)
+main.Size = UDim2.new(0, 300, 0, 150)
+main.Position = UDim2.new(0.5, -150, 0.5, -75)
+main.BackgroundColor3 = Color3.new(0, 0, 0)
+main.BorderSizePixel = 0
+main.Active = true
+main.Draggable = true
+
+-- RGB Border Effect
+local border = Instance.new("UIStroke", main)
+border.Thickness = 2
+border.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+-- Spectre BG Effect
+local spectreBG = Instance.new("UIGradient", main)
+spectreBG.Color = ColorSequence.new{
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(30,30,30)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(10,10,10))
+}
+spectreBG.Rotation = 0
+spectreBG.Name = "Spectre"
+
+-- Minimize Button
+local minimize = Instance.new("TextButton", main)
+minimize.Size = UDim2.new(0, 20, 0, 20)
+minimize.Position = UDim2.new(1, -45, 0, 5)
+minimize.Text = "-"
+minimize.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+minimize.TextColor3 = Color3.new(1, 1, 1)
+minimize.BorderSizePixel = 0
+
+-- Close Button
+local close = Instance.new("TextButton", main)
+close.Size = UDim2.new(0, 20, 0, 20)
+close.Position = UDim2.new(1, -20, 0, 5)
+close.Text = "X"
+close.BackgroundColor3 = Color3.fromRGB(50, 0, 0)
+close.TextColor3 = Color3.new(1, 1, 1)
+close.BorderSizePixel = 0
+
+-- Title
+local title = Instance.new("TextLabel", main)
+title.Size = UDim2.new(1, -50, 0, 25)
+title.Position = UDim2.new(0, 5, 0, 0)
+title.Text = "TELEPORT GUI"
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.new(1, 1, 1)
+title.Font = Enum.Font.GothamBold
+title.TextSize = 16
+title.TextXAlignment = Enum.TextXAlignment.Left
+
+-- TextBox
+local coordBox = Instance.new("TextBox", main)
+coordBox.Size = UDim2.new(0.9, 0, 0, 30)
+coordBox.Position = UDim2.new(0.05, 0, 0.4, 0)
+coordBox.PlaceholderText = "Enter X,Y,Z"
+coordBox.Text = ""
+coordBox.TextScaled = true
+coordBox.Font = Enum.Font.Gotham
+coordBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+coordBox.TextColor3 = Color3.new(1,1,1)
+coordBox.BorderSizePixel = 0
+
+-- TELEPORT Button
+local teleportBtn = Instance.new("TextButton", main)
+teleportBtn.Size = UDim2.new(0.6, 0, 0, 35)
+teleportBtn.Position = UDim2.new(0.2, 0, 0.75, 0)
+teleportBtn.Text = "TELEPORT"
+teleportBtn.Font = Enum.Font.GothamBold
+teleportBtn.TextColor3 = Color3.new(1, 1, 1)
+teleportBtn.TextScaled = true
+teleportBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+teleportBtn.BorderSizePixel = 0
+teleportBtn.AutoButtonColor = true
+
+-- Toggle Minimize
+local isMinimized = false
+minimize.MouseButton1Click:Connect(function()
+	isMinimized = not isMinimized
+	for _, v in ipairs(main:GetChildren()) do
+		if v:IsA("TextButton") or v:IsA("TextBox") or v:IsA("TextLabel") then
+			if v ~= minimize and v ~= close and v ~= title then
+				v.Visible = not isMinimized
+			end
+		end
+	end
+	main.Size = isMinimized and UDim2.new(0, 300, 0, 30) or UDim2.new(0, 300, 0, 150)
+end)
+
+-- Close GUI
+close.MouseButton1Click:Connect(function()
+	teleportGui:Destroy()
+end)
+
+-- TELEPORT Function
+teleportBtn.MouseButton1Click:Connect(function()
+	local text = coordBox.Text
+	local coords = {}
+	for num in string.gmatch(text, "[^,%s]+") do
+		table.insert(coords, tonumber(num))
+	end
+	if #coords == 3 and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+		player.Character.HumanoidRootPart.CFrame = CFrame.new(coords[1], coords[2], coords[3])
+	end
+end)
+
+-- RGB Border Effect Loop
+task.spawn(function()
+	while teleportGui.Parent do
+		local t = tick()
+		local r = math.sin(t) * 127 + 128
+		local g = math.sin(t + 2) * 127 + 128
+		local b = math.sin(t + 4) * 127 + 128
+		border.Color = ColorSequence.new(Color3.fromRGB(r, g, b))
+		spectreBG.Rotation = (spectreBG.Rotation + 0.5) % 360
+		task.wait(0.03)
 	end
 end)
    end,
