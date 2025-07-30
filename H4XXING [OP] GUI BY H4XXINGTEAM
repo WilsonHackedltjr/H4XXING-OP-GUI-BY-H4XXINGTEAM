@@ -4056,3 +4056,213 @@ task.spawn(function()
 end)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "BLOCK RING [HYBRID SIDED]⬛️😇",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- Hybrid Script (Client-Sided or Server-Sided)
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local blocksActive = false
+local allBlocks = {}
+local orbitConnection = nil
+local characterAddedConn = nil
+
+-- Clears all blocks and stops orbit
+local function clearBlocks()
+    if orbitConnection then
+        orbitConnection:Disconnect()
+        orbitConnection = nil
+    end
+    for _, model in ipairs(allBlocks) do
+        if model and model.Parent then
+            model:Destroy()
+        end
+    end
+    allBlocks = {}
+end
+
+-- Create blocks orbiting around character
+local function createRing(character)
+    local hrp = character:WaitForChild("HumanoidRootPart")
+    local radius = 5
+    local numBlocks = 8
+    local rotationSpeed = math.rad(75)
+
+    -- Destroy previous blocks if any
+    clearBlocks()
+
+    -- Spawn blocks
+    for i = 1, numBlocks do
+        local model = Instance.new("Model")
+        model.Name = "RingBlockModel"
+
+        local part = Instance.new("Part")
+        part.Size = Vector3.new(2, 2, 2)
+        part.Anchored = true
+        part.CanCollide = false
+        part.Color = Color3.fromRGB(128, 128, 128)
+        part.Material = Enum.Material.Metal
+        part.Name = "Block"
+        part.Parent = model
+
+        model.PrimaryPart = part
+        model.Parent = workspace
+        table.insert(allBlocks, model)
+    end
+
+    -- Orbit logic
+    local angleOffset = 0
+    orbitConnection = RunService.Heartbeat:Connect(function(dt)
+        if not hrp or not hrp.Parent then return end
+        angleOffset += rotationSpeed * dt
+
+        for i, model in ipairs(allBlocks) do
+            if model.PrimaryPart then
+                local angle = (math.pi * 2 / numBlocks) * i + angleOffset
+                local pos = hrp.Position + Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
+                model:SetPrimaryPartCFrame(CFrame.new(pos))
+            end
+        end
+    end)
+end
+
+-- Toggle ON/OFF
+local function toggleBlocks()
+    if blocksActive then
+        blocksActive = false
+        clearBlocks()
+        if characterAddedConn then
+            characterAddedConn:Disconnect()
+            characterAddedConn = nil
+        end
+    else
+        blocksActive = true
+        if Players.LocalPlayer then
+            local player = Players.LocalPlayer
+            if player.Character then
+                createRing(player.Character)
+            end
+            characterAddedConn = player.CharacterAdded:Connect(function(char)
+                if blocksActive then
+                    createRing(char)
+                end
+            end)
+        else
+            for _, player in ipairs(Players:GetPlayers()) do
+                if player.Character then
+                    createRing(player.Character)
+                end
+                player.CharacterAdded:Connect(function(char)
+                    if blocksActive then
+                        createRing(char)
+                    end
+                end)
+            end
+            Players.PlayerAdded:Connect(function(player)
+                player.CharacterAdded:Connect(function(char)
+                    if blocksActive then
+                        createRing(char)
+                    end
+                end)
+            end)
+        end
+    end
+end
+
+-- GUI Creation
+local function createGUI()
+    local playerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "BlockRingGui"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = playerGui
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 200, 0, 70)
+    frame.Position = UDim2.new(0.4, 0, 0.8, 0)
+    frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    frame.BorderSizePixel = 0
+    frame.Active = true
+    frame.Draggable = true
+    frame.Parent = screenGui
+
+    -- RGB Border
+    local uiStroke = Instance.new("UIStroke")
+    uiStroke.Thickness = 3
+    uiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    uiStroke.Parent = frame
+    task.spawn(function()
+        local hue = 0
+        while frame.Parent do
+            hue = (hue + 1) % 255
+            uiStroke.Color = Color3.fromHSV(hue / 255, 1, 1)
+            task.wait(0.03)
+        end
+    end)
+
+    -- Minimize Button
+    local minimize = Instance.new("TextButton")
+    minimize.Size = UDim2.new(0, 25, 0, 25)
+    minimize.Position = UDim2.new(1, -60, 0, 5)
+    minimize.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    minimize.Text = "-"
+    minimize.TextColor3 = Color3.new(1, 1, 1)
+    minimize.TextScaled = true
+    minimize.Parent = frame
+
+    -- Close Button
+    local close = Instance.new("TextButton")
+    close.Size = UDim2.new(0, 25, 0, 25)
+    close.Position = UDim2.new(1, -30, 0, 5)
+    close.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    close.Text = "X"
+    close.TextColor3 = Color3.new(1, 1, 1)
+    close.TextScaled = true
+    close.Parent = frame
+
+    -- Toggle Button (BLOCK RING)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, -20, 1, -40)
+    button.Position = UDim2.new(0, 10, 0, 35)
+    button.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    button.TextColor3 = Color3.new(1, 1, 1)
+    button.Text = "BLOCK RING"
+    button.Font = Enum.Font.GothamBold
+    button.TextSize = 20
+    button.AutoButtonColor = true
+    button.Parent = frame
+
+    local uiCorner = Instance.new("UICorner")
+    uiCorner.CornerRadius = UDim.new(0, 10)
+    uiCorner.Parent = frame
+
+    local uiCornerBtn = Instance.new("UICorner")
+    uiCornerBtn.CornerRadius = UDim.new(0, 8)
+    uiCornerBtn.Parent = button
+
+    -- Actions
+    button.MouseButton1Click:Connect(toggleBlocks)
+    close.MouseButton1Click:Connect(function()
+        clearBlocks()
+        screenGui:Destroy()
+    end)
+
+    local minimized = false
+    minimize.MouseButton1Click:Connect(function()
+        minimized = not minimized
+        button.Visible = not minimized
+        frame.Size = minimized and UDim2.new(0, 200, 0, 35) or UDim2.new(0, 200, 0, 70)
+    end)
+end
+
+-- Show GUI (Client)
+if Players.LocalPlayer then
+    createGUI()
+else
+    toggleBlocks()
+end
+   end,
+})
