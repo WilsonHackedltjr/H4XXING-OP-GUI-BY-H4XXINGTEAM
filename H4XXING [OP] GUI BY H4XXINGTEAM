@@ -4596,3 +4596,120 @@ playBtn.MouseButton1Click:Connect(function()
 end)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "CHAOS MUSIC [HACKER]😬🎵1️⃣0️⃣1️⃣0️⃣",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- LocalScript: ChaosMusicGUI with Sound ID 1838666492
+
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.Name = "ChaosMusicGUI"
+gui.ResetOnSpawn = false
+
+-- Sound setup (client-only)
+local sound = Instance.new("Sound")
+sound.SoundId = "rbxassetid://1838666492" -- Roblox asset "Hacker"
+sound.Name = "ClientSound"
+sound.Volume = 3
+sound.Looped = true
+sound.Parent = workspace
+
+-- Main GUI frame
+local main = Instance.new("Frame", gui)
+main.Size = UDim2.new(0, 300, 0, 160)
+main.Position = UDim2.new(0.5, -150, 0.5, -80)
+main.AnchorPoint = Vector2.new(0.5, 0.5)
+main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+main.BorderSizePixel = 0
+main.Active = true
+main.Draggable = true
+
+-- RGB animated border
+local stroke = Instance.new("UIStroke", main)
+stroke.Thickness = 3
+stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+task.spawn(function()
+    while true do
+        for i = 0, 1, 0.01 do
+            stroke.Color = ColorSequence.new{
+                ColorSequenceKeypoint.new(0, Color3.fromHSV(i, 1, 1)),
+                ColorSequenceKeypoint.new(1, Color3.fromHSV((i + 0.2) % 1, 1, 1))
+            }
+            task.wait(0.05)
+        end
+    end
+end)
+
+-- Chaos-style gradient background
+local chaos = Instance.new("UIGradient", main)
+chaos.Rotation = 0
+chaos.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 0, 255)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 255, 0))
+}
+game:GetService("RunService").RenderStepped:Connect(function()
+    chaos.Rotation = (chaos.Rotation + 1) % 360
+end)
+
+-- Play/Stop button
+local playBtn = Instance.new("TextButton", main)
+playBtn.Size = UDim2.new(0.8, 0, 0.3, 0)
+playBtn.Position = UDim2.new(0.1, 0, 0.4, 0)
+playBtn.Text = "Play Music"
+playBtn.TextScaled = true
+playBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+playBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+playBtn.Font = Enum.Font.GothamBlack
+playBtn.BorderSizePixel = 0
+
+-- Close button
+local closeBtn = Instance.new("TextButton", main)
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0, 5)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.fromRGB(255, 0, 0)
+closeBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextScaled = true
+closeBtn.MouseButton1Click:Connect(function()
+    gui.Enabled = false
+end)
+
+-- Minimize button
+local miniBtn = Instance.new("TextButton", main)
+miniBtn.Size = UDim2.new(0, 30, 0, 30)
+miniBtn.Position = UDim2.new(1, -70, 0, 5)
+miniBtn.Text = "_"
+miniBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+miniBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+miniBtn.Font = Enum.Font.GothamBold
+miniBtn.TextScaled = true
+
+local minimized = false
+miniBtn.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    for _, obj in pairs(main:GetChildren()) do
+        if obj:IsA("TextButton") and obj ~= closeBtn and obj ~= miniBtn then
+            obj.Visible = not minimized
+        end
+    end
+    main.Size = minimized and UDim2.new(0, 300, 0, 40) or UDim2.new(0, 300, 0, 160)
+end)
+
+-- Play/Stop toggle logic
+local playing = false
+playBtn.MouseButton1Click:Connect(function()
+    playing = not playing
+    if playing then
+        sound:Play()
+        playBtn.Text = "Stop Music"
+    else
+        sound:Stop()
+        playBtn.Text = "Play Music"
+    end
+end)
+   end,
+})
