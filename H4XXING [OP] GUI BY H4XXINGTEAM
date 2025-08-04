@@ -4713,3 +4713,172 @@ playBtn.MouseButton1Click:Connect(function()
 end)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "MARK ALL PLAYER🌈❗️👤",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+--// Services
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+--// GUI
+local screenGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
+screenGui.Name = "MarkAllPlayersGui"
+screenGui.ResetOnSpawn = false
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+--// Main Frame
+local frame = Instance.new("Frame", screenGui)
+frame.Size = UDim2.new(0, 260, 0, 120)
+frame.Position = UDim2.new(0.5, -130, 0.85, 0)
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+frame.BackgroundTransparency = 0.2
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+
+-- Corners & Stroke
+Instance.new("UICorner", frame)
+local stroke = Instance.new("UIStroke", frame)
+stroke.Thickness = 3
+stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+-- Gradient Spectre
+local grad = Instance.new("UIGradient", frame)
+grad.Color = ColorSequence.new{
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 0, 0)),
+	ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 255, 0)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 0))
+}
+grad.Rotation = 45
+
+-- Minimize Button
+local minimize = Instance.new("TextButton", frame)
+minimize.Size = UDim2.new(0, 25, 0, 25)
+minimize.Position = UDim2.new(1, -55, 0, 5)
+minimize.Text = "-"
+minimize.Font = Enum.Font.GothamBold
+minimize.TextSize = 18
+minimize.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+minimize.TextColor3 = Color3.new(1, 1, 1)
+Instance.new("UICorner", minimize)
+
+-- Close Button
+local close = Instance.new("TextButton", frame)
+close.Size = UDim2.new(0, 25, 0, 25)
+close.Position = UDim2.new(1, -30, 0, 5)
+close.Text = "X"
+close.Font = Enum.Font.GothamBold
+close.TextSize = 14
+close.BackgroundColor3 = Color3.fromRGB(200, 30, 30)
+close.TextColor3 = Color3.new(1, 1, 1)
+Instance.new("UICorner", close)
+
+-- Toggle Button
+local toggle = Instance.new("TextButton", frame)
+toggle.Size = UDim2.new(1, -20, 0, 40)
+toggle.Position = UDim2.new(0, 10, 0.5, -10)
+toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+toggle.Text = "MARK PLAYER CHARACTER"
+toggle.TextColor3 = Color3.new(1, 1, 1)
+toggle.Font = Enum.Font.GothamBold
+toggle.TextScaled = true
+toggle.BorderSizePixel = 0
+toggle.AutoButtonColor = false
+Instance.new("UICorner", toggle)
+
+-- Animate RGB border
+local hue = 0
+RunService.RenderStepped:Connect(function()
+	hue = (hue + 0.005) % 1
+	stroke.Color = Color3.fromHSV(hue, 1, 1)
+end)
+
+-- Highlight logic
+local highlights = {}
+local toggled = false
+local minimized = false
+
+local function createHighlight(character)
+	if highlights[character] then return end
+	local hl = Instance.new("Highlight")
+	hl.Name = "RGBOutline"
+	hl.FillTransparency = 1
+	hl.OutlineTransparency = 0
+	hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+	hl.Adornee = character
+	hl.Parent = screenGui
+	highlights[character] = hl
+end
+
+local function removeHighlight(character)
+	if highlights[character] then
+		highlights[character]:Destroy()
+		highlights[character] = nil
+	end
+end
+
+local function updateAllHighlights()
+	for _, player in pairs(Players:GetPlayers()) do
+		if player ~= LocalPlayer then
+			local char = player.Character
+			if char and char:IsDescendantOf(workspace) then
+				createHighlight(char)
+			end
+		end
+	end
+end
+
+-- Handle new players
+Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Connect(function(char)
+		if toggled then
+			task.wait(1)
+			createHighlight(char)
+		end
+	end)
+end)
+
+-- Toggle logic
+toggle.MouseButton1Click:Connect(function()
+	toggled = not toggled
+	toggle.BackgroundColor3 = toggled and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(30, 30, 30)
+
+	if toggled then
+		updateAllHighlights()
+		RunService:BindToRenderStep("HighlightRGB", 301, function()
+			local rgb = Color3.fromHSV(tick() % 5 / 5, 1, 1)
+			for _, hl in pairs(highlights) do
+				if hl and hl.Adornee then
+					hl.OutlineColor = rgb
+				end
+			end
+		end)
+	else
+		for _, hl in pairs(highlights) do
+			if hl then hl:Destroy() end
+		end
+		highlights = {}
+		RunService:UnbindFromRenderStep("HighlightRGB")
+	end
+end)
+
+-- Close Button
+close.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+-- Minimize Logic (Rayfield style)
+minimize.MouseButton1Click:Connect(function()
+	minimized = not minimized
+	toggle.Visible = not minimized
+	minimize.Text = minimized and "+" or "-"
+	frame.Size = minimized and UDim2.new(0, 260, 0, 40) or UDim2.new(0, 260, 0, 120)
+end)
+
+-- Initial highlights if already loaded
+updateAllHighlights()
+   end,
+})
