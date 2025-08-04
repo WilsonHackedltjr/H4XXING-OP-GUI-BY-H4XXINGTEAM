@@ -4882,3 +4882,155 @@ end)
 updateAllHighlights()
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "RING PLAYER ALL CHARACTER😇🎳👤",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+--// Services
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+--// GUI Setup
+local screenGui = Instance.new("ScreenGui", PlayerGui)
+screenGui.Name = "OrbitGUI"
+screenGui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 90)
+frame.Position = UDim2.new(0.4, 0, 0.8, 0)
+frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+frame.Parent = screenGui
+
+-- RGB Border
+local stroke = Instance.new("UIStroke", frame)
+stroke.Thickness = 3
+stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+task.spawn(function()
+	local hue = 0
+	while frame.Parent do
+		hue = (hue + 1) % 255
+		stroke.Color = Color3.fromHSV(hue / 255, 1, 1)
+		task.wait(0.03)
+	end
+end)
+
+-- Close Button
+local close = Instance.new("TextButton", frame)
+close.Size = UDim2.new(0, 25, 0, 25)
+close.Position = UDim2.new(1, -25, 0, 5)
+close.Text = "X"
+close.Font = Enum.Font.GothamBold
+close.TextSize = 18
+close.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+close.TextColor3 = Color3.new(1, 1, 1)
+Instance.new("UICorner", close)
+
+-- Minimize Button (Rayfield-style)
+local minimize = Instance.new("TextButton", frame)
+minimize.Size = UDim2.new(0, 25, 0, 25)
+minimize.Position = UDim2.new(1, -55, 0, 5)
+minimize.Text = "-"
+minimize.Font = Enum.Font.GothamBold
+minimize.TextSize = 18
+minimize.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+minimize.TextColor3 = Color3.new(1, 1, 1)
+Instance.new("UICorner", minimize)
+
+-- Toggle Button
+local toggle = Instance.new("TextButton", frame)
+toggle.Name = "ToggleButton"
+toggle.Size = UDim2.new(0, 180, 0, 30)
+toggle.Position = UDim2.new(0, 10, 0, 50)
+toggle.Text = "RING PLAYER CHARACTER"
+toggle.Font = Enum.Font.GothamSemibold
+toggle.TextSize = 16
+toggle.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+toggle.TextColor3 = Color3.new(1, 1, 1)
+Instance.new("UICorner", toggle)
+
+-- Behavior for Close
+close.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+-- Rayfield-style Minimize
+local minimized = false
+minimize.MouseButton1Click:Connect(function()
+	minimized = not minimized
+	if minimized then
+		frame:TweenSize(UDim2.new(0, 200, 0, 35), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.25, true)
+		toggle.Visible = false
+	else
+		frame:TweenSize(UDim2.new(0, 200, 0, 90), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.25, true)
+		toggle.Visible = true
+	end
+end)
+
+-- RING FUNCTIONALITY
+local orbitConnection
+local isOrbiting = false
+local radius = 10
+local speed = 1.8
+
+local function startOrbit()
+	local hrp = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+	if not hrp then return end
+
+	orbitConnection = RunService.Heartbeat:Connect(function(dt)
+		hrp = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+		if not hrp then return end
+
+		local livePlayers = {}
+		for _, plr in ipairs(Players:GetPlayers()) do
+			if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+				local humanoid = plr.Character:FindFirstChildOfClass("Humanoid")
+				if humanoid and humanoid.Health > 0 then
+					table.insert(livePlayers, plr.Character)
+				end
+			end
+		end
+
+		for i, char in ipairs(livePlayers) do
+			local targetHRP = char:FindFirstChild("HumanoidRootPart")
+			if targetHRP then
+				local angle = (math.pi * 2 / #livePlayers) * i + tick() * speed
+				local offset = Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
+				targetHRP.Anchored = true
+				targetHRP.CFrame = CFrame.new(hrp.Position + offset)
+			end
+		end
+	end)
+end
+
+local function stopOrbit()
+	if orbitConnection then
+		orbitConnection:Disconnect()
+		orbitConnection = nil
+	end
+
+	for _, plr in ipairs(Players:GetPlayers()) do
+		if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+			plr.Character.HumanoidRootPart.Anchored = false
+		end
+	end
+end
+
+toggle.MouseButton1Click:Connect(function()
+	isOrbiting = not isOrbiting
+	toggle.Text = isOrbiting and "STOP RING" or "RING PLAYER CHARACTER"
+	if isOrbiting then
+		startOrbit()
+	else
+		stopOrbit()
+	end
+end)
+   end,
+})
