@@ -5034,3 +5034,200 @@ toggle.MouseButton1Click:Connect(function()
 end)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "PRIVATE SERVER PANEL💻📋",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- LocalScript inside StarterGui
+-- PRIVATE SERVER PANEL
+
+-- Services
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "PRIVATE_SERVER_PANEL"
+screenGui.Parent = playerGui
+screenGui.ResetOnSpawn = false
+
+-- Main Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 300, 0, 220)
+frame.Position = UDim2.new(0.5, -150, 0.5, -110)
+frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+frame.Parent = screenGui
+
+-- UICorner (smooth edges)
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 12)
+corner.Parent = frame
+
+-- UIStroke (RGB border)
+local stroke = Instance.new("UIStroke")
+stroke.Thickness = 3
+stroke.Parent = frame
+
+-- Animate RGB border
+task.spawn(function()
+	local hue = 0
+	while task.wait(0.05) do
+		hue = (hue + 0.01) % 1
+		stroke.Color = Color3.fromHSV(hue, 1, 1)
+	end
+end)
+
+-- Title bar
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 30)
+titleBar.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+titleBar.Parent = frame
+
+local titleCorner = Instance.new("UICorner")
+titleCorner.CornerRadius = UDim.new(0, 12)
+titleCorner.Parent = titleBar
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -90, 1, 0)
+titleLabel.Position = UDim2.new(0, 10, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "PRIVATE SERVER PANEL"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+titleLabel.TextSize = 14
+titleLabel.Parent = titleBar
+
+-- Minimize + Close buttons
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -30, 0, 0)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.fromRGB(255, 100, 100)
+closeBtn.BackgroundTransparency = 1
+closeBtn.Parent = titleBar
+
+local minimizeBtn = Instance.new("TextButton")
+minimizeBtn.Size = UDim2.new(0, 30, 0, 30)
+minimizeBtn.Position = UDim2.new(1, -60, 0, 0)
+minimizeBtn.Text = "-"
+minimizeBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
+minimizeBtn.BackgroundTransparency = 1
+minimizeBtn.Parent = titleBar
+
+-- Container for content
+local content = Instance.new("Frame")
+content.Size = UDim2.new(1, -20, 1, -50)
+content.Position = UDim2.new(0, 10, 0, 40)
+content.BackgroundTransparency = 1
+content.Parent = frame
+
+-- Player Counter Label
+local counterLabel = Instance.new("TextLabel")
+counterLabel.Size = UDim2.new(1, 0, 0, 30)
+counterLabel.Position = UDim2.new(0, 0, 0, 0)
+counterLabel.BackgroundTransparency = 1
+counterLabel.Text = "Players in Server: 0"
+counterLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+counterLabel.Font = Enum.Font.GothamBold
+counterLabel.TextSize = 16
+counterLabel.Parent = content
+
+-- Shutdown Button
+local shutdownBtn = Instance.new("TextButton")
+shutdownBtn.Size = UDim2.new(1, 0, 0, 40)
+shutdownBtn.Position = UDim2.new(0, 0, 0, 40)
+shutdownBtn.Text = "Shutdown Server"
+shutdownBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+shutdownBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+shutdownBtn.Parent = content
+
+local shutdownCorner = Instance.new("UICorner")
+shutdownCorner.CornerRadius = UDim.new(0, 8)
+shutdownCorner.Parent = shutdownBtn
+
+-- Allow Friend Join Toggle
+local toggleBtn = Instance.new("TextButton")
+toggleBtn.Size = UDim2.new(1, 0, 0, 40)
+toggleBtn.Position = UDim2.new(0, 0, 0, 100)
+toggleBtn.Text = "Allow Friend Join: OFF"
+toggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+toggleBtn.Parent = content
+
+local toggleCorner = Instance.new("UICorner")
+toggleCorner.CornerRadius = UDim.new(0, 8)
+toggleCorner.Parent = toggleBtn
+
+-- Smooth button effect
+local function smoothClick(button)
+	button.MouseButton1Click:Connect(function()
+		local tween = TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(80, 80, 80)})
+		tween:Play()
+		tween.Completed:Wait()
+		TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
+	end)
+end
+smoothClick(shutdownBtn)
+smoothClick(toggleBtn)
+
+-- Shutdown logic (simulated by kicking all players)
+shutdownBtn.MouseButton1Click:Connect(function()
+	if game.PrivateServerId ~= "" and game.PrivateServerOwnerId == player.UserId then
+		for _, plr in pairs(Players:GetPlayers()) do
+			plr:Kick("Server shutdown by owner.")
+		end
+	else
+		warn("You are not the owner of this private server.")
+	end
+end)
+
+-- Toggle Friend Join logic
+local allowFriend = false
+local friendUserId = 123456789 -- Change to your friend’s UserId
+
+toggleBtn.MouseButton1Click:Connect(function()
+	allowFriend = not allowFriend
+	if allowFriend then
+		toggleBtn.Text = "Allow Friend Join: ON"
+		print("Friend with UserId " .. friendUserId .. " can now join.")
+	else
+		toggleBtn.Text = "Allow Friend Join: OFF"
+		print("Friend with UserId " .. friendUserId .. " is blocked from joining.")
+	end
+end)
+
+-- Update player counter
+local function updateCounter()
+	counterLabel.Text = "Players in Server: " .. #Players:GetPlayers()
+end
+updateCounter()
+Players.PlayerAdded:Connect(updateCounter)
+Players.PlayerRemoving:Connect(updateCounter)
+
+-- Close button logic
+closeBtn.MouseButton1Click:Connect(function()
+	screenGui.Enabled = false
+end)
+
+-- Minimize button logic
+local minimized = false
+minimizeBtn.MouseButton1Click:Connect(function()
+	minimized = not minimized
+	if minimized then
+		content.Visible = false
+		frame.Size = UDim2.new(0, 300, 0, 40)
+	else
+		content.Visible = true
+		frame.Size = UDim2.new(0, 300, 0, 220)
+	end
+end)
+   end,
+})
