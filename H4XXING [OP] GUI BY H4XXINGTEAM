@@ -5231,3 +5231,308 @@ minimizeBtn.MouseButton1Click:Connect(function()
 end)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "H4X RISE👤🌅",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- LocalScript (put in StarterPlayerScripts)
+-- Improved Rayfield-like minimize + smooth behavior + H4X RISE toggle persistence
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "H4X_Rise_GUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Main container
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 320, 0, 220)
+MainFrame.Position = UDim2.new(0.3, 0, 0.25, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(22,22,22)
+MainFrame.BorderSizePixel = 0
+MainFrame.ClipsDescendants = true
+MainFrame.Parent = screenGui
+
+local UICorner = Instance.new("UICorner", MainFrame)
+UICorner.CornerRadius = UDim.new(0, 12)
+
+-- Top bar (title + buttons) -- used for dragging and minimize/close
+local TopBar = Instance.new("Frame")
+TopBar.Name = "TopBar"
+TopBar.Size = UDim2.new(1, 0, 0, 36)
+TopBar.Position = UDim2.new(0, 0, 0, 0)
+TopBar.BackgroundTransparency = 1
+TopBar.Parent = MainFrame
+
+local Title = Instance.new("TextLabel")
+Title.Name = "Title"
+Title.Size = UDim2.new(1, -80, 1, 0)
+Title.Position = UDim2.new(0, 12, 0, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "H4X MENU"
+Title.TextScaled = true
+Title.Font = Enum.Font.GothamBold
+Title.TextColor3 = Color3.fromRGB(255,255,255)
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = TopBar
+
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Name = "CloseBtn"
+CloseBtn.Size = UDim2.new(0, 28, 0, 28)
+CloseBtn.Position = UDim2.new(1, -36, 0, 4)
+CloseBtn.AnchorPoint = Vector2.new(0, 0)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(232, 76, 76)
+CloseBtn.Text = "X"
+CloseBtn.TextScaled = true
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.Parent = TopBar
+Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(1,0)
+
+local MinBtn = Instance.new("TextButton")
+MinBtn.Name = "MinBtn"
+MinBtn.Size = UDim2.new(0, 28, 0, 28)
+MinBtn.Position = UDim2.new(1, -72, 0, 4)
+MinBtn.BackgroundColor3 = Color3.fromRGB(245, 200, 85)
+MinBtn.Text = "—"
+MinBtn.TextScaled = true
+MinBtn.Font = Enum.Font.GothamBold
+MinBtn.Parent = TopBar
+Instance.new("UICorner", MinBtn).CornerRadius = UDim.new(1,0)
+
+-- RGB border stroke
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Parent = MainFrame
+UIStroke.Thickness = 3
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+-- Content area
+local Content = Instance.new("Frame")
+Content.Name = "Content"
+Content.Size = UDim2.new(1, 0, 1, -36)
+Content.Position = UDim2.new(0, 0, 0, 36)
+Content.BackgroundTransparency = 1
+Content.Parent = MainFrame
+
+-- Example content: Toggle button for H4X RISE
+local ToggleBtn = Instance.new("TextButton")
+ToggleBtn.Name = "H4XToggle"
+ToggleBtn.Size = UDim2.new(0.8, 0, 0, 48)
+ToggleBtn.Position = UDim2.new(0.1, 0, 0.1, 0)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(60,60,60)
+ToggleBtn.TextColor3 = Color3.fromRGB(255,255,255)
+ToggleBtn.Font = Enum.Font.GothamBold
+ToggleBtn.TextScaled = true
+ToggleBtn.Parent = Content
+Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(0,10)
+
+local ToggleLabel = Instance.new("TextLabel")
+ToggleLabel.Name = "Info"
+ToggleLabel.Size = UDim2.new(0.9, 0, 0, 18)
+ToggleLabel.Position = UDim2.new(0.05, 0, 0.7, 0)
+ToggleLabel.BackgroundTransparency = 1
+ToggleLabel.Text = "When toggled ON: respawn rises from ground starting at 1 HP and regenerates."
+ToggleLabel.TextScaled = false
+ToggleLabel.Font = Enum.Font.Gotham
+ToggleLabel.TextColor3 = Color3.fromRGB(200,200,200)
+ToggleLabel.TextWrapped = true
+ToggleLabel.Parent = Content
+
+-- Save original sizes/positions to restore after minimize
+local originalSize = MainFrame.Size
+local originalPosition = MainFrame.Position
+local contentOriginalSize = Content.Size
+
+-- Smooth RGB border animation
+local hue = 0
+RunService.RenderStepped:Connect(function(dt)
+	hue = (hue + dt * 0.15) % 1
+	UIStroke.Color = Color3.fromHSV(hue, 1, 1)
+end)
+
+-- Persistent toggle stored on player (persists across respawns)
+local flagName = "H4X_RiseFlag"
+local flag = player:FindFirstChild(flagName)
+if not flag then
+	flag = Instance.new("BoolValue")
+	flag.Name = flagName
+	flag.Value = false
+	flag.Parent = player
+end
+
+-- Update toggle UI based on flag
+local function updateToggleUI()
+	local on = flag.Value
+	local targetColor = on and Color3.fromRGB(0, 200, 120) or Color3.fromRGB(60,60,60)
+	TweenService:Create(ToggleBtn, TweenInfo.new(0.25, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {
+		BackgroundColor3 = targetColor
+	}):Play()
+	ToggleBtn.Text = "H4X RISE: " .. (on and "ON" or "OFF")
+end
+updateToggleUI()
+
+-- Make toggle smooth & persistent
+ToggleBtn.MouseButton1Click:Connect(function()
+	flag.Value = not flag.Value
+	updateToggleUI()
+end)
+
+-- Close behavior
+CloseBtn.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+-- Minimize/Restore behavior (Rayfield-like)
+local minimized = false
+local busy = false -- prevent double-clicks while animating
+
+local function minimize()
+	if busy then return end
+	busy = true
+	minimized = true
+	MinBtn.Text = "+"
+	-- shrink content smoothly then shrink main frame
+	TweenService:Create(Content, TweenInfo.new(0.22, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {
+		Size = UDim2.new(1, 0, 0, 0)
+	}):Play()
+	local t1 = TweenService:Create(MainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {
+		Size = UDim2.new(0, math.clamp(originalSize.X.Offset * 0.6, 140, 280), 0, 36)
+	})
+	t1:Play()
+	t1.Completed:Wait()
+	Content.Visible = false
+	busy = false
+end
+
+local function restore()
+	if busy then return end
+	busy = true
+	minimized = false
+	MinBtn.Text = "—"
+	Content.Visible = true
+	-- restore main frame size first, then expand content
+	local t1 = TweenService:Create(MainFrame, TweenInfo.new(0.25, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {
+		Size = originalSize
+	})
+	t1:Play()
+	t1.Completed:Wait()
+	TweenService:Create(Content, TweenInfo.new(0.18, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {
+		Size = contentOriginalSize
+	}):Play()
+	busy = false
+end
+
+MinBtn.MouseButton1Click:Connect(function()
+	if minimized then
+		restore()
+	else
+		minimize()
+	end
+end)
+
+-- Dragging via TopBar (works even when minimized)
+local dragging = false
+local dragStart = Vector2.new(0,0)
+local startPos = UDim2.new(0,0,0,0)
+
+TopBar.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		dragging = true
+		dragStart = input.Position
+		startPos = MainFrame.Position
+		-- capture end
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+				-- update stored original position when user finishes dragging
+				originalPosition = MainFrame.Position
+			end
+		end)
+	end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+	if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+		local delta = input.Position - dragStart
+		-- Calculate new position using offset arithmetic
+		local newX = startPos.X.Offset + delta.X
+		local newY = startPos.Y.Offset + delta.Y
+		MainFrame.Position = UDim2.new(startPos.X.Scale, newX, startPos.Y.Scale, newY)
+	end
+end)
+
+-- When screen/gui resizes (optional): keep within screen (small guard)
+local function clampToScreen()
+	local sg = game:GetService("GuiService")
+	-- Keep MainFrame inside screen bounds (soft clamp)
+	local screenSize = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1280,720)
+	local width = MainFrame.AbsoluteSize.X
+	local height = MainFrame.AbsoluteSize.Y
+	local pos = MainFrame.AbsolutePosition
+	local x = math.clamp(pos.X, 0, math.max(0, screenSize.X - width))
+	local y = math.clamp(pos.Y, 0, math.max(0, screenSize.Y - height))
+	MainFrame.Position = UDim2.new(0, x, 0, y)
+	originalPosition = MainFrame.Position
+end
+
+-- Optional: clamp after a short delay if needed (keeps it usable on resolution change)
+delay(1, clampToScreen)
+
+-- Rise effect on respawn
+local function onCharacterAdded(char)
+	local success, err = pcall(function()
+		if not flag.Value then return end
+		local hum = char:WaitForChild("Humanoid", 5)
+		local root = char:WaitForChild("HumanoidRootPart", 5)
+		if not hum or not root then return end
+
+		-- Place a bit below start position
+		local startCFrame = root.CFrame
+		local below = startCFrame * CFrame.new(0, -6, 0)
+		root.CFrame = below
+
+		-- Set health to 1 and animate rise
+		hum.Health = 1
+		local targetCFrame = startCFrame
+		local riseTween = TweenService:Create(root, TweenInfo.new(1.6, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {CFrame = targetCFrame})
+		riseTween:Play()
+
+		-- smooth health regen over ~1.6-2.0s
+		local maxH = hum.MaxHealth or 100
+		local regenTime = 1.8
+		local steps = math.max(8, math.floor(regenTime / 0.05))
+		for i = 1, steps do
+			local fraction = i / steps
+			pcall(function()
+				hum.Health = math.clamp(1 + (maxH - 1) * fraction, 1, maxH)
+			end)
+			task.wait(regenTime / steps)
+		end
+		-- ensure full at end
+		hum.Health = maxH
+	end)
+	if not success then
+		warn("H4X_Rise onCharacterAdded error:", err)
+	end
+end
+
+-- Connect character add
+player.CharacterAdded:Connect(onCharacterAdded)
+-- If character already exists (script ran after spawn)
+if player.Character then
+	-- small safe spawn
+	task.spawn(function() onCharacterAdded(player.Character) end)
+end
+
+-- Keep UI consistent with persistent flag if it was toggled before
+flag.Changed:Connect(updateToggleUI)
+   end,
+})
