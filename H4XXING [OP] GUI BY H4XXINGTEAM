@@ -5799,3 +5799,212 @@ task.spawn(function()
 end)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "RBG HEALTH🌈💗",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- LocalScript (StarterPlayerScripts)
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- GUI Setup
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "RBGHealthGUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Main Frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 300, 0, 150)
+mainFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
+mainFrame.AnchorPoint = Vector2.new(0.5,0.5)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+mainFrame.BorderSizePixel = 0
+mainFrame.ClipsDescendants = true
+mainFrame.Parent = screenGui
+
+local uICorner = Instance.new("UICorner")
+uICorner.CornerRadius = UDim.new(0,10)
+uICorner.Parent = mainFrame
+
+-- Rainbow border
+local border = Instance.new("UIStroke")
+border.Thickness = 2
+border.Parent = mainFrame
+
+-- Topbar for dragging
+local topBar = Instance.new("Frame")
+topBar.Size = UDim2.new(1,0,0,30)
+topBar.Position = UDim2.new(0,0,0,0)
+topBar.BackgroundColor3 = Color3.fromRGB(50,50,50)
+topBar.Parent = mainFrame
+
+local topBarCorner = Instance.new("UICorner")
+topBarCorner.CornerRadius = UDim.new(0,10)
+topBarCorner.Parent = topBar
+
+-- Buttons
+local minimizeBtn = Instance.new("TextButton")
+minimizeBtn.Size = UDim2.new(0,30,0,30)
+minimizeBtn.Position = UDim2.new(1,-35,0,0)
+minimizeBtn.Text = "-"
+minimizeBtn.BackgroundColor3 = Color3.fromRGB(70,70,70)
+minimizeBtn.TextColor3 = Color3.new(1,1,1)
+minimizeBtn.TextScaled = true
+minimizeBtn.Parent = topBar
+
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0,30,0,30)
+closeBtn.Position = UDim2.new(1,-70,0,0)
+closeBtn.Text = "X"
+closeBtn.BackgroundColor3 = Color3.fromRGB(70,70,70)
+closeBtn.TextColor3 = Color3.new(1,1,1)
+closeBtn.TextScaled = true
+closeBtn.Parent = topBar
+
+-- Toggle button
+local toggleBtn = Instance.new("TextButton")
+toggleBtn.Size = UDim2.new(0,200,0,50)
+toggleBtn.Position = UDim2.new(0.5,-100,0.5,-25)
+toggleBtn.Text = "RBG HEALTH"
+toggleBtn.BackgroundColor3 = Color3.fromRGB(70,70,70)
+toggleBtn.TextColor3 = Color3.new(1,1,1)
+toggleBtn.TextScaled = true
+toggleBtn.Parent = mainFrame
+
+local uICornerBtn = Instance.new("UICorner")
+uICornerBtn.CornerRadius = UDim.new(0,8)
+uICornerBtn.Parent = toggleBtn
+
+-- Profile
+local profileFrame = Instance.new("Frame")
+profileFrame.Size = UDim2.new(0,100,0,50)
+profileFrame.Position = UDim2.new(1,10,0.5,-25)
+profileFrame.AnchorPoint = Vector2.new(0,0.5)
+profileFrame.BackgroundColor3 = Color3.fromRGB(50,50,50)
+profileFrame.BorderSizePixel = 0
+profileFrame.Parent = mainFrame
+
+local profileCorner = Instance.new("UICorner")
+profileCorner.CornerRadius = UDim.new(0,10)
+profileCorner.Parent = profileFrame
+
+local profileLabel = Instance.new("TextLabel")
+profileLabel.Size = UDim2.new(1,-10,1,-10)
+profileLabel.Position = UDim2.new(0,5,0,5)
+profileLabel.BackgroundTransparency = 1
+profileLabel.TextColor3 = Color3.new(1,1,1)
+profileLabel.TextScaled = true
+profileLabel.Font = Enum.Font.SourceSansBold
+profileLabel.Text = "H4XXINGTEAM"
+profileLabel.Parent = profileFrame
+
+-- Dragging via topbar
+local dragging = false
+local dragStart = Vector2.new()
+local startPos = UDim2.new()
+
+local function beginDrag(input)
+	if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
+		dragging = true
+		if input.UserInputType==Enum.UserInputType.Touch then
+			dragStart = input.Position
+		else
+			dragStart = UserInputService:GetMouseLocation()
+		end
+		startPos = mainFrame.Position
+		input.Changed:Connect(function()
+			if input.UserInputState==Enum.UserInputState.End then
+				dragging=false
+			end
+		end)
+	end
+end
+
+topBar.InputBegan:Connect(beginDrag)
+
+UserInputService.InputChanged:Connect(function(input)
+	if dragging and (input.UserInputType==Enum.UserInputType.MouseMovement or input.UserInputType==Enum.UserInputType.Touch) then
+		local currentPos
+		if input.UserInputType==Enum.UserInputType.Touch then
+			currentPos = input.Position
+		else
+			currentPos = UserInputService:GetMouseLocation()
+		end
+		local delta = currentPos - dragStart
+		mainFrame.Position = UDim2.new(
+			startPos.X.Scale,
+			startPos.X.Offset + delta.X,
+			startPos.Y.Scale,
+			startPos.Y.Offset + delta.Y
+		)
+	end
+end)
+
+-- Minimize & Close
+local minimized=false
+minimizeBtn.MouseButton1Click:Connect(function()
+	minimized = not minimized
+	if minimized then
+		mainFrame.Size = UDim2.new(0,300,0,30)
+		toggleBtn.Visible=false
+		profileFrame.Visible=false
+	else
+		mainFrame.Size = UDim2.new(0,300,0,150)
+		toggleBtn.Visible=true
+		profileFrame.Visible=true
+	end
+end)
+
+closeBtn.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+-- RBG Health
+local rbgEnabled=false
+toggleBtn.MouseButton1Click:Connect(function()
+	rbgEnabled = not rbgEnabled
+end)
+
+-- Rainbow border & health regen
+local hue = 0
+RunService.RenderStepped:Connect(function(deltaTime)
+	hue = (hue + deltaTime*0.5)%1
+	border.Color = Color3.fromHSV(hue,1,1)
+
+	if rbgEnabled and humanoid then
+		if not character:FindFirstChild("RBGHealthBar") then
+			local billboard = Instance.new("BillboardGui")
+			billboard.Name="RBGHealthBar"
+			billboard.Adornee=humanoid.RootPart or character.PrimaryPart
+			billboard.Size=UDim2.new(4,0,0.5,0)
+			billboard.StudsOffset=Vector3.new(0,3,0)
+			billboard.AlwaysOnTop=true
+			billboard.Parent=character
+			local bar = Instance.new("Frame")
+			bar.Name="Bar"
+			bar.Size=UDim2.new(humanoid.Health/humanoid.MaxHealth,0,1,0)
+			bar.BackgroundColor3=Color3.fromHSV(hue,1,1)
+			bar.BorderSizePixel=0
+			bar.Parent=billboard
+		else
+			local bar=character.RBGHealthBar:FindFirstChild("Bar")
+			if bar then
+				bar.Size=UDim2.new(humanoid.Health/humanoid.MaxHealth,0,1,0)
+				bar.BackgroundColor3=Color3.fromHSV(hue,1,1)
+			end
+		end
+		humanoid.Health=math.min(humanoid.Health+0.5*deltaTime,humanoid.MaxHealth)
+	elseif character:FindFirstChild("RBGHealthBar") then
+		character.RBGHealthBar:Destroy()
+	end
+end)
+   end,
+})
