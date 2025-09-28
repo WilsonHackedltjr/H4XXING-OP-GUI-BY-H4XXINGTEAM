@@ -6008,3 +6008,276 @@ RunService.RenderStepped:Connect(function(deltaTime)
 end)
    end,
 })
+
+local Button = Tab:CreateButton({
+   Name = "H4X PLAYER KILLER🗡👤",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+-- LocalScript inside StarterPlayerScripts
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local VirtualUser = game:GetService("VirtualUser")
+
+local player = Players.LocalPlayer
+local character, humanoidRootPart, humanoid
+
+-- Refresh character parts on respawn
+local function refreshCharacter()
+    character = player.Character or player.CharacterAdded:Wait()
+    humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+    humanoid = character:WaitForChild("Humanoid")
+end
+refreshCharacter()
+player.CharacterAdded:Connect(refreshCharacter)
+
+-- ScreenGui
+local gui = Instance.new("ScreenGui")
+gui.Name = "H4X_PLAYER_KILLER"
+gui.Parent = player:WaitForChild("PlayerGui")
+gui.ResetOnSpawn = false
+
+-- Main Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 350, 0, 310)
+frame.Position = UDim2.new(0.3, 0, 0.3, 0)
+frame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+-- Smooth corners + shadow
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0,12)
+corner.Parent = frame
+
+local shadow = Instance.new("ImageLabel")
+shadow.ZIndex = -1
+shadow.Parent = frame
+shadow.AnchorPoint = Vector2.new(0.5,0.5)
+shadow.Position = UDim2.new(0.5,0,0.5,5)
+shadow.Size = UDim2.new(1,20,1,20)
+shadow.BackgroundTransparency = 1
+shadow.Image = "rbxassetid://1316045217"
+shadow.ImageTransparency = 0.4
+shadow.ScaleType = Enum.ScaleType.Slice
+shadow.SliceCenter = Rect.new(10,10,118,118)
+
+-- RGB border
+local stroke = Instance.new("UIStroke")
+stroke.Thickness = 3
+stroke.Parent = frame
+
+-- Title
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1,0,0,40)
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.Code
+title.Text = "H4X PLAYER KILLER"
+title.TextScaled = true
+title.Parent = frame
+
+-- Close + Minimize
+local function makeSmallBtn(txt,offset)
+    local b = Instance.new("TextButton")
+    b.Size = UDim2.new(0,30,0,30)
+    b.Position = UDim2.new(1,offset,0,5)
+    b.Text = txt
+    b.Font = Enum.Font.Code
+    b.TextScaled = true
+    b.BackgroundColor3 = Color3.fromRGB(40,40,40)
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0,6)
+    c.Parent = b
+    b.Parent = frame
+
+    -- hover effect
+    b.MouseEnter:Connect(function()
+        TweenService:Create(b, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(65,65,65)}):Play()
+    end)
+    b.MouseLeave:Connect(function()
+        TweenService:Create(b, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(40,40,40)}):Play()
+    end)
+
+    return b
+end
+
+local closeBtn = makeSmallBtn("X",-35)
+local minimizeBtn = makeSmallBtn("-",-70)
+
+-- Buttons frame
+local buttonsFrame = Instance.new("Frame")
+buttonsFrame.Size = UDim2.new(1,-20,1,-50)
+buttonsFrame.Position = UDim2.new(0,10,0,50)
+buttonsFrame.BackgroundTransparency = 1
+buttonsFrame.Parent = frame
+
+-- Make smooth toggle buttons
+local function makeButton(text,posY)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(1,0,0,40)
+    btn.Position = UDim2.new(0,0,0,posY)
+    btn.Text = text..": OFF"
+    btn.Font = Enum.Font.Code
+    btn.TextScaled = true
+    btn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0,8)
+    c.Parent = btn
+
+    -- Hover animations
+    btn.MouseEnter:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(55,55,55)}):Play()
+    end)
+    btn.MouseLeave:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(35,35,35)}):Play()
+    end)
+
+    btn.MouseButton1Down:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(25,25,25)}):Play()
+    end)
+    btn.MouseButton1Up:Connect(function()
+        TweenService:Create(btn, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(55,55,55)}):Play()
+    end)
+
+    btn.Parent = buttonsFrame
+    return btn
+end
+
+-- Buttons
+local tweenBtn = makeButton("TWEEN TO PLAYER NEARBY BEHIND",0)
+local autoClickBtn = makeButton("AUTO CLICK",50)
+local faceBtn = makeButton("FACE NEARBY PLAYER",100)
+local critBtn = makeButton("CRITICAL HIT",150)
+local hitboxBtn = makeButton("HITBOX EXTENDER",200)
+
+-- States
+local tweenEnabled, autoClickEnabled, faceEnabled, critEnabled, hitboxEnabled = false,false,false,false,false
+
+-- RGB Animation
+task.spawn(function()
+    local hue = 0
+    while task.wait(0.05) do
+        hue = (hue + 0.01) % 1
+        local color = Color3.fromHSV(hue,1,1)
+        stroke.Color = color
+        title.TextColor3 = color
+    end
+end)
+
+-- Close / Minimize
+closeBtn.MouseButton1Click:Connect(function() gui:Destroy() end)
+local minimized = false
+minimizeBtn.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    buttonsFrame.Visible = not minimized
+    TweenService:Create(frame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        Size = minimized and UDim2.new(0,350,0,40) or UDim2.new(0,350,0,310)
+    }):Play()
+end)
+
+-- Get closest player without forcefield
+local function getClosestPlayer()
+    local closest, dist = nil, math.huge
+    for _, p in pairs(Players:GetPlayers()) do
+        if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") and not p.Character:FindFirstChildOfClass("ForceField") then
+            local hum = p.Character:FindFirstChildOfClass("Humanoid")
+            if hum and hum.Health > 0 then
+                local d = (p.Character.HumanoidRootPart.Position - humanoidRootPart.Position).Magnitude
+                if d < dist then
+                    closest = p
+                    dist = d
+                end
+            end
+        end
+    end
+    return closest
+end
+
+-- Tween to player
+tweenBtn.MouseButton1Click:Connect(function()
+    tweenEnabled = not tweenEnabled
+    tweenBtn.Text = "TWEEN TO PLAYER NEARBY BEHIND: " .. (tweenEnabled and "ON" or "OFF")
+
+    task.spawn(function()
+        local currentTarget
+        while tweenEnabled do
+            task.wait(0.2)
+            if humanoidRootPart then
+                if not currentTarget 
+                or not currentTarget.Character 
+                or not currentTarget.Character:FindFirstChild("HumanoidRootPart") 
+                or currentTarget.Character:FindFirstChildOfClass("Humanoid").Health <= 0 
+                or currentTarget.Character:FindFirstChildOfClass("ForceField") then
+                    currentTarget = getClosestPlayer()
+                end
+
+                if currentTarget and currentTarget.Character and currentTarget.Character:FindFirstChild("HumanoidRootPart") then
+                    local hrp = currentTarget.Character.HumanoidRootPart
+                    local behindPos = hrp.Position - (hrp.CFrame.LookVector * 3)
+                    local goalCFrame = CFrame.new(behindPos, hrp.Position)
+                    TweenService:Create(humanoidRootPart, TweenInfo.new(0.25, Enum.EasingStyle.Linear), {CFrame = goalCFrame}):Play()
+                end
+            end
+        end
+    end)
+end)
+
+-- Auto click
+autoClickBtn.MouseButton1Click:Connect(function()
+    autoClickEnabled = not autoClickEnabled
+    autoClickBtn.Text = "AUTO CLICK: " .. (autoClickEnabled and "ON" or "OFF")
+    task.spawn(function()
+        while autoClickEnabled do
+            task.wait(0.2)
+            VirtualUser:Button1Down(Vector2.new(workspace.CurrentCamera.ViewportSize.X/2, workspace.CurrentCamera.ViewportSize.Y/2))
+            VirtualUser:Button1Up(Vector2.new(workspace.CurrentCamera.ViewportSize.X/2, workspace.CurrentCamera.ViewportSize.Y/2))
+        end
+    end)
+end)
+
+-- Face nearby
+faceBtn.MouseButton1Click:Connect(function()
+    faceEnabled = not faceEnabled
+    faceBtn.Text = "FACE NEARBY PLAYER: " .. (faceEnabled and "ON" or "OFF")
+    task.spawn(function()
+        while faceEnabled do
+            task.wait(0.1)
+            if humanoidRootPart and humanoid then
+                local closest = getClosestPlayer()
+                if closest and closest.Character and closest.Character:FindFirstChild("HumanoidRootPart") then
+                    local targetPos = closest.Character.HumanoidRootPart.Position
+                    humanoidRootPart.CFrame = CFrame.new(humanoidRootPart.Position, Vector3.new(targetPos.X, humanoidRootPart.Position.Y, targetPos.Z))
+                end
+            end
+        end
+    end)
+end)
+
+-- Critical Hit
+critBtn.MouseButton1Click:Connect(function()
+    critEnabled = not critEnabled
+    critBtn.Text = "CRITICAL HIT: " .. (critEnabled and "ON" or "OFF")
+end)
+
+-- Hitbox Extender
+hitboxBtn.MouseButton1Click:Connect(function()
+    hitboxEnabled = not hitboxEnabled
+    hitboxBtn.Text = "HITBOX EXTENDER: " .. (hitboxEnabled and "ON" or "OFF")
+    task.spawn(function()
+        while hitboxEnabled do
+            task.wait(0.5)
+            for _, p in pairs(Players:GetPlayers()) do
+                if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                    local hrp = p.Character.HumanoidRootPart
+                    hrp.Size = Vector3.new(100,100,100)
+                    hrp.CanCollide = false
+                end
+            end
+        end
+    end)
+end)
+   end,
+})
